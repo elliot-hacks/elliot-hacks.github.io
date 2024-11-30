@@ -53,6 +53,65 @@
         </div>
         <!-- Spinner End -->
 
+        <body style="margin: 0; font-family: Arial, sans-serif;">
+
+            <!-- Navigation Header -->
+            <header style="background-color: #333; color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+                <a href="#" style="font-size: 24px; font-weight: bold; color: white; text-decoration: none;">My Blog</a>
+                <nav id="navMenu" style="display: flex; gap: 20px;">
+                    <a href="#home" style="color: white; text-decoration: none; font-size: 16px;">Home</a>
+                    <a href="#about" style="color: white; text-decoration: none; font-size: 16px;">About</a>
+                    <a href="#blog" style="color: white; text-decoration: none; font-size: 16px;">Blog</a>
+                    <a href="#contact" style="color: white; text-decoration: none; font-size: 16px;">Contact</a>
+                </nav>
+                <div id="hamburgerMenu" style="font-size: 24px; cursor: pointer; display: none;">☰</div>
+            </header>
+        
+            <!-- Content Placeholder -->
+            <main style="padding: 20px;">
+                <h1>Welcome to My Blog</h1>
+                <p>Start exploring the content!</p>
+            </main>
+        
+            <!-- Inline JavaScript for Interactivity -->
+            <script>
+                // Toggle navigation menu for mobile
+                document.getElementById('hamburgerMenu').addEventListener('click', function () {
+                    const navMenu = document.getElementById('navMenu');
+                    if (navMenu.style.display === 'flex') {
+                        navMenu.style.display = 'none';
+                    } else {
+                        navMenu.style.display = 'flex';
+                        navMenu.style.flexDirection = 'column';
+                        navMenu.style.backgroundColor = '#333';
+                        navMenu.style.position = 'absolute';
+                        navMenu.style.top = '60px';
+                        navMenu.style.right = '20px';
+                        navMenu.style.padding = '10px';
+                        navMenu.style.borderRadius = '4px';
+                    }
+                });
+        
+                // Show hamburger menu on smaller screens
+                window.addEventListener('resize', function () {
+                    const navMenu = document.getElementById('navMenu');
+                    const hamburgerMenu = document.getElementById('hamburgerMenu');
+                    if (window.innerWidth <= 768) {
+                        hamburgerMenu.style.display = 'block';
+                        navMenu.style.display = 'none';
+                    } else {
+                        hamburgerMenu.style.display = 'none';
+                        navMenu.style.display = 'flex';
+                    }
+                });
+        
+                // Initial check for screen size
+                if (window.innerWidth <= 768) {
+                    document.getElementById('hamburgerMenu').style.display = 'block';
+                    document.getElementById('navMenu').style.display = 'none';
+                }
+            </script>
+
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-4 sticky-lg-top vh-100">

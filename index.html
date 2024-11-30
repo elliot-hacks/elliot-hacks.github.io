@@ -57,7 +57,7 @@
 
             <!-- Navigation Header -->
             <header style="background-color: #333; color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
-                <a href="#" style="font-size: 24px; font-weight: bold; color: white; text-decoration: none;">My Blog</a>
+                <a href="#" style="font-size: 24px; font-weight: bold; color: white; text-decoration: none;">@elliot-hacks</a>
                 <nav id="navMenu" style="display: flex; gap: 20px;">
                     <a href="#home" style="color: white; text-decoration: none; font-size: 16px;">Home</a>
                     <a href="#about" style="color: white; text-decoration: none; font-size: 16px;">About</a>
@@ -68,49 +68,10 @@
             </header>
         
             <!-- Content Placeholder -->
-            <main style="padding: 20px;">
+            <main style="padding: 20px; position: sticky; top: 0">
                 <h1>Welcome to My Blog</h1>
-                <p>Start exploring the content!</p>
+                <p>Let's talk Security!</p>
             </main>
-        
-            <!-- Inline JavaScript for Interactivity -->
-            <script>
-                // Toggle navigation menu for mobile
-                document.getElementById('hamburgerMenu').addEventListener('click', function () {
-                    const navMenu = document.getElementById('navMenu');
-                    if (navMenu.style.display === 'flex') {
-                        navMenu.style.display = 'none';
-                    } else {
-                        navMenu.style.display = 'flex';
-                        navMenu.style.flexDirection = 'column';
-                        navMenu.style.backgroundColor = '#333';
-                        navMenu.style.position = 'absolute';
-                        navMenu.style.top = '60px';
-                        navMenu.style.right = '20px';
-                        navMenu.style.padding = '10px';
-                        navMenu.style.borderRadius = '4px';
-                    }
-                });
-        
-                // Show hamburger menu on smaller screens
-                window.addEventListener('resize', function () {
-                    const navMenu = document.getElementById('navMenu');
-                    const hamburgerMenu = document.getElementById('hamburgerMenu');
-                    if (window.innerWidth <= 768) {
-                        hamburgerMenu.style.display = 'block';
-                        navMenu.style.display = 'none';
-                    } else {
-                        hamburgerMenu.style.display = 'none';
-                        navMenu.style.display = 'flex';
-                    }
-                });
-        
-                // Initial check for screen size
-                if (window.innerWidth <= 768) {
-                    document.getElementById('hamburgerMenu').style.display = 'block';
-                    document.getElementById('navMenu').style.display = 'none';
-                }
-            </script>
 
         <div class="container">
             <div class="row g-5">
@@ -138,7 +99,7 @@
                     <!-- About Start -->
                     <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
                         <h1 class="title pb-3 mb-5">About Me</h1>
-                        <p>Welcome to my blog! My name is Elliot Jamhuri Nkwama, and I’m a passionate cybersecurity enthusiast, software developer, and technology explorer. Currently pursuing a Bachelor of Science in Cyber Security at the Institute of Accountancy Arusha (IAA) with an average GPA of 4.51, I specialize in areas such as penetration testing, embedded systems, web development using Python, and machine learning. Through this blog, I share insights, tutorials, and experiences from my journey in the tech world. From building secure applications and exploring IoT innovations to conducting cutting-edge research in cybersecurity, my goal is to inspire, educate, and connect with like-minded tech enthusiasts. Feel free to explore my projects, share your thoughts, and join me on this exciting technological journey!</p>
+                        <p>Welcome to my blog! My name is Elliot Jamhuri Nkwama, and I’m a passionate cybersecurity enthusiast, software developer, and technology explorer. Currently pursuing a Bachelor of Science in Cyber Security at the Institute of Accountancy Arusha (IAA) with an average GPA of 4.36, I specialize in areas such as penetration testing, embedded systems, web development using Python, and machine learning. Through this blog, I share insights, tutorials, and experiences from my journey in the tech world. From building secure applications and exploring IoT innovations to conducting cutting-edge research in cybersecurity, my goal is to inspire, educate, and connect with like-minded tech enthusiasts. Feel free to explore my projects, share your thoughts, and join me on this exciting technological journey!</p>
                         <div class="row mb-4">
                             <div class="col-sm-6 py-1">
                                 <span class="fw-medium text-primary">Name:</span> Elliot Nkwama
@@ -531,5 +492,64 @@
 
         <!-- Template Javascript -->
         <script src="js/main.js"></script>
+
+        <!-- Inline JavaScript for Interactivity -->
+        <script>
+            // // Toggle navigation menu for mobile
+            // document.getElementById('hamburgerMenu').addEventListener('click', function () {
+            //     const navMenu = document.getElementById('navMenu');
+            //     if (navMenu.style.display === 'flex') {
+            //         navMenu.style.display = 'none';
+            //     } else {
+            //         navMenu.style.display = 'flex';
+            //         navMenu.style.flexDirection = 'column';
+            //         navMenu.style.backgroundColor = '#333';
+            //         navMenu.style.position = 'absolute';
+            //         navMenu.style.top = '60px';
+            //         navMenu.style.right = '20px';
+            //         navMenu.style.padding = '10px';
+            //         navMenu.style.borderRadius = '4px';
+            //     }
+            // });
+
+            // // Initial check for screen size
+            // if (window.innerWidth <= 768) {
+            //     document.getElementById('hamburgerMenu').style.display = 'block';
+            //     document.getElementById('navMenu').style.display = 'none';
+            // }
+    
+            // Show hamburger menu on smaller screens
+            window.addEventListener('resize', function () {
+                const navMenu = document.getElementById('navMenu');
+                const hamburgerMenu = document.getElementById('hamburgerMenu');
+                if (window.innerWidth <= 768) {
+                    hamburgerMenu.style.display = 'block';
+                    navMenu.style.display = 'none';
+                } else {
+                    hamburgerMenu.style.display = 'none';
+                    navMenu.style.display = 'flex';
+                }
+            });
+    
+            function copyToClipboard(elementId) {
+            // Get the code block element
+            const codeBlock = document.getElementById(elementId);
+
+            // Create a temporary textarea to hold the code
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeBlock.innerText;
+            document.body.appendChild(tempTextArea);
+
+            // Select and copy the text
+            tempTextArea.select();
+            document.execCommand('copy');
+
+            // Remove the temporary textarea
+            document.body.removeChild(tempTextArea);
+
+            // Optional: Provide feedback
+            alert('Code copied to clipboard!');
+        } 
+        </script>
     </body>
 </html>

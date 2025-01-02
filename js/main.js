@@ -91,5 +91,33 @@
         $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
         return false;
     });
+
+    // Copy to Clipboard Functionality
+    function copyToClipboard() {
+        const commandText = $('#command').text();
+        navigator.clipboard.writeText(commandText).then(() => {
+            alert('Copied to clipboard: ' + commandText);
+        }).catch(err => {
+            console.error('Error copying text: ', err);
+        });
+    }
+
+    // Attach the function to buttons with the class "copy-btn"
+    $(document).on('click', '.copy-btn', function () {
+        copyToClipboard();
+    });
+
+    // Show hamburger menu on smaller screens
+    window.addEventListener('resize', function () {
+        const navMenu = document.getElementById('navMenu');
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        if (window.innerWidth <= 768) {
+            hamburgerMenu.style.display = 'block';
+            navMenu.style.display = 'none';
+        } else {
+            hamburgerMenu.style.display = 'none';
+            navMenu.style.display = 'flex';
+        }
+    });
 })(jQuery);
 

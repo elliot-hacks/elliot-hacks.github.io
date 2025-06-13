@@ -1,0 +1,16 @@
+<header style="background-color: #333; color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+  <a href="{{ '/' | relative_url }}" style="font-size: 24px; font-weight: bold; color: white; text-decoration: none;">
+    {{ site.title }}
+  </a>
+  
+  <nav id="navMenu" style="display: flex; gap: 20px;">
+    {% for item in site.data.navigation %}
+      <a href="{{ item.link | relative_url }}" 
+         style="color: white; text-decoration: none; font-size: 16px;">
+        {{ item.name }}
+      </a>
+    {% endfor %}
+  </nav>
+  
+  <div id="hamburgerMenu" style="font-size: 24px; cursor: pointer; display: none;">☰</div>
+</header>

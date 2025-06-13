@@ -1,0 +1,11 @@
+- category: "Programming Languages"
+  items:
+    - { name: "Python", percentage: 95 }
+    - { name: "Bash Scripting", percentage: 90 }
+    - { name: "JavaScript", percentage: 80 }
+
+- category: "Cybersecurity & Data Analysis"
+  items:
+    - { name: "Cryptography & Secure Communications", percentage: 85 }
+    - { name: "Penetration Testing & Vulnerability Assessment", percentage: 88 }
+    - { name: "Machine Learning & Data Analysis", percentage: 82 }

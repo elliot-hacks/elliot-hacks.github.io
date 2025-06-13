@@ -1,0 +1,5 @@
+{% for social in site.social_links %}
+  <a class="btn btn-secondary btn-square mx-1" href="{{ social.url }}" target="_blank">
+    <i class="fab fa-{{ social.icon }}"></i>
+  </a>
+{% endfor %}

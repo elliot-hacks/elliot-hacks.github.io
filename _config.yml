@@ -47,10 +47,34 @@ twitter_username: elliotH4cks
 instagram_username: elliot.nkwama
 facebook_username: thisguyhack
 
+
+# Author Settings
+author:
+  name: "Elliot Jamhuri Nkwama"
+  roles: ["Penetration Tester", "Web Developer", "Android Developer", "System Architect"]
+  email: "thisguyhack@gmail.com"
+  cv_url: "/path/to/your/cv.pdf"
+
+# Social Links
+social_links:
+  - { icon: "twitter", url: "https://twitter.com/elliotH4cks" }
+  - { icon: "facebook-f", url: "https://facebook.com/thisguyhack" }
+  - { icon: "linkedin-in", url: "https://linkedin.com/in/elliot-hacks" }
+  - { icon: "instagram", url: "https://instagram.com/elliot.nkwama" }
+
+# Navigation
+navigation:
+  - { name: "Home", link: "/" }
+  - { name: "About", link: "/about" }
+  - { name: "Writeups", link: "/writeups" }
+  - { name: "Contact", link: "#contact" }
+
+
 # Build settings
 theme: minima
 plugins:
   - jekyll-feed
+  - jekyll-seo-tag
 
 # Exclude from processing.
 exclude:

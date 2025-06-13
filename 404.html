@@ -1,25 +1,62 @@
 ---
 permalink: /404.html
 layout: page
+title: "404 - Page Not Found"
 ---
 
 <style type="text/css" media="screen">
-  .container {
-    margin: 10px auto;
-    max-width: 600px;
+  .error-container {
+    margin: 100px auto;
+    max-width: 800px;
     text-align: center;
+    padding: 2rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
-  h1 {
+  .error-title {
     margin: 30px 0;
-    font-size: 4em;
+    font-size: 6em;
     line-height: 1;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
+    color: #dc3545;
+    font-weight: 700;
+  }
+  .error-message {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: #212529;
+  }
+  .error-description {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-bottom: 2rem;
+  }
+  .btn-home {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    background-color: #0d6efd;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+  }
+  .btn-home:hover {
+    background-color: #0b5ed7;
   }
 </style>
 
-<div class="container">
-  <h1>404</h1>
-
-  <p><strong>Page not found :(</strong></p>
-  <p>The requested page could not be found.</p>
+<div class="error-container">
+  <h1 class="error-title">404</h1>
+  
+  <p class="error-message"><strong>Oops! Page not found</strong></p>
+  <p class="error-description">The page you're looking for doesn't exist or has been moved.</p>
+  
+  <a href="/" class="btn-home">Return Home</a>
 </div>
+
+<script>
+  // Add any tracking for 404 errors if needed
+  console.log('404 error encountered at: ' + window.location.pathname);
+</script>

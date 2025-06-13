@@ -23,6 +23,23 @@ email: thisguyhack@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   Awesome Cyber Security blog
   Check out for News and Write ups
+keywords:
+  - "Elliot Jamhuri Nkwama"
+  - "Elliot Nkwama"
+  - "elliot-hacks"
+  - "Cyber Security"
+  - "Cyber Security blog"
+  - "Miscelenious"
+  - "Penetration Testing"
+  - "Reverse Engineering"
+  - "Android Penetration Testing"
+  - "Forensics"
+  - "OSINT"
+  - "Active Directory"
+  - "Pwntilldawn"
+  - "Lets defend"
+  - "Hackthebox"
+  - "Tryhackme"
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://elliothacks.com" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  elliot-hacks

@@ -72,11 +72,11 @@ social_links:
   - { icon: "instagram", url: "https://instagram.com/elliot.nkwama" }
 
 # Navigation
-navigation:
-  - { name: "Home", link: "/" }
-  - { name: "About", link: "/about" }
-  - { name: "Writeups", link: "/writeups" }
-  - { name: "Contact", link: "#contact" }
+# navigation:
+#   - { name: "Home", link: "/" }
+#   - { name: "About", link: "/about" }
+#   - { name: "Writeups", link: "/writeups" }
+#   - { name: "Contact", link: "#contact" }
 
 
 # Build settings

@@ -53,7 +53,16 @@ author:
   name: "Elliot Jamhuri Nkwama"
   roles: ["Penetration Tester", "Web Developer", "Android Developer", "System Architect"]
   email: "thisguyhack@gmail.com"
+  phone: "+255 786 410188"
+  address: "Mbeya, Tanzania"
+  github: "@elliot-hacks"
+  github_url: "https://github.com/elliot-hacks"
   cv_url: "/path/to/your/cv.pdf"
+  about: "Welcome to my blog! My name is Elliot Jamhuri Nkwama, and I'm a passionate cybersecurity enthusiast..."
+  stats:
+    - { label: "Years of", subtitle: "Experience", value: 2 }
+    - { label: "Cyber Security", subtitle: "Publications", value: 20, plus: true }
+    - { label: "Complete", subtitle: "Projects", value: 30, plus: true }
 
 # Social Links
 social_links:

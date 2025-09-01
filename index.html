@@ -34,8 +34,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -1; /* Ensure it stays behind content */
             opacity: 0.03;
+            pointer-events: none; /* Prevent it from blocking clicks */
         }
         
         .matrix-column {
@@ -279,11 +280,23 @@
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(0, 255, 65, 0.2);
             transition: all 0.4s ease;
+            height: 300px; /* Fixed height */
+        }
+        
+        .portfolio-cyber img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Ensures image covers the container while maintaining aspect ratio */
+            transition: all 0.4s ease;
         }
         
         .portfolio-cyber:hover {
             transform: translateY(-5px);
             box-shadow: 0 15px 35px rgba(0, 255, 65, 0.4);
+        }
+        
+        .portfolio-cyber:hover img {
+            transform: scale(1.05);
         }
         
         .portfolio-btn-cyber {
@@ -380,12 +393,13 @@
         }
         
         /* Floating Elements */
-        .floating-particles {
+            .floating-particles {
             position: absolute;
             width: 100%;
             height: 100%;
             overflow: hidden;
             z-index: 1;
+            pointer-events: none; /* Prevent particles from blocking clicks */
         }
         
         .particle {
@@ -488,10 +502,10 @@
                     </p>
                     <div class="d-flex gap-4 mb-5">
                         <a href="#blog" class="btn btn-cyber">
-                            <i class="fas fa-shield-alt me-2">View Research</i>
+                            <i class="fas fa-shield-alt me-2"></i>View Research
                         </a>
                         <a href="#contact" class="btn btn-outline-success btn-lg">
-                            <i class="fas fa-envelope me-2">Contact Me</i>
+                            <i class="fas fa-envelope me-2"></i>Contact Me
                         </a>
                     </div>
                     
@@ -708,14 +722,14 @@
             <div class="row g-4">
                 <div class="col-lg-6 col-md-12">
                     <div class="portfolio-cyber">
-                        <img src="img/portfolio-4.jpg" alt="FileForensics" class="img-fluid">
+                        <img src="img/portfolio-4.jpg" alt="FileForensics" class="img-fluid" height="600" width="450">
                         <div class="portfolio-btn-cyber">
                             <div class="text-center">
                                 <h5 class="text-dark mb-3">FileForensics - YARA Detection</h5>
                                 <a href="https://github.com/elliot-hacks/FileForensics" class="btn btn-dark me-2" target="_blank">
                                     <i class="fab fa-github me-2"></i>Source Code
                                 </a>
-                                <a href="/_posts/2025-01-05-yara-rules-malware-detection.html" class="btn btn-dark">
+                                <a href="/posts/achievements/2024-01-05-yara-rules-malware-detection.html" class="btn btn-dark">
                                     <i class="fas fa-book me-2"></i>Documentation
                                 </a>
                             </div>
@@ -725,7 +739,7 @@
                 
                 <div class="col-lg-6 col-md-12">
                     <div class="portfolio-cyber">
-                        <img src="img/testimonial-1.jpg" alt="Android Framework" class="img-fluid">
+                        <img src="img/ent2023.jpeg" alt="Android Framework" class="img-fluid" height="600" width="450">
                         <div class="portfolio-btn-cyber">
                             <div class="text-center">
                                 <h5 class="text-dark mb-3">Android Exploitation Framework</h5>

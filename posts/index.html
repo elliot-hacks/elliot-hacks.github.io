@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Publications & Research | Elliot Hacks - Cybersecurity Arsenal</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Complete collection of cybersecurity writeups, research papers, and achievements by Elliot Hacks. Including HackTheBox, TryHackMe, OffSec, mobile security, and more." name="description">
+    <meta content="cybersecurity writeups, hackthebox solutions, tryhackme walkthroughs, offsec, mobile security, penetration testing, research papers, achievements" name="keywords">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Cybersecurity Publications Styles -->
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Heebo', sans-serif;
+            color: #e0e0e0;
+            overflow-x: hidden;
+        }
+        
+        /* Matrix Rain Background */
+        .matrix-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.02;
+        }
+        
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Fira Code', monospace;
+            font-size: 12px;
+            color: #00ff41;
+            animation: matrix-fall linear infinite;
+        }
+        
+        @keyframes matrix-fall {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+        
+        /* Navigation */
+        .navigation-header {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-link-cyber {
+            color: #00ff41 !important;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-link-cyber::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: #00ff41;
+            transition: all 0.3s;
+        }
+        
+        .nav-link-cyber:hover::after {
+            width: 100%;
+            left: 0;
+        }
+        
+        .nav-link-cyber:hover {
+            color: #39ff14 !important;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        /* Main Container */
+        .publications-container {
+            margin-top: 100px;
+            min-height: 100vh;
+        }
+        
+        /* Header Section */
+        .publications-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(26, 26, 46, 0.6));
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 255, 65, 0.2);
+        }
+        
+        .publications-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #00ff41;
+            text-shadow: 0 0 30px rgba(0, 255, 65, 0.5);
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 1rem;
+            animation: pulse-glow 3s ease-in-out infinite alternate;
+        }
+        
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); }
+            to { text-shadow: 0 0 50px rgba(0, 255, 65, 0.8); }
+        }
+        
+        .publications-subtitle {
+            font-family: 'Fira Code', monospace;
+            color: #39ff14;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Filter Controls */
+        .filter-controls {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .filter-section {
+            margin-bottom: 1.5rem;
+        }
+        
+        .filter-label {
+            color: #00ff41;
+            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            margin-bottom: 0.8rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .filter-btn {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            color: #00ff41;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .filter-btn:hover {
+            background: rgba(0, 255, 65, 0.2);
+            border-color: #00ff41;
+            color: #39ff14;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 65, 0.3);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(45deg, #00ff41, #39ff14);
+            border-color: #00ff41;
+            color: #000;
+            font-weight: 600;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 65, 0.4);
+        }
+        
+        .search-container {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7) !important;
+            border: 1px solid rgba(0, 255, 65, 0.3) !important;
+            color: #00ff41 !important;
+            border-radius: 30px !important;
+            padding: 0.8rem 3rem 0.8rem 1.5rem;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .search-input:focus {
+            border-color: #00ff41 !important;
+            box-shadow: 0 0 15px rgba(0, 255, 65, 0.3) !important;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #00ff41;
+            font-size: 1.2rem;
+        }
+        
+        /* Stats Display */
+        .stats-display {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #00ff41;
+            font-family: 'Orbitron', monospace;
+            text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+            display: block;
+        }
+        
+        .stat-label {
+            color: #39ff14;
+            font-size: 0.9rem;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        /* Publications Grid */
+        .publications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .publication-card {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+        
+        .publication-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 255, 65, 0.4);
+            border-color: rgba(0, 255, 65, 0.6);
+        }
+        
+        .publication-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0, 255, 65, 0.1);
+            position: relative;
+        }
+        
+        .publication-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .tag {
+            font-size: 0.7rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-family: 'Fira Code', monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tag-platform {
+            background: linear-gradient(45deg, #00ff41, #39ff14);
+            color: #000;
+            font-weight: 600;
+        }
+        
+        .tag-category {
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid rgba(255, 165, 0, 0.5);
+            color: #ffa500;
+        }
+        
+        .tag-difficulty {
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            color: #ff4444;
+        }
+        
+        .tag-difficulty.easy {
+            background: rgba(0, 255, 0, 0.2);
+            border-color: rgba(0, 255, 0, 0.5);
+            color: #44ff44;
+        }
+        
+        .tag-difficulty.medium {
+            background: rgba(255, 165, 0, 0.2);
+            border-color: rgba(255, 165, 0, 0.5);
+            color: #ffa500;
+        }
+        
+        .publication-title {
+            color: #00ff41;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            text-decoration: none;
+            display: block;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .publication-title:hover {
+            color: #39ff14;
+            text-shadow: 0 0 10px #00ff41;
+        }
+        
+        .publication-desc {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .publication-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #888;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .publication-date {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .publication-stats {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .publication-actions {
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+        
+        .btn-publication {
+            background: linear-gradient(45deg, #00ff41, #39ff14);
+            border: none;
+            color: #000;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.7rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-publication:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 65, 0.4);
+            color: #000;
+        }
+        
+        .btn-secondary {
+            background: rgba(0, 255, 65, 0.1);
+            border: 1px solid rgba(0, 255, 65, 0.3);
+            color: #00ff41;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 255, 65, 0.2);
+            color: #39ff14;
+            border-color: #00ff41;
+        }
+        
+        /* Achievement Cards */
+        .achievement-card {
+            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        .achievement-icon {
+            font-size: 3rem;
+            color: #ffd700;
+            margin-bottom: 1rem;
+        }
+        
+        .achievement-title {
+            color: #ffd700;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .achievement-desc {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .publications-title {
+                font-size: 2.5rem;
+            }
+            
+            .publications-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+            }
+            
+            .stats-display {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .publication-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Loading Animation */
+        .loading-skeleton {
+            background: linear-gradient(90deg, rgba(0, 255, 65, 0.1) 25%, rgba(0, 255, 65, 0.3) 50%, rgba(0, 255, 65, 0.1) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 10px;
+            height: 20px;
+            margin-bottom: 10px;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Sort Controls */
+        .sort-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .sort-select {
+            background: rgba(0, 0, 0, 0.7) !important;
+            border: 1px solid rgba(0, 255, 65, 0.3) !important;
+            color: #00ff41 !important;
+            border-radius: 10px !important;
+            font-family: 'Fira Code', monospace;
+            padding: 0.5rem 1rem;
+        }
+        
+        .sort-select:focus {
+            border-color: #00ff41 !important;
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.3) !important;
+        }
+        
+        /* No Results */
+        .no-results {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 255, 65, 0.2);
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+        
+        .no-results-icon {
+            font-size: 4rem;
+            color: #00ff41;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+        
+        .no-results-title {
+            color: #00ff41;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-family: 'Orbitron', monospace;
+        }
+        
+        .no-results-desc {
+            color: #b0b0b0;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Matrix Rain Background -->
+    <div class="matrix-bg" id="matrix"></div>
+
+    <!-- Navigation Header -->
+    <header class="navigation-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../" class="h3 mb-0 nav-link-cyber text-decoration-none">
+                    <i class="fas fa-terminal me-2"></i>@elliot-hacks
+                </a>
+                <nav class="d-none d-md-flex gap-4">
+                    <a href="../" class="nav-link-cyber text-decoration-none">Home</a>
+                    <a href="../about.html" class="nav-link-cyber text-decoration-none">About</a>
+                    <a href="index.html" class="nav-link-cyber text-decoration-none">Publications</a>
+                    <a href="../#contact" class="nav-link-cyber text-decoration-none">Contact</a>
+                </nav>
+                <button class="btn btn-outline-success d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNav">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container publications-container">
+        <!-- Header Section -->
+        <div class="publications-header">
+            <div class="publications-title">CYBER ARSENAL</div>
+            <div class="publications-subtitle">[ RESEARCH • WRITEUPS • ACHIEVEMENTS ]</div>
+            <p class="lead text-light mt-3 mb-0">
+                Complete collection of cybersecurity research, writeups, and achievements.<br>
+                <span style="color: #00ff41; font-family: 'Fira Code', monospace;">
+                    root@security:~# find /research -type f | wc -l<br>
+                    <span id="total-count">47</span>
+                </span>
+            </p>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls">
+            <!-- Search -->
+            <div class="filter-section">
+                <label class="filter-label">
+                    <i class="fas fa-search me-2"></i>Search Publications
+                </label>
+                <div class="search-container">
+                    <input type="text" id="search-input" class="form-control search-input" placeholder="Search by title, description, or tags...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Platform Filter -->
+                <div class="col-md-6">
+                    <div class="filter-section">
+                        <label class="filter-label">
+                            <i class="fas fa-server me-2"></i>Platform
+                        </label>
+                        <div class="filter-buttons" id="platform-filters">
+                            <span class="filter-btn active" data-filter="all" data-type="platform">All Platforms</span>
+                            <span class="filter-btn" data-filter="hackthebox" data-type="platform">HackTheBox</span>
+                            <span class="filter-btn" data-filter="tryhackme" data-type="platform">TryHackMe</span>
+                            <span class="filter-btn" data-filter="offsec" data-type="platform">OffSec</span>
+                            <span class="filter-btn" data-filter="pwntilldawn" data-type="platform">PwnTillDawn</span>
+                            <span class="filter-btn" data-filter="mobile" data-type="platform">Mobile</span>
+                            <span class="filter-btn" data-filter="achievements" data-type="platform">Achievements</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="col-md-6">
+                    <div class="filter-section">
+                        <label class="filter-label">
+                            <i class="fas fa-tags me-2"></i>Category
+                        </label>
+                        <div class="filter-buttons" id="category-filters">
+                            <span class="filter-btn active" data-filter="all" data-type="category">All Categories</span>
+                            <span class="filter-btn" data-filter="web" data-type="category">Web</span>
+                            <span class="filter-btn" data-filter="binary" data-type="category">Binary</span>
+                            <span class="filter-btn" data-filter="reverse" data-type="category">Reverse Eng</span>
+                            <span class="filter-btn" data-filter="crypto" data-type="category">Cryptography</span>
+                            <span class="filter-btn" data-filter="forensics" data-type="category">Forensics</span>
+                            <span class="filter-btn" data-filter="misc" data-type="category">Misc</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sort Controls -->
+            <div class="filter-section">
+                <div class="sort-controls">
+                    <label class="filter-label mb-0">
+                        <i class="fas fa-sort me-2"></i>Sort By:
+                    </label>
+                    <select id="sort-select" class="sort-select">
+                        <option value="date-desc">Latest First</option>
+                        <option value="date-asc">Oldest First</option>
+                        <option value="title-asc">Title A-Z</option>
+                        <option value="title-desc">Title Z-A</option>
+                        <option value="difficulty-asc">Difficulty: Easy → Hard</option>
+                        <option value="difficulty-desc">Difficulty: Hard → Easy</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Display -->
+        <div class="stats-display" id="stats-display">
+            <div class="stat-item">
+                <span class="stat-number" id="total-publications">47</span>
+                <span class="stat-label">Total Publications</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="filtered-count">47</span>
+                <span class="stat-label">Currently Showing</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="platforms-count">5</span>
+                <span class="stat-label">Platforms</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" id="categories-count">6</span>
+                <span class="stat-label">Categories</span>
+            </div>
+        </div>
+
+        <!-- Publications Grid -->
+        <div class="publications-grid" id="publications-grid">
+            <!-- Publications will be dynamically loaded here -->
+        </div>
+
+        <!-- No Results -->
+        <div class="no-results d-none" id="no-results">
+            <div class="no-results-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="no-results-title">No Results Found</div>
+            <div class="no-results-desc">Try adjusting your search terms or filters</div>
+        </div>
+    </div>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Publications Data - This would normally come from a database or API
+        const publications = [
+            {
+                id: 1,
+                title: "HackTheBox: Blunder Machine",
+                description: "Complete walkthrough of Bludit CMS exploitation and privilege escalation techniques. Covering directory enumeration, brute force attacks, and sudo exploitation.",
+                platform: "hackthebox",
+                category: "web",
+                difficulty: "easy",
+                date: "2025-01-15",
+                tags: ["linux", "web", "cms", "bruteforce", "sudo"],
+                url: "/posts/hackthebox/blunder-writeup.html",
+                readTime: "8 min",
+                likes: 42
+            },
+            {
+                id: 2,
+                title: "Android Penetration Testing Guide",
+                description: "Comprehensive guide to Android security testing from static to dynamic analysis. Including APK reverse engineering and runtime manipulation.",
+                platform: "mobile",
+                category: "reverse",
+                difficulty: "medium",
+                date: "2025-01-10",
+                tags: ["android", "apk", "reverse", "jadx", "frida"],
+                url: "/posts/mobile/android-pentest-guide.html",
+                readTime: "15 min",
+                likes: 67
+            },
+            {
+                id: 3,
+                title: "YARA Rules: Advanced Malware Detection",
+                description: "Deep dive into creating sophisticated YARA rules for malware detection. Covers signature-based detection with 95% accuracy.",
+                platform: "misc",
+                category: "forensics",
+                difficulty: "hard",
+                date: "2025-01-05",
+                tags: ["yara", "malware", "detection", "signatures", "python"],
+                url: "/posts/misc/yara-malware-detection.html",
+                readTime: "12 min",
+                likes: 89
+            },
+            {
+                id: 4,
+                title: "TryHackMe: Overpass Series",
+                description: "Complete walkthrough of the Overpass machine series. RSA cryptography, web exploitation, and privilege escalation techniques.",
+                platform: "tryhackme",
+                category: "crypto",
+                difficulty: "medium",
+                date: "2024-12-28",
+                tags: ["rsa", "crypto", "web", "linux", "privesc"],
+                url: "/posts/tryhackme/overpass-series.html",
+                readTime: "20 min",
+                likes: 34
+            },
+            {
+                id: 5,
+                title: "Buffer Overflow Exploitation - OSCP Style",
+                description: "Step-by-step buffer overflow exploitation guide. From basic stack overflows to advanced ROP chains for OSCP preparation.",
+                platform: "offsec",
+                category: "binary",
+                difficulty: "hard",
+                date: "2024-12-20",
+                tags: ["buffer", "overflow", "exploit", "windows", "oscp"],
+                url: "/posts/offsec/buffer-overflow-guide.html",
+                readTime: "25 min",
+                likes: 156
+            },
+            {
+                id: 6,
+                title: "PwnTillDawn: Corporate Network",
+                description: "Advanced Active Directory exploitation in corporate environment. Kerberoasting, Golden Tickets, and lateral movement.",
+                platform: "pwntilldawn",
+                category: "web",
+                difficulty: "hard",
+                date: "2024-12-15",
+                tags: ["ad", "kerberos", "network", "lateral", "windows"],
+                url: "/posts/pwntilldawn/corporate-network.html",
+                readTime: "30 min",
+                likes: 78
+            },
+            {
+                id: 7,
+                title: "Certified Ethical Hacker (CEH) Achievement",
+                description: "Successfully obtained CEH certification with 95% score. Journey through ethical hacking methodologies and tools.",
+                platform: "achievements",
+                category: "misc",
+                difficulty: "medium",
+                date: "2024-12-01",
+                tags: ["certification", "ceh", "ethical", "hacking"],
+                url: "/posts/achievements/ceh-certification.html",
+                readTime: "5 min",
+                likes: 23
+            },
+            {
+                id: 8,
+                title: "Mobile App Security: iOS vs Android",
+                description: "Comparative analysis of iOS and Android security models. Static analysis, runtime manipulation, and bypass techniques.",
+                platform: "mobile",
+                category: "reverse",
+                difficulty: "hard",
+                date: "2024-11-25",
+                tags: ["ios", "android", "security", "comparison", "bypass"],
+                url: "/posts/mobile/ios-vs-android-security.html",
+                readTime: "18 min",
+                likes: 91
+            },
+            {
+                id: 9,
+                title: "Web Application Firewall Bypass",
+                description: "Advanced techniques for bypassing modern WAF solutions. SQL injection, XSS, and command injection evasion methods.",
+                platform: "misc",
+                category: "web",
+                difficulty: "hard",
+                date: "2024-11-20",
+                tags: ["waf", "bypass", "sqli", "xss", "evasion"],
+                url: "/posts/misc/waf-bypass-techniques.html",
+                readTime: "22 min",
+                likes: 145
+            },
+            {
+                id: 10,
+                title: "Cryptographic Hash Collisions",
+                description: "Exploring hash collision attacks and their implications. MD5, SHA-1 vulnerabilities and modern secure alternatives.",
+                platform: "misc",
+                category: "crypto",
+                difficulty: "medium",
+                date: "2024-11-15",
+                tags: ["hash", "collision", "md5", "sha1", "crypto"],
+                url: "/posts/misc/hash-collision-attacks.html",
+                readTime: "14 min",
+                likes: 56
+            }
+        ];
+
+        let filteredPublications = [...publications];
+        let currentPlatformFilter = 'all';
+        let currentCategoryFilter = 'all';
+        let currentSearchTerm = '';
+        let currentSort = 'date-desc';
+
+        // Matrix Rain Effect
+        function createMatrixRain() {
+            const matrix = document.getElementById('matrix');
+            const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            
+            for (let i = 0; i < 20; i++) {
+                const column = document.createElement('div');
+                column.className = 'matrix-column';
+                column.style.left = Math.random() * 100 + '%';
+                column.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                column.style.animationDelay = Math.random() * 2 + 's';
+                
+                let text = '';
+                for (let j = 0; j < 10; j++) {
+                    text += characters.charAt(Math.floor(Math.random() * characters.length)) + '<br>';
+                }
+                column.innerHTML = text;
+                
+                matrix.appendChild(column);
+            }
+        }
+
+        // Filter Functions
+        function applyFilters() {
+            filteredPublications = publications.filter(pub => {
+                const matchesPlatform = currentPlatformFilter === 'all' || pub.platform === currentPlatformFilter;
+                const matchesCategory = currentCategoryFilter === 'all' || pub.category === currentCategoryFilter;
+                const matchesSearch = currentSearchTerm === '' || 
+                    pub.title.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+                    pub.description.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
+                    pub.tags.some(tag => tag.toLowerCase().includes(currentSearchTerm.toLowerCase()));
+                
+                return matchesPlatform && matchesCategory && matchesSearch;
+            });
+
+            sortPublications();
+            renderPublications();
+            updateStats();
+        }
+
+        function sortPublications() {
+            const [sortBy, order] = currentSort.split('-');
+            
+            filteredPublications.sort((a, b) => {
+                let aVal, bVal;
+                
+                switch (sortBy) {
+                    case 'date':
+                        aVal = new Date(a.date);
+                        bVal = new Date(b.date);
+                        break;
+                    case 'title':
+                        aVal = a.title.toLowerCase();
+                        bVal = b.title.toLowerCase();
+                        break;
+                    case 'difficulty':
+                        const diffOrder = { easy: 1, medium: 2, hard: 3 };
+                        aVal = diffOrder[a.difficulty];
+                        bVal = diffOrder[b.difficulty];
+                        break;
+                    default:
+                        return 0;
+                }
+                
+                if (order === 'desc') {
+                    return bVal > aVal ? 1 : -1;
+                } else {
+                    return aVal > bVal ? 1 : -1;
+                }
+            });
+        }
+
+        function renderPublications() {
+            const grid = document.getElementById('publications-grid');
+            const noResults = document.getElementById('no-results');
+            
+            if (filteredPublications.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('d-none');
+                return;
+            }
+            
+            noResults.classList.add('d-none');
+            
+            const html = filteredPublications.map(pub => {
+                const difficultyClass = `tag-difficulty ${pub.difficulty}`;
+                const platformIcon = {
+                    'hackthebox': 'fas fa-cube',
+                    'tryhackme': 'fas fa-flag',
+                    'offsec': 'fas fa-shield-alt',
+                    'pwntilldawn': 'fas fa-crosshairs',
+                    'mobile': 'fas fa-mobile-alt',
+                    'achievements': 'fas fa-trophy',
+                    'misc': 'fas fa-cogs'
+                };
+                
+                return `
+                    <div class="publication-card" data-platform="${pub.platform}" data-category="${pub.category}">
+                        <div class="publication-header">
+                            <div class="publication-tags">
+                                <span class="tag tag-platform">
+                                    <i class="${platformIcon[pub.platform]} me-1"></i>
+                                    ${pub.platform.toUpperCase()}
+                                </span>
+                                <span class="tag tag-category">${pub.category.toUpperCase()}</span>
+                                <span class="tag ${difficultyClass}">${pub.difficulty.toUpperCase()}</span>
+                            </div>
+                            <a href="${pub.url}" class="publication-title">${pub.title}</a>
+                            <div class="publication-desc">${pub.description}</div>
+                            <div class="publication-meta">
+                                <div class="publication-date">
+                                    <i class="fas fa-calendar-alt"></i>
+                                    ${new Date(pub.date).toLocaleDateString()}
+                                </div>
+                                <div class="publication-stats">
+                                    <div class="stat">
+                                        <i class="fas fa-clock"></i>
+                                        ${pub.readTime}
+                                    </div>
+                                    <div class="stat">
+                                        <i class="fas fa-heart"></i>
+                                        ${pub.likes}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="publication-actions">
+                            <a href="${pub.url}" class="btn-publication">
+                                <i class="fas fa-eye me-1"></i>
+                                Read Writeup
+                            </a>
+                            <a href="#" class="btn-publication btn-secondary" onclick="sharePublication(${pub.id})">
+                                <i class="fas fa-share me-1"></i>
+                                Share
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            grid.innerHTML = html;
+        }
+
+        function updateStats() {
+            document.getElementById('filtered-count').textContent = filteredPublications.length;
+        }
+
+        function sharePublication(id) {
+            const pub = publications.find(p => p.id === id);
+            if (navigator.share) {
+                navigator.share({
+                    title: pub.title,
+                    text: pub.description,
+                    url: window.location.origin + pub.url
+                });
+            } else {
+                // Fallback - copy to clipboard
+                const url = window.location.origin + pub.url;
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Link copied to clipboard!');
+                });
+            }
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            createMatrixRain();
+            renderPublications();
+            updateStats();
+
+            // Filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const filterType = this.dataset.type;
+                    const filterValue = this.dataset.filter;
+                    
+                    // Update active state
+                    document.querySelectorAll(`.filter-btn[data-type="${filterType}"]`).forEach(b => {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Update filter values
+                    if (filterType === 'platform') {
+                        currentPlatformFilter = filterValue;
+                    } else if (filterType === 'category') {
+                        currentCategoryFilter = filterValue;
+                    }
+                    
+                    applyFilters();
+                });
+            });
+
+            // Search input
+            document.getElementById('search-input').addEventListener('input', function() {
+                currentSearchTerm = this.value;
+                applyFilters();
+            });
+
+            // Sort select
+            document.getElementById('sort-select').addEventListener('change', function() {
+                currentSort = this.value;
+                applyFilters();
+            });
+        });
+    </script>
+</body>
+</html>

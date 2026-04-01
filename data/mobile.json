@@ -1,0 +1,51 @@
+{
+  "category": "mobile",
+  "total": 3,
+  "publications": [
+    {
+      "id": "mobile-001",
+      "title": "Android Penetration Testing Guide",
+      "description": "Comprehensive guide to Android security testing from static to dynamic analysis. Including APK reverse engineering, runtime manipulation, and security assessment.",
+      "platform": "mobile",
+      "category": "reverse",
+      "difficulty": "medium",
+      "date": "2025-01-10",
+      "tags": ["android", "apk", "reverse", "jadx", "frida", "mobile-security"],
+      "url": "/posts/mobile/android-pentest-guide.html",
+      "readTime": "15 min",
+      "likes": 67,
+      "tools": ["jadx", "apktool", "frida", "drozer", "mobsf"],
+      "techniques": ["APK Reverse Engineering", "Runtime Analysis", "Frida Hooking", "SSL Pinning Bypass"]
+    },
+    {
+      "id": "mobile-002",
+      "title": "Mobile App Security: iOS vs Android",
+      "description": "Comparative analysis of iOS and Android security models. Static analysis, runtime manipulation, and bypass techniques for both platforms.",
+      "platform": "mobile",
+      "category": "reverse",
+      "difficulty": "hard",
+      "date": "2024-11-25",
+      "tags": ["ios", "android", "security", "comparison", "bypass", "runtime-analysis"],
+      "url": "/posts/mobile/ios-vs-android-security.html",
+      "readTime": "18 min",
+      "likes": 91,
+      "tools": ["objection", "frida-ios", "cycript", "hopper", "ida-pro"],
+      "techniques": ["iOS App Analysis", "Android Security Model", "Runtime Manipulation", "Security Bypasses"]
+    },
+    {
+      "id": "mobile-003",
+      "title": "Flutter App Reverse Engineering",
+      "description": "Advanced techniques for reverse engineering Flutter applications. Dart bytecode analysis, snapshot extraction, and runtime manipulation.",
+      "platform": "mobile",
+      "category": "reverse",
+      "difficulty": "hard",
+      "date": "2024-11-01",
+      "tags": ["flutter", "dart", "reverse-engineering", "mobile", "snapshot"],
+      "url": "/posts/mobile/flutter-reverse-engineering.html",
+      "readTime": "20 min",
+      "likes": 48,
+      "tools": ["blutter", "reflutter", "frida", "ghidra"],
+      "techniques": ["Dart Bytecode Analysis", "Snapshot Extraction", "Flutter Hooking", "Widget Manipulation"]
+    }
+  ]
+}

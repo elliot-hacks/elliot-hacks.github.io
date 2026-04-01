@@ -1,0 +1,50 @@
+{
+  "category": "pwntilldawn",
+  "total": 3,
+  "publications": [
+    {
+      "id": "ptd-001",
+      "title": "PwnTillDawn: Corporate Network",
+      "description": "Advanced Active Directory exploitation in corporate environment. Kerberoasting, Golden Tickets, and lateral movement across multiple domains.",
+      "platform": "pwntilldawn",
+      "category": "binary",
+      "difficulty": "hard",
+      "date": "2024-12-15",
+      "tags": ["windows", "ad", "kerberos", "network", "lateral", "golden-ticket"],
+      "url": "/posts/pwntilldawn/corporate-network.html",
+      "readTime": "30 min",
+      "likes": 78,
+      "tools": ["impacket", "bloodhound", "crackmapexec", "mimikatz"],
+      "techniques": ["AD Enumeration", "Kerberoasting", "Lateral Movement", "Golden Ticket Attack"]
+    },
+    {
+      "id": "ptd-002",
+      "title": "PwnTillDawn: Web Application Pentesting",
+      "description": "Comprehensive web application security assessment on a complex e-commerce platform. SQL injection, XSS, CSRF, and business logic flaws.",
+      "platform": "pwntilldawn",
+      "category": "web",
+      "difficulty": "medium",
+      "date": "2024-11-28",
+      "tags": ["web", "sqli", "xss", "csrf", "e-commerce"],
+      "url": "/posts/pwntilldawn/web-app-pentest.html",
+      "readTime": "22 min",
+      "likes": 54,
+      "tools": ["burpsuite", "sqlmap", "owasp-zap", "ffuf"],
+      "techniques": ["SQL Injection", "Cross-Site Scripting", "CSRF", "Business Logic Exploitation"]
+    },
+    {
+      "id": "ptd-003",
+      "title": "PwnTillDawn: Infrastructure Hardening",
+      "description": "Blue team perspective: Hardening misconfigured infrastructure. Analysis of common misconfigurations and remediation strategies.",
+      "platform": "pwntilldawn",
+      "category": "misc",
+      "difficulty": "medium",
+      "date": "2024-11-10",
+      "tags": ["hardening", "infrastructure", "blue-team", "misconfigurations", "security"],
+      "url": "/posts/pwntilldawn/infrastructure-hardening.html",
+      "readTime": "18 min",
+      "likes": 42,
+      "techniques": ["Security Hardening", "Configuration Review", "Patch Management", "Monitoring Setup"]
+    }
+  ]
+}

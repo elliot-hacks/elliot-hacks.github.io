@@ -1,0 +1,82 @@
+{
+  "category": "offsec",
+  "total": 5,
+  "publications": [
+    {
+      "id": "offsec-001",
+      "title": "Buffer Overflow Exploitation - OSCP Style",
+      "description": "Step-by-step buffer overflow exploitation guide. From basic stack overflows to advanced ROP chains for OSCP preparation. Covers Windows x86 buffer overflows, bad character detection, and shellcode generation.",
+      "platform": "offsec",
+      "category": "binary",
+      "difficulty": "hard",
+      "date": "2024-12-20",
+      "tags": ["buffer", "overflow", "exploit", "windows", "oscp", "rop", "shellcode"],
+      "url": "/posts/offsec/buffer-overflow-guide.html",
+      "readTime": "25 min",
+      "likes": 156,
+      "tools": ["immunity-debugger", "mona", "msfvenom", "python"],
+      "techniques": ["Stack Overflow", "SEH Overflow", "Egg Hunter", "ROP Chains"],
+      "oscpPrep": true
+    },
+    {
+      "id": "offsec-002",
+      "title": "Active Directory Enumeration & Exploitation",
+      "description": "Comprehensive guide to Active Directory enumeration and exploitation for OSCP and beyond. Covers LDAP enumeration, Kerberoasting, AS-REP roasting, and Golden Ticket attacks.",
+      "platform": "offsec",
+      "category": "binary",
+      "difficulty": "hard",
+      "date": "2024-12-10",
+      "tags": ["windows", "active-directory", "kerberoasting", "golden-ticket", "oscp"],
+      "url": "/posts/offsec/ad-enumeration-exploitation.html",
+      "readTime": "30 min",
+      "likes": 142,
+      "tools": ["bloodhound", "impacket", "mimikatz", "powerview"],
+      "techniques": ["AD Enumeration", "Kerberoasting", "DCSync", "Golden Ticket", "Silver Ticket"]
+    },
+    {
+      "id": "offsec-003",
+      "title": "Linux Privilege Escalation Matrix",
+      "description": "Complete Linux privilege escalation guide covering SUID, sudo, kernel exploits, capabilities, cron jobs, and more. Essential for OSCP preparation.",
+      "platform": "offsec",
+      "category": "binary",
+      "difficulty": "medium",
+      "date": "2024-11-25",
+      "tags": ["linux", "privesc", "suid", "sudo", "kernel", "oscp"],
+      "url": "/posts/offsec/linux-privilege-escalation.html",
+      "readTime": "22 min",
+      "likes": 178,
+      "tools": ["linpeas", "pspy", "gtfobins", "linux-exploit-suggester"],
+      "techniques": ["SUID Exploitation", "Sudo Abuse", "Kernel Exploits", "Cron Job Hijacking"]
+    },
+    {
+      "id": "offsec-004",
+      "title": "Web Application Penetration Testing Methodology",
+      "description": "Structured methodology for web application penetration testing. Covers OWASP Top 10 vulnerabilities, testing frameworks, and reporting.",
+      "platform": "offsec",
+      "category": "web",
+      "difficulty": "medium",
+      "date": "2024-11-15",
+      "tags": ["web", "owasp", "methodology", "sqli", "xss", "csrf"],
+      "url": "/posts/offsec/web-pentest-methodology.html",
+      "readTime": "18 min",
+      "likes": 95,
+      "tools": ["burpsuite", "sqlmap", "nikto", "zap"],
+      "techniques": ["Reconnaissance", "Vulnerability Assessment", "Exploitation", "Post-Exploitation"]
+    },
+    {
+      "id": "offsec-005",
+      "title": "Windows Privilege Escalation Techniques",
+      "description": "Advanced Windows privilege escalation guide for OSCP and real-world engagements. Covers service misconfigurations, token manipulation, and DLL hijacking.",
+      "platform": "offsec",
+      "category": "binary",
+      "difficulty": "hard",
+      "date": "2024-11-05",
+      "tags": ["windows", "privesc", "token", "dll-hijacking", "service-exploitation"],
+      "url": "/posts/offsec/windows-privilege-escalation.html",
+      "readTime": "28 min",
+      "likes": 134,
+      "tools": ["winpeas", "powershell", "mimikatz", "accesschk"],
+      "techniques": ["Token Impersonation", "Service Exploitation", "DLL Hijacking", "Unquoted Service Paths"]
+    }
+  ]
+}

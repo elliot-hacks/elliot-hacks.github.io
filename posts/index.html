@@ -18,7 +18,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    <!-- Custom Cybersecurity Publications Styles -->
+    <!-- Custom Cybersecurity Publications Styles - Original Dark Theme -->
     <style>
         body {
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
@@ -204,6 +204,7 @@
         .search-input:focus {
             border-color: #00ff41 !important;
             box-shadow: 0 0 15px rgba(0, 255, 65, 0.3) !important;
+            background: rgba(0, 0, 0, 0.9) !important;
         }
         
         .search-icon {
@@ -324,6 +325,12 @@
             color: #ffa500;
         }
         
+        .tag-difficulty.hard {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: rgba(255, 0, 0, 0.5);
+            color: #ff4444;
+        }
+        
         .publication-title {
             color: #00ff41;
             font-size: 1.3rem;
@@ -415,81 +422,6 @@
             border-color: #00ff41;
         }
         
-        /* Achievement Cards */
-        .achievement-card {
-            background: linear-gradient(45deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1));
-            border: 2px solid rgba(255, 215, 0, 0.4);
-            border-radius: 15px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .achievement-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.3);
-        }
-        
-        .achievement-icon {
-            font-size: 3rem;
-            color: #ffd700;
-            margin-bottom: 1rem;
-        }
-        
-        .achievement-title {
-            color: #ffd700;
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            font-family: 'Orbitron', monospace;
-        }
-        
-        .achievement-desc {
-            color: #b0b0b0;
-            font-size: 0.9rem;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .publications-title {
-                font-size: 2.5rem;
-            }
-            
-            .publications-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            
-            .filter-buttons {
-                flex-direction: column;
-            }
-            
-            .stats-display {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .publication-actions {
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-        }
-        
-        /* Loading Animation */
-        .loading-skeleton {
-            background: linear-gradient(90deg, rgba(0, 255, 65, 0.1) 25%, rgba(0, 255, 65, 0.3) 50%, rgba(0, 255, 65, 0.1) 75%);
-            background-size: 200% 100%;
-            animation: loading 1.5s infinite;
-            border-radius: 10px;
-            height: 20px;
-            margin-bottom: 10px;
-        }
-        
-        @keyframes loading {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
         /* Sort Controls */
         .sort-controls {
             display: flex;
@@ -510,6 +442,27 @@
         .sort-select:focus {
             border-color: #00ff41 !important;
             box-shadow: 0 0 10px rgba(0, 255, 65, 0.3) !important;
+        }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            text-align: center;
+            padding: 4rem;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(0, 255, 65, 0.3);
+            border-top: 3px solid #00ff41;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         /* No Results */
@@ -540,6 +493,56 @@
         .no-results-desc {
             color: #b0b0b0;
             font-size: 1.1rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .publications-title {
+                font-size: 2.5rem;
+            }
+            
+            .publications-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .filter-buttons {
+                flex-direction: column;
+            }
+            
+            .stats-display {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .publication-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Achievement Badge */
+        .achievement-badge {
+            background: linear-gradient(135deg, #ffd700, #ffa500);
+            border-radius: 12px;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            color: #000;
+            font-weight: 600;
+            font-family: 'Fira Code', monospace;
+        }
+        
+        .achievement-score {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #ffd700;
+        }
+        
+        .credential-id {
+            font-size: 0.75rem;
+            color: #888;
+            font-family: 'Fira Code', monospace;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
@@ -578,7 +581,7 @@
                 Complete collection of cybersecurity research, writeups, and achievements.<br>
                 <span style="color: #00ff41; font-family: 'Fira Code', monospace;">
                     root@security:~# find /research -type f | wc -l<br>
-                    <span id="total-count">47</span>
+                    <span id="total-count">Loading...</span>
                 </span>
             </p>
         </div>
@@ -628,6 +631,7 @@
                             <span class="filter-btn" data-filter="reverse" data-type="category">Reverse Eng</span>
                             <span class="filter-btn" data-filter="crypto" data-type="category">Cryptography</span>
                             <span class="filter-btn" data-filter="forensics" data-type="category">Forensics</span>
+                            <span class="filter-btn" data-filter="cloud" data-type="category">Cloud</span>
                             <span class="filter-btn" data-filter="misc" data-type="category">Misc</span>
                         </div>
                     </div>
@@ -655,32 +659,35 @@
         <!-- Stats Display -->
         <div class="stats-display" id="stats-display">
             <div class="stat-item">
-                <span class="stat-number" id="total-publications">47</span>
+                <span class="stat-number" id="total-publications">0</span>
                 <span class="stat-label">Total Publications</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number" id="filtered-count">47</span>
+                <span class="stat-number" id="filtered-count">0</span>
                 <span class="stat-label">Currently Showing</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number" id="platforms-count">5</span>
+                <span class="stat-number" id="platforms-count">0</span>
                 <span class="stat-label">Platforms</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number" id="categories-count">6</span>
+                <span class="stat-number" id="categories-count">0</span>
                 <span class="stat-label">Categories</span>
             </div>
         </div>
 
         <!-- Publications Grid -->
         <div class="publications-grid" id="publications-grid">
-            <!-- Publications will be dynamically loaded here -->
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p style="color: #00ff41;">Loading publications from the arsenal...</p>
+            </div>
         </div>
 
         <!-- No Results -->
         <div class="no-results d-none" id="no-results">
             <div class="no-results-icon">
-                <i class="fas fa-search"></i>
+                <i class="fas fa-skull"></i>
             </div>
             <div class="no-results-title">No Results Found</div>
             <div class="no-results-desc">Try adjusting your search terms or filters</div>
@@ -692,150 +699,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Publications Data - This would normally come from a database or API
-        const publications = [
-            {
-                id: 1,
-                title: "HackTheBox: Blunder Machine",
-                description: "Complete walkthrough of Bludit CMS exploitation and privilege escalation techniques. Covering directory enumeration, brute force attacks, and sudo exploitation.",
-                platform: "hackthebox",
-                category: "web",
-                difficulty: "easy",
-                date: "2025-01-15",
-                tags: ["linux", "web", "cms", "bruteforce", "sudo"],
-                url: "/posts/hackthebox/blunder-writeup.html",
-                readTime: "8 min",
-                likes: 42
-            },
-            {
-                id: 2,
-                title: "Android Penetration Testing Guide",
-                description: "Comprehensive guide to Android security testing from static to dynamic analysis. Including APK reverse engineering and runtime manipulation.",
-                platform: "mobile",
-                category: "reverse",
-                difficulty: "medium",
-                date: "2025-01-10",
-                tags: ["android", "apk", "reverse", "jadx", "frida"],
-                url: "/posts/mobile/android-pentest-guide.html",
-                readTime: "15 min",
-                likes: 67
-            },
-            {
-                id: 3,
-                title: "YARA Rules: Advanced Malware Detection",
-                description: "Deep dive into creating sophisticated YARA rules for malware detection. Covers signature-based detection with 95% accuracy.",
-                platform: "misc",
-                category: "forensics",
-                difficulty: "hard",
-                date: "2025-01-05",
-                tags: ["yara", "malware", "detection", "signatures", "python"],
-                url: "/posts/misc/yara-malware-detection.html",
-                readTime: "12 min",
-                likes: 89
-            },
-            {
-                id: 4,
-                title: "TryHackMe: Overpass Series",
-                description: "Complete walkthrough of the Overpass machine series. RSA cryptography, web exploitation, and privilege escalation techniques.",
-                platform: "tryhackme",
-                category: "crypto",
-                difficulty: "medium",
-                date: "2024-12-28",
-                tags: ["rsa", "crypto", "web", "linux", "privesc"],
-                url: "/posts/tryhackme/overpass-series.html",
-                readTime: "20 min",
-                likes: 34
-            },
-            {
-                id: 5,
-                title: "Buffer Overflow Exploitation - OSCP Style",
-                description: "Step-by-step buffer overflow exploitation guide. From basic stack overflows to advanced ROP chains for OSCP preparation.",
-                platform: "offsec",
-                category: "binary",
-                difficulty: "hard",
-                date: "2024-12-20",
-                tags: ["buffer", "overflow", "exploit", "windows", "oscp"],
-                url: "/posts/offsec/buffer-overflow-guide.html",
-                readTime: "25 min",
-                likes: 156
-            },
-            {
-                id: 6,
-                title: "PwnTillDawn: Corporate Network",
-                description: "Advanced Active Directory exploitation in corporate environment. Kerberoasting, Golden Tickets, and lateral movement.",
-                platform: "pwntilldawn",
-                category: "web",
-                difficulty: "hard",
-                date: "2024-12-15",
-                tags: ["ad", "kerberos", "network", "lateral", "windows"],
-                url: "/posts/pwntilldawn/corporate-network.html",
-                readTime: "30 min",
-                likes: 78
-            },
-            {
-                id: 7,
-                title: "Certified Ethical Hacker (CEH) Achievement",
-                description: "Successfully obtained CEH certification with 95% score. Journey through ethical hacking methodologies and tools.",
-                platform: "achievements",
-                category: "misc",
-                difficulty: "medium",
-                date: "2024-12-01",
-                tags: ["certification", "ceh", "ethical", "hacking"],
-                url: "/posts/achievements/ceh-certification.html",
-                readTime: "5 min",
-                likes: 23
-            },
-            {
-                id: 8,
-                title: "Mobile App Security: iOS vs Android",
-                description: "Comparative analysis of iOS and Android security models. Static analysis, runtime manipulation, and bypass techniques.",
-                platform: "mobile",
-                category: "reverse",
-                difficulty: "hard",
-                date: "2024-11-25",
-                tags: ["ios", "android", "security", "comparison", "bypass"],
-                url: "/posts/mobile/ios-vs-android-security.html",
-                readTime: "18 min",
-                likes: 91
-            },
-            {
-                id: 9,
-                title: "Web Application Firewall Bypass",
-                description: "Advanced techniques for bypassing modern WAF solutions. SQL injection, XSS, and command injection evasion methods.",
-                platform: "misc",
-                category: "web",
-                difficulty: "hard",
-                date: "2024-11-20",
-                tags: ["waf", "bypass", "sqli", "xss", "evasion"],
-                url: "/posts/misc/waf-bypass-techniques.html",
-                readTime: "22 min",
-                likes: 145
-            },
-            {
-                id: 10,
-                title: "Cryptographic Hash Collisions",
-                description: "Exploring hash collision attacks and their implications. MD5, SHA-1 vulnerabilities and modern secure alternatives.",
-                platform: "misc",
-                category: "crypto",
-                difficulty: "medium",
-                date: "2024-11-15",
-                tags: ["hash", "collision", "md5", "sha1", "crypto"],
-                url: "/posts/misc/hash-collision-attacks.html",
-                readTime: "14 min",
-                likes: 56
-            }
-        ];
-
-        let filteredPublications = [...publications];
+        // Store publications data
+        let publications = [];
+        let filteredPublications = [];
         let currentPlatformFilter = 'all';
         let currentCategoryFilter = 'all';
         let currentSearchTerm = '';
         let currentSort = 'date-desc';
 
+        // Platform icons mapping
+        const platformIcon = {
+            'hackthebox': 'fas fa-cube',
+            'tryhackme': 'fas fa-flag',
+            'offsec': 'fas fa-shield-alt',
+            'pwntilldawn': 'fas fa-crosshairs',
+            'mobile': 'fas fa-mobile-alt',
+            'achievements': 'fas fa-trophy',
+            'misc': 'fas fa-cogs'
+        };
+
         // Matrix Rain Effect
         function createMatrixRain() {
             const matrix = document.getElementById('matrix');
+            if (!matrix) return;
+            
             const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            matrix.innerHTML = '';
             
             for (let i = 0; i < 20; i++) {
                 const column = document.createElement('div');
@@ -854,7 +743,58 @@
             }
         }
 
-        // Filter Functions
+        // Load publications from JSON files
+        async function loadPublications() {
+            const jsonFiles = [
+                '/data/achievements.json',
+                '/data/hackthebox.json',
+                '/data/tryhackme.json',
+                '/data/offsec.json',
+                '/data/pwntilldawn.json',
+                '/data/mobile.json'
+            ];
+            
+            let allPublications = [];
+            
+            for (const file of jsonFiles) {
+                try {
+                    const response = await fetch(file);
+                    const data = await response.json();
+                    
+                    if (data.publications) {
+                        allPublications = allPublications.concat(data.publications);
+                    } else if (data.achievements) {
+                        allPublications = allPublications.concat(data.achievements);
+                    }
+                } catch (error) {
+                    console.error(`Error loading ${file}:`, error);
+                }
+            }
+            
+            publications = allPublications;
+            filteredPublications = [...publications];
+            
+            // Update stats
+            updateTotalStats();
+            
+            // Apply initial filters and render
+            applyFilters();
+            
+            // Update total count display
+            document.getElementById('total-count').textContent = publications.length;
+        }
+
+        // Update total statistics
+        function updateTotalStats() {
+            const platforms = [...new Set(publications.map(p => p.platform))];
+            const categories = [...new Set(publications.map(p => p.category))];
+            
+            document.getElementById('total-publications').textContent = publications.length;
+            document.getElementById('platforms-count').textContent = platforms.length;
+            document.getElementById('categories-count').textContent = categories.length;
+        }
+
+        // Apply filters
         function applyFilters() {
             filteredPublications = publications.filter(pub => {
                 const matchesPlatform = currentPlatformFilter === 'all' || pub.platform === currentPlatformFilter;
@@ -862,16 +802,17 @@
                 const matchesSearch = currentSearchTerm === '' || 
                     pub.title.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
                     pub.description.toLowerCase().includes(currentSearchTerm.toLowerCase()) ||
-                    pub.tags.some(tag => tag.toLowerCase().includes(currentSearchTerm.toLowerCase()));
+                    (pub.tags && pub.tags.some(tag => tag.toLowerCase().includes(currentSearchTerm.toLowerCase())));
                 
                 return matchesPlatform && matchesCategory && matchesSearch;
             });
 
             sortPublications();
             renderPublications();
-            updateStats();
+            updateFilterStats();
         }
 
+        // Sort publications
         function sortPublications() {
             const [sortBy, order] = currentSort.split('-');
             
@@ -889,8 +830,8 @@
                         break;
                     case 'difficulty':
                         const diffOrder = { easy: 1, medium: 2, hard: 3 };
-                        aVal = diffOrder[a.difficulty];
-                        bVal = diffOrder[b.difficulty];
+                        aVal = diffOrder[a.difficulty] || 2;
+                        bVal = diffOrder[b.difficulty] || 2;
                         break;
                     default:
                         return 0;
@@ -904,6 +845,7 @@
             });
         }
 
+        // Render publications
         function renderPublications() {
             const grid = document.getElementById('publications-grid');
             const noResults = document.getElementById('no-results');
@@ -917,27 +859,33 @@
             noResults.classList.add('d-none');
             
             const html = filteredPublications.map(pub => {
-                const difficultyClass = `tag-difficulty ${pub.difficulty}`;
-                const platformIcon = {
-                    'hackthebox': 'fas fa-cube',
-                    'tryhackme': 'fas fa-flag',
-                    'offsec': 'fas fa-shield-alt',
-                    'pwntilldawn': 'fas fa-crosshairs',
-                    'mobile': 'fas fa-mobile-alt',
-                    'achievements': 'fas fa-trophy',
-                    'misc': 'fas fa-cogs'
-                };
+                const difficultyClass = pub.difficulty ? `tag-difficulty ${pub.difficulty}` : '';
+                const icon = platformIcon[pub.platform] || 'fas fa-file-alt';
+                
+                // Special badge for achievements with scores
+                const achievementBadge = pub.score ? `
+                    <span class="achievement-badge ms-2">
+                        Score: ${pub.score}
+                    </span>
+                ` : '';
+                
+                const credentialInfo = pub.credentialId ? `
+                    <div class="credential-id">
+                        <i class="fas fa-id-card"></i> ${pub.credentialId}
+                    </div>
+                ` : '';
                 
                 return `
                     <div class="publication-card" data-platform="${pub.platform}" data-category="${pub.category}">
                         <div class="publication-header">
                             <div class="publication-tags">
                                 <span class="tag tag-platform">
-                                    <i class="${platformIcon[pub.platform]} me-1"></i>
+                                    <i class="${icon} me-1"></i>
                                     ${pub.platform.toUpperCase()}
                                 </span>
                                 <span class="tag tag-category">${pub.category.toUpperCase()}</span>
-                                <span class="tag ${difficultyClass}">${pub.difficulty.toUpperCase()}</span>
+                                ${pub.difficulty ? `<span class="tag ${difficultyClass}">${pub.difficulty.toUpperCase()}</span>` : ''}
+                                ${achievementBadge}
                             </div>
                             <a href="${pub.url}" class="publication-title">${pub.title}</a>
                             <div class="publication-desc">${pub.description}</div>
@@ -945,25 +893,29 @@
                                 <div class="publication-date">
                                     <i class="fas fa-calendar-alt"></i>
                                     ${new Date(pub.date).toLocaleDateString()}
+                                    ${pub.expires ? `<span class="ms-2 text-muted small">(Valid until ${new Date(pub.expires).toLocaleDateString()})</span>` : ''}
                                 </div>
                                 <div class="publication-stats">
+                                    ${pub.readTime ? `
                                     <div class="stat">
                                         <i class="fas fa-clock"></i>
                                         ${pub.readTime}
                                     </div>
+                                    ` : ''}
                                     <div class="stat">
                                         <i class="fas fa-heart"></i>
-                                        ${pub.likes}
+                                        ${pub.likes || 0}
                                     </div>
                                 </div>
                             </div>
+                            ${credentialInfo}
                         </div>
                         <div class="publication-actions">
                             <a href="${pub.url}" class="btn-publication">
                                 <i class="fas fa-eye me-1"></i>
-                                Read Writeup
+                                ${pub.platform === 'achievements' ? 'View Credential' : 'Read Writeup'}
                             </a>
-                            <a href="#" class="btn-publication btn-secondary" onclick="sharePublication(${pub.id})">
+                            <a href="#" class="btn-publication btn-secondary" onclick="sharePublication('${pub.id}')">
                                 <i class="fas fa-share me-1"></i>
                                 Share
                             </a>
@@ -975,20 +927,21 @@
             grid.innerHTML = html;
         }
 
-        function updateStats() {
+        // Update filter stats
+        function updateFilterStats() {
             document.getElementById('filtered-count').textContent = filteredPublications.length;
         }
 
-        function sharePublication(id) {
+        // Share publication
+        window.sharePublication = function(id) {
             const pub = publications.find(p => p.id === id);
-            if (navigator.share) {
+            if (pub && navigator.share) {
                 navigator.share({
                     title: pub.title,
                     text: pub.description,
                     url: window.location.origin + pub.url
                 });
-            } else {
-                // Fallback - copy to clipboard
+            } else if (pub) {
                 const url = window.location.origin + pub.url;
                 navigator.clipboard.writeText(url).then(() => {
                     alert('Link copied to clipboard!');
@@ -996,11 +949,17 @@
             }
         }
 
+        // Refresh data function
+        window.refreshAchievements = async function() {
+            const grid = document.getElementById('publications-grid');
+            grid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p style="color: #00ff41;">Reloading publications...</p></div>';
+            await loadPublications();
+        }
+
         // Event Listeners
         document.addEventListener('DOMContentLoaded', function() {
             createMatrixRain();
-            renderPublications();
-            updateStats();
+            loadPublications();
 
             // Filter buttons
             document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -1008,13 +967,11 @@
                     const filterType = this.dataset.type;
                     const filterValue = this.dataset.filter;
                     
-                    // Update active state
                     document.querySelectorAll(`.filter-btn[data-type="${filterType}"]`).forEach(b => {
                         b.classList.remove('active');
                     });
                     this.classList.add('active');
                     
-                    // Update filter values
                     if (filterType === 'platform') {
                         currentPlatformFilter = filterValue;
                     } else if (filterType === 'category') {
@@ -1026,16 +983,22 @@
             });
 
             // Search input
-            document.getElementById('search-input').addEventListener('input', function() {
-                currentSearchTerm = this.value;
-                applyFilters();
-            });
+            const searchInput = document.getElementById('search-input');
+            if (searchInput) {
+                searchInput.addEventListener('input', function() {
+                    currentSearchTerm = this.value;
+                    applyFilters();
+                });
+            }
 
             // Sort select
-            document.getElementById('sort-select').addEventListener('change', function() {
-                currentSort = this.value;
-                applyFilters();
-            });
+            const sortSelect = document.getElementById('sort-select');
+            if (sortSelect) {
+                sortSelect.addEventListener('change', function() {
+                    currentSort = this.value;
+                    applyFilters();
+                });
+            }
         });
     </script>
 </body>

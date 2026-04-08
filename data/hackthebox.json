@@ -75,34 +75,6 @@
     },
     {
       "id": "htb-006",
-      "title": "HackTheBox: Admirer Machine",
-      "description": "Web application exploitation and privilege escalation via Python library hijacking. Covers directory traversal, adminer exploitation, and path hijacking.",
-      "platform": "hackthebox",
-      "category": "web",
-      "difficulty": "medium",
-      "date": "2024-12-05",
-      "tags": ["linux", "web", "python", "path-hijacking", "directory-traversal"],
-      "url": "/posts/hackthebox/admirer-writeup.html",
-      "readTime": "12 min",
-      "tools": ["gobuster", "curl", "python", "ssh"],
-      "techniques": ["Directory Traversal", "Adminer Exploitation", "Library Hijacking"]
-    },
-    {
-      "id": "htb-007",
-      "title": "HackTheBox: Doctor Machine",
-      "description": "Exploiting SSTI in Flask applications and privilege escalation via Docker groups. Detailed walkthrough of web application security.",
-      "platform": "hackthebox",
-      "category": "web",
-      "difficulty": "easy",
-      "date": "2024-11-28",
-      "tags": ["linux", "flask", "ssti", "docker", "python"],
-      "url": "/posts/hackthebox/doctor-writeup.html",
-      "readTime": "9 min",
-      "tools": ["burpsuite", "python", "docker"],
-      "techniques": ["SSTI", "Docker Group Abuse", "Web Exploitation"]
-    },
-    {
-      "id": "htb-008",
       "title": "HackTheBox: Arctic Machine",
       "description": "ColdFusion exploitation and privilege escalation on Windows. Detailed guide on exploiting ColdFusion vulnerabilities and Windows privilege escalation.",
       "platform": "hackthebox",
@@ -116,21 +88,7 @@
       "techniques": ["ColdFusion Exploitation", "Reverse Shell", "Windows Privilege Escalation"]
     },
     {
-      "id": "htb-009",
-      "title": "HackTheBox: Bastion Machine",
-      "description": "Windows enumeration focusing on SMB shares and VHD disk mounting. Walkthrough of backup file exploitation and privilege escalation.",
-      "platform": "hackthebox",
-      "category": "forensics",
-      "difficulty": "easy",
-      "date": "2024-11-15",
-      "tags": ["windows", "smb", "vhdx", "backup", "privesc"],
-      "url": "/posts/hackthebox/bastion-writeup.html",
-      "readTime": "8 min",
-      "tools": ["smbclient", "mount", "ssh", "windows"],
-      "techniques": ["SMB Enumeration", "VHD Mounting", "Backup Exploitation"]
-    },
-    {
-      "id": "htb-010",
+      "id": "htb-007",
       "title": "HackTheBox: Netmon Machine",
       "description": "PRTG Network Monitor exploitation and privilege escalation. Detailed walkthrough of PRTG vulnerability and Windows privilege escalation.",
       "platform": "hackthebox",
@@ -144,7 +102,7 @@
       "techniques": ["PRTG Exploitation", "Credential Harvesting", "Windows Privesc"]
     },
     {
-      "id": "htb-011",
+      "id": "htb-008",
       "title": "HackTheBox: Jeeves Machine",
       "description": "Jenkins exploitation and Windows privilege escalation via Keepass. Advanced walkthrough of Jenkins RCE and Windows tokens.",
       "platform": "hackthebox",
@@ -158,7 +116,7 @@
       "techniques": ["Jenkins RCE", "Token Impersonation", "Keepass Exploitation"]
     },
     {
-      "id": "htb-012",
+      "id": "htb-009",
       "title": "HackTheBox: Blue Machine",
       "description": "EternalBlue (MS17-010) exploitation on Windows 7. Classic walkthrough of one of the most famous Windows exploits.",
       "platform": "hackthebox",

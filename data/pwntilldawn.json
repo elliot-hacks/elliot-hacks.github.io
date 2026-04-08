@@ -28,7 +28,6 @@
       "tags": ["web", "sqli", "xss", "csrf", "e-commerce"],
       "url": "/posts/pwntilldawn/web-app-pentest.html",
       "readTime": "22 min",
-      "likes": 54,
       "tools": ["burpsuite", "sqlmap", "owasp-zap", "ffuf"],
       "techniques": ["SQL Injection", "Cross-Site Scripting", "CSRF", "Business Logic Exploitation"]
     },
@@ -43,7 +42,6 @@
       "tags": ["hardening", "infrastructure", "blue-team", "misconfigurations", "security"],
       "url": "/posts/pwntilldawn/infrastructure-hardening.html",
       "readTime": "18 min",
-      "likes": 42,
       "techniques": ["Security Hardening", "Configuration Review", "Patch Management", "Monitoring Setup"]
     }
   ]

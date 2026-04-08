@@ -59,7 +59,6 @@
       "tags": ["web", "owasp", "methodology", "sqli", "xss", "csrf"],
       "url": "/posts/offsec/web-pentest-methodology.html",
       "readTime": "18 min",
-      "likes": 95,
       "tools": ["burpsuite", "sqlmap", "nikto", "zap"],
       "techniques": ["Reconnaissance", "Vulnerability Assessment", "Exploitation", "Post-Exploitation"]
     },
@@ -74,7 +73,6 @@
       "tags": ["windows", "privesc", "token", "dll-hijacking", "service-exploitation"],
       "url": "/posts/offsec/windows-privilege-escalation.html",
       "readTime": "28 min",
-      "likes": 134,
       "tools": ["winpeas", "powershell", "mimikatz", "accesschk"],
       "techniques": ["Token Impersonation", "Service Exploitation", "DLL Hijacking", "Unquoted Service Paths"]
     }

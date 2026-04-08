@@ -561,18 +561,11 @@
                 <nav class="d-none d-md-flex gap-4">
                     <a href="../" class="nav-link-cyber text-decoration-none">Home</a>
                     <a href="../about.html" class="nav-link-cyber text-decoration-none">About</a>
-                    <a href="../#blog" class="nav-link-cyber text-decoration-none">Blog</a>
                     <a href="index.html" class="nav-link-cyber text-decoration-none">Publications</a>
                     <a href="../#contact" class="nav-link-cyber text-decoration-none">Contact</a>
                 </nav>
                 <button class="btn btn-outline-success d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNav">
-                   <nav class="d-none d-md-flex gap-4">
-                    <a href="../" class="nav-link-cyber text-decoration-none">Home</a>
-                    <a href="../about.html" class="nav-link-cyber text-decoration-none">About</a>
-                    <a href="../#blog" class="nav-link-cyber text-decoration-none">Blog</a>
-                    <a href="index.html" class="nav-link-cyber text-decoration-none">Publications</a>
-                    <a href="../#contact" class="nav-link-cyber text-decoration-none">Contact</a>
-                </nav>
+                    <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
@@ -615,12 +608,7 @@
                         </label>
                         <div class="filter-buttons" id="platform-filters">
                             <span class="filter-btn active" data-filter="all" data-type="platform">All Platforms</span>
-                            <span class="filter-btn" data-filter="hackthebox" data-type="platform">HackTheBox</span>
-                            <span class="filter-btn" data-filter="tryhackme" data-type="platform">TryHackMe</span>
-                            <span class="filter-btn" data-filter="offsec" data-type="platform">OffSec</span>
-                            <span class="filter-btn" data-filter="pwntilldawn" data-type="platform">PwnTillDawn</span>
-                            <span class="filter-btn" data-filter="mobile" data-type="platform">Mobile</span>
-                            <span class="filter-btn" data-filter="achievements" data-type="platform">Achievements</span>
+                            <!-- Platform buttons will be dynamically populated -->
                         </div>
                     </div>
                 </div>
@@ -633,13 +621,7 @@
                         </label>
                         <div class="filter-buttons" id="category-filters">
                             <span class="filter-btn active" data-filter="all" data-type="category">All Categories</span>
-                            <span class="filter-btn" data-filter="web" data-type="category">Web</span>
-                            <span class="filter-btn" data-filter="binary" data-type="category">Binary</span>
-                            <span class="filter-btn" data-filter="reverse" data-type="category">Reverse Eng</span>
-                            <span class="filter-btn" data-filter="crypto" data-type="category">Cryptography</span>
-                            <span class="filter-btn" data-filter="forensics" data-type="category">Forensics</span>
-                            <span class="filter-btn" data-filter="cloud" data-type="category">Cloud</span>
-                            <span class="filter-btn" data-filter="misc" data-type="category">Misc</span>
+                            <!-- Category buttons will be dynamically populated -->
                         </div>
                     </div>
                 </div>
@@ -713,6 +695,10 @@
         let currentCategoryFilter = 'all';
         let currentSearchTerm = '';
         let currentSort = 'date-desc';
+        
+        // Track available filters
+        let availablePlatforms = new Set();
+        let availableCategories = new Set();
 
         // Platform icons mapping
         const platformIcon = {
@@ -750,29 +736,45 @@
             }
         }
 
-        // Load publications from JSON files
+        // Get list of JSON files from /data/ directory
+        // Since we can't list directory contents directly via client-side JS,
+        // we'll maintain a static list but load them in alphabetical order
+        // You can add new JSON files here as you create them
+        const jsonFileList = [
+            '/data/achievements.json',
+            '/data/hackthebox.json',
+            '/data/mobile.json',
+            '/data/offsec.json',
+            '/data/pwntilldawn.json',
+            '/data/tryhackme.json'
+        ].sort(); // Sort alphabetically
+
+        // Alternative: If you want to auto-discover files, you'd need a server endpoint
+        // For now, we'll use the explicit list above sorted alphabetically
+
+        // Load publications from JSON files in alphabetical order
         async function loadPublications() {
-            const jsonFiles = [
-                '/data/achievements.json',
-                '/data/hackthebox.json',
-                '/data/tryhackme.json',
-                '/data/offsec.json',
-                '/data/pwntilldawn.json',
-                '/data/mobile.json'
-            ];
-            
             let allPublications = [];
             
-            for (const file of jsonFiles) {
+            for (const file of jsonFileList) {
                 try {
                     const response = await fetch(file);
+                    if (!response.ok) {
+                        console.warn(`Could not load ${file}: ${response.status}`);
+                        continue;
+                    }
                     const data = await response.json();
                     
-                    if (data.publications) {
+                    // Handle different JSON structures
+                    if (data.publications && Array.isArray(data.publications)) {
                         allPublications = allPublications.concat(data.publications);
-                    } else if (data.achievements) {
+                    } else if (data.achievements && Array.isArray(data.achievements)) {
                         allPublications = allPublications.concat(data.achievements);
+                    } else if (Array.isArray(data)) {
+                        allPublications = allPublications.concat(data);
                     }
+                    
+                    console.log(`Loaded ${file}: ${data.publications?.length || data.achievements?.length || 0} items`);
                 } catch (error) {
                     console.error(`Error loading ${file}:`, error);
                 }
@@ -780,6 +782,15 @@
             
             publications = allPublications;
             filteredPublications = [...publications];
+            
+            // Extract unique platforms and categories
+            publications.forEach(pub => {
+                if (pub.platform) availablePlatforms.add(pub.platform);
+                if (pub.category) availableCategories.add(pub.category);
+            });
+            
+            // Update filter buttons
+            updateFilterButtons();
             
             // Update stats
             updateTotalStats();
@@ -791,14 +802,75 @@
             document.getElementById('total-count').textContent = publications.length;
         }
 
+        // Dynamically update filter buttons based on available data
+        function updateFilterButtons() {
+            // Update platform filters
+            const platformContainer = document.getElementById('platform-filters');
+            if (platformContainer) {
+                const sortedPlatforms = Array.from(availablePlatforms).sort();
+                platformContainer.innerHTML = '<span class="filter-btn active" data-filter="all" data-type="platform">All Platforms</span>';
+                sortedPlatforms.forEach(platform => {
+                    const displayName = platform.charAt(0).toUpperCase() + platform.slice(1);
+                    platformContainer.innerHTML += `
+                        <span class="filter-btn" data-filter="${platform}" data-type="platform">
+                            ${displayName}
+                        </span>
+                    `;
+                });
+            }
+            
+            // Update category filters
+            const categoryContainer = document.getElementById('category-filters');
+            if (categoryContainer) {
+                const sortedCategories = Array.from(availableCategories).sort();
+                categoryContainer.innerHTML = '<span class="filter-btn active" data-filter="all" data-type="category">All Categories</span>';
+                sortedCategories.forEach(category => {
+                    const displayName = category.charAt(0).toUpperCase() + category.slice(1);
+                    categoryContainer.innerHTML += `
+                        <span class="filter-btn" data-filter="${category}" data-type="category">
+                            ${displayName}
+                        </span>
+                    `;
+                });
+            }
+            
+            // Re-attach event listeners to new filter buttons
+            attachFilterEvents();
+        }
+
+        // Attach event listeners to filter buttons
+        function attachFilterEvents() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.removeEventListener('click', handleFilterClick);
+                btn.addEventListener('click', handleFilterClick);
+            });
+        }
+
+        function handleFilterClick(e) {
+            const btn = e.currentTarget;
+            const filterType = btn.dataset.type;
+            const filterValue = btn.dataset.filter;
+            
+            // Update active state
+            document.querySelectorAll(`.filter-btn[data-type="${filterType}"]`).forEach(b => {
+                b.classList.remove('active');
+            });
+            btn.classList.add('active');
+            
+            if (filterType === 'platform') {
+                currentPlatformFilter = filterValue;
+            } else if (filterType === 'category') {
+                currentCategoryFilter = filterValue;
+            }
+            
+            applyFilters();
+        }
+
         // Update total statistics
         function updateTotalStats() {
-            const platforms = [...new Set(publications.map(p => p.platform))];
-            const categories = [...new Set(publications.map(p => p.category))];
-            
             document.getElementById('total-publications').textContent = publications.length;
-            document.getElementById('platforms-count').textContent = platforms.length;
-            document.getElementById('categories-count').textContent = categories.length;
+            document.getElementById('platforms-count').textContent = availablePlatforms.size;
+            document.getElementById('categories-count').textContent = availableCategories.size;
         }
 
         // Apply filters
@@ -909,10 +981,6 @@
                                         ${pub.readTime}
                                     </div>
                                     ` : ''}
-                                    <div class="stat">
-                                        <i class="fas fa-heart"></i>
-                                        ${pub.likes || 0}
-                                    </div>
                                 </div>
                             </div>
                             ${credentialInfo}
@@ -957,7 +1025,7 @@
         }
 
         // Refresh data function
-        window.refreshAchievements = async function() {
+        window.refreshPublications = async function() {
             const grid = document.getElementById('publications-grid');
             grid.innerHTML = '<div class="loading-spinner"><div class="spinner"></div><p style="color: #00ff41;">Reloading publications...</p></div>';
             await loadPublications();
@@ -967,27 +1035,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             createMatrixRain();
             loadPublications();
-
-            // Filter buttons
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const filterType = this.dataset.type;
-                    const filterValue = this.dataset.filter;
-                    
-                    document.querySelectorAll(`.filter-btn[data-type="${filterType}"]`).forEach(b => {
-                        b.classList.remove('active');
-                    });
-                    this.classList.add('active');
-                    
-                    if (filterType === 'platform') {
-                        currentPlatformFilter = filterValue;
-                    } else if (filterType === 'category') {
-                        currentCategoryFilter = filterValue;
-                    }
-                    
-                    applyFilters();
-                });
-            });
 
             // Search input
             const searchInput = document.getElementById('search-input');

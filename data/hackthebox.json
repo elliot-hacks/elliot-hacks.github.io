@@ -13,7 +13,6 @@
       "tags": ["linux", "web", "cms", "bruteforce", "sudo", "bludit", "enumeration"],
       "url": "/posts/hackthebox/blunder-writeup.html",
       "readTime": "8 min",
-      "likes": 42,
       "tools": ["nmap", "gobuster", "hydra", "metasploit"],
       "techniques": ["Directory Enumeration", "Brute Force", "Privilege Escalation"],
       "ip_address": "10.10.10.191"
@@ -29,7 +28,6 @@
       "tags": ["linux", "web", "openadmin", "sudo", "privilege-escalation"],
       "url": "/posts/hackthebox/openadmin-writeup.html",
       "readTime": "10 min",
-      "likes": 35,
       "tools": ["nmap", "searchsploit", "python", "nc"],
       "techniques": ["Web Exploitation", "Reverse Shell", "Sudo Exploitation"]
     },
@@ -44,7 +42,6 @@
       "tags": ["windows", "smb", "eternalblue", "ms17-010", "exploit"],
       "url": "/posts/hackthebox/legacy-writeup.html",
       "readTime": "7 min",
-      "likes": 28,
       "tools": ["nmap", "metasploit", "smbclient"],
       "techniques": ["SMB Enumeration", "Remote Code Execution", "Windows Exploitation"]
     },
@@ -59,7 +56,6 @@
       "tags": ["windows", "active-directory", "kerberoasting", "as-rep", "domain-controller"],
       "url": "/posts/hackthebox/sauna-writeup.html",
       "readTime": "15 min",
-      "likes": 67,
       "tools": ["impacket", "bloodhound", "crackmapexec", "evil-winrm"],
       "techniques": ["AD Enumeration", "Kerberoasting", "AS-REP Roasting", "Lateral Movement"]
     },
@@ -74,7 +70,6 @@
       "tags": ["windows", "active-directory", "exchange", "as-rep", "privilege-escalation"],
       "url": "/posts/hackthebox/forest-writeup.html",
       "readTime": "14 min",
-      "likes": 52,
       "tools": ["rubeus", "bloodhound", "powershell", "mimikatz"],
       "techniques": ["AS-REP Roasting", "DCSync", "BloodHound Analysis"]
     },
@@ -89,7 +84,6 @@
       "tags": ["linux", "web", "python", "path-hijacking", "directory-traversal"],
       "url": "/posts/hackthebox/admirer-writeup.html",
       "readTime": "12 min",
-      "likes": 44,
       "tools": ["gobuster", "curl", "python", "ssh"],
       "techniques": ["Directory Traversal", "Adminer Exploitation", "Library Hijacking"]
     },
@@ -104,7 +98,6 @@
       "tags": ["linux", "flask", "ssti", "docker", "python"],
       "url": "/posts/hackthebox/doctor-writeup.html",
       "readTime": "9 min",
-      "likes": 38,
       "tools": ["burpsuite", "python", "docker"],
       "techniques": ["SSTI", "Docker Group Abuse", "Web Exploitation"]
     },
@@ -119,7 +112,6 @@
       "tags": ["windows", "coldfusion", "reverse-shell", "privesc"],
       "url": "/posts/hackthebox/arctic-writeup.html",
       "readTime": "11 min",
-      "likes": 41,
       "tools": ["nmap", "metasploit", "powershell"],
       "techniques": ["ColdFusion Exploitation", "Reverse Shell", "Windows Privilege Escalation"]
     },
@@ -134,7 +126,6 @@
       "tags": ["windows", "smb", "vhdx", "backup", "privesc"],
       "url": "/posts/hackthebox/bastion-writeup.html",
       "readTime": "8 min",
-      "likes": 32,
       "tools": ["smbclient", "mount", "ssh", "windows"],
       "techniques": ["SMB Enumeration", "VHD Mounting", "Backup Exploitation"]
     },
@@ -149,7 +140,6 @@
       "tags": ["windows", "prtg", "network-monitor", "web-exploit"],
       "url": "/posts/hackthebox/netmon-writeup.html",
       "readTime": "7 min",
-      "likes": 29,
       "tools": ["nmap", "curl", "powershell"],
       "techniques": ["PRTG Exploitation", "Credential Harvesting", "Windows Privesc"]
     },
@@ -164,7 +154,6 @@
       "tags": ["windows", "jenkins", "keepass", "seimpersonate", "privesc"],
       "url": "/posts/hackthebox/jeeves-writeup.html",
       "readTime": "13 min",
-      "likes": 56,
       "tools": ["jenkins-cli", "mimikatz", "incognito"],
       "techniques": ["Jenkins RCE", "Token Impersonation", "Keepass Exploitation"]
     },
@@ -179,7 +168,6 @@
       "tags": ["windows", "eternalblue", "ms17-010", "metasploit", "exploit"],
       "url": "/posts/hackthebox/blue-writeup.html",
       "readTime": "6 min",
-      "likes": 89,
       "tools": ["nmap", "metasploit", "msfvenom"],
       "techniques": ["SMB Exploitation", "EternalBlue", "Meterpreter"]
     }

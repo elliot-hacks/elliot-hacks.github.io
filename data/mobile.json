@@ -13,7 +13,6 @@
       "tags": ["android", "apk", "reverse", "jadx", "frida", "mobile-security"],
       "url": "/posts/mobile/android-pentest-guide.html",
       "readTime": "15 min",
-      "likes": 67,
       "tools": ["jadx", "apktool", "frida", "drozer", "mobsf"],
       "techniques": ["APK Reverse Engineering", "Runtime Analysis", "Frida Hooking", "SSL Pinning Bypass"]
     },
@@ -28,7 +27,6 @@
       "tags": ["ios", "android", "security", "comparison", "bypass", "runtime-analysis"],
       "url": "/posts/mobile/ios-vs-android-security.html",
       "readTime": "18 min",
-      "likes": 91,
       "tools": ["objection", "frida-ios", "cycript", "hopper", "ida-pro"],
       "techniques": ["iOS App Analysis", "Android Security Model", "Runtime Manipulation", "Security Bypasses"]
     },
@@ -43,7 +41,6 @@
       "tags": ["flutter", "dart", "reverse-engineering", "mobile", "snapshot"],
       "url": "/posts/mobile/flutter-reverse-engineering.html",
       "readTime": "20 min",
-      "likes": 48,
       "tools": ["blutter", "reflutter", "frida", "ghidra"],
       "techniques": ["Dart Bytecode Analysis", "Snapshot Extraction", "Flutter Hooking", "Widget Manipulation"]
     }

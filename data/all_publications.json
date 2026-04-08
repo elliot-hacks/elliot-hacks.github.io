@@ -3,19 +3,6 @@
   "totalPublications": 32,
   "publications": [
     {
-      "id": "ceh-001",
-      "title": "Certified Ethical Hacker (CEH) Achievement",
-      "description": "Successfully obtained CEH certification with 95% score. Journey through ethical hacking methodologies and tools.",
-      "platform": "achievements",
-      "category": "achievements",
-      "difficulty": "medium",
-      "date": "2024-12-01",
-      "tags": ["certification", "ceh", "ethical hacking", "ec-council"],
-      "url": "/posts/achievements/ceh-certification.html",
-      "readTime": "5 min",
-      "likes": 23
-    },
-    {
       "id": "icca-001",
       "title": "INE Certified Cloud Associate (ICCA)",
       "description": "Validated cloud computing expertise across AWS, Azure, and Google Cloud Platform with 93% exam score.",

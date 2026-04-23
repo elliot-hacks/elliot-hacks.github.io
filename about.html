@@ -44,6 +44,23 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            transform-style: preserve-3d;
+            animation: heroFloat 8s ease-in-out infinite;
+        }
+        
+        @keyframes heroFloat {
+            0%, 100% {
+                transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1);
+            }
+            25% {
+                transform: perspective(1000px) rotateY(2deg) rotateX(1deg) scale(1.02);
+            }
+            50% {
+                transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1);
+            }
+            75% {
+                transform: perspective(1000px) rotateY(-2deg) rotateX(-1deg) scale(0.98);
+            }
         }
         
         .hero-content {
